@@ -22,6 +22,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
