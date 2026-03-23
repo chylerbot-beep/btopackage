@@ -111,9 +111,6 @@ export async function POST(request: Request) {
 
   const supabase = await createServerClient({ supabaseKey: serviceRoleKey });
 
-  // Run in Supabase SQL Editor:
-  // ALTER TABLE package ADD COLUMN IF NOT EXISTS is_featured boolean DEFAULT false;
-  // ALTER TABLE package ADD COLUMN IF NOT EXISTS featured_position integer DEFAULT null;
   const payload = {
     firm_id: body.firm_id,
     slug: String(body.slug).trim(),

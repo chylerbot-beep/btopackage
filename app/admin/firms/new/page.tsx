@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { FormEvent, ReactNode, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { generateSlug } from '@/lib/slug';
 
 type FirmFormState = {
   name: string;
@@ -25,9 +26,6 @@ type FirmFormState = {
   featured_position: string;
   featured_until: string;
 };
-
-const generateSlug = (name: string) =>
-  name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export default function NewFirmPage() {
   const router = useRouter();

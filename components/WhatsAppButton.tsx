@@ -1,5 +1,8 @@
 'use client';
 
+import { ReactNode } from 'react';
+import { buildWhatsAppHref } from '@/lib/whatsapp';
+
 type WhatsAppButtonProps = {
   phoneNumber: string;
   packageName: string;
@@ -9,7 +12,7 @@ type WhatsAppButtonProps = {
   customMessage?: string;
   showDisclaimer?: boolean;
   className?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 };
 
 type GtagWindow = Window & {
@@ -28,19 +31,13 @@ export default function WhatsAppButton({
   icon,
 }: WhatsAppButtonProps) {
   const formattedPrice = `$${price.toLocaleString()}`;
-  const templateMessage =
-    customMessage?.trim() ||
-    'Hi {firmName}, I found your {flatType} BTO package at {price} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?';
-  const resolvedMessage = templateMessage
-    .replaceAll('{firmName}', firmName)
-    .replaceAll('{flatType}', flatType)
-    .replaceAll('{price}', formattedPrice);
-  const message = encodeURIComponent(
-    resolvedMessage
-  );
-
-  const sanitizedPhone = phoneNumber.replace(/[^\d]/g, '').replace(/^65/, '');
-  const href = `https://wa.me/65${sanitizedPhone}?text=${message}`;
+  const href = buildWhatsAppHref({
+    phoneNumber,
+    firmName,
+    flatType,
+    priceText: formattedPrice,
+    customMessage,
+  });
 
   const handleClick = () => {
     if (typeof window !== 'undefined' && typeof (window as GtagWindow).gtag === 'function') {

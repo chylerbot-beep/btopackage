@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import type { FlatType } from '@/lib/types';
+import { buildWhatsAppHref } from '@/lib/whatsapp';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type FlatType = '3-room' | '4-room' | '5-room';
 
 const FLAT_TYPE_OPTIONS: Array<{ label: string; value: FlatType }> = [
   { label: '3-Room', value: '3-room' },
@@ -123,20 +124,15 @@ function toCssBackgroundImage(imageUrl: string | null) {
   return `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url("${safeUrl}")`;
 }
 
-function buildWhatsAppHref(firm: FirmRow, pkg: PackageRow): string {
+function getWhatsAppHref(firm: FirmRow, pkg: PackageRow): string {
   if (!firm.whatsapp_number || !pkg.price_nett) return '#';
-  const sanitized = firm.whatsapp_number
-    .replace(/[^\d]/g, '')
-    .replace(/^65/, '');
-  const templateMessage =
-    firm.whatsapp_message?.trim()
-    || 'Hi {firmName}, I found your {flatType} BTO package at {price} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?';
-  const resolvedMessage = templateMessage
-    .replaceAll('{firmName}', firm.name ?? 'there')
-    .replaceAll('{flatType}', pkg.flat_type)
-    .replaceAll('{price}', formatPrice(pkg.price_nett));
-  const message = encodeURIComponent(resolvedMessage);
-  return `https://wa.me/65${sanitized}?text=${message}`;
+  return buildWhatsAppHref({
+    phoneNumber: firm.whatsapp_number,
+    firmName: firm.name ?? 'there',
+    flatType: pkg.flat_type,
+    priceText: formatPrice(pkg.price_nett),
+    customMessage: firm.whatsapp_message,
+  });
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -261,7 +257,7 @@ function VerifiedCard({
   const allMet = [firm.hdb_license_verified, (firm.google_rating ?? 0) >= 4.5, firm.casetrust_accredited].filter(Boolean).length === 3;
   // Package-level hero image is canonical for featured card backgrounds.
   const heroImage = pkg.image_url ?? firm.project_images?.[0] ?? null;
-  const waHref = buildWhatsAppHref(firm, pkg);
+  const waHref = getWhatsAppHref(firm, pkg);
   const [isViewButtonPressed, setIsViewButtonPressed] = useState(false);
 
   return (
