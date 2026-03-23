@@ -65,6 +65,8 @@ type PackageForm = {
   image_url: string;
   verified_by: 'staff' | 'self-reported';
   status: 'active' | 'greyed_out';
+  featured: boolean;
+  featured_position: string;
 };
 
 const defaultForm: PackageForm = {
@@ -125,6 +127,8 @@ const defaultForm: PackageForm = {
   image_url: '',
   verified_by: 'staff',
   status: 'active',
+  featured: false,
+  featured_position: '',
 };
 
 function createSlug(value: string) {
@@ -412,6 +416,34 @@ export default function NewPackagePage() {
           <div className="grid gap-4 md:grid-cols-2">
             <SelectInput label="Verified by" value={form.verified_by} onChange={(value) => setForm((current) => ({ ...current, verified_by: value as PackageForm['verified_by'] }))} options={['staff', 'self-reported']} />
             <SelectInput label="Status" value={form.status} onChange={(value) => setForm((current) => ({ ...current, status: value as PackageForm['status'] }))} options={['active', 'greyed_out']} />
+          </div>
+        </Section>
+
+        <Section title="SECTION — HOMEPAGE PLACEMENT">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field label="featured" className="md:col-span-2">
+              <div className="space-y-2">
+                <Checkbox
+                  label="Show on homepage"
+                  checked={form.featured}
+                  onChange={(checked) => setForm((current) => ({ ...current, featured: checked }))}
+                />
+                <p className="text-xs text-slate-500">Package will appear in the homepage featured section.</p>
+              </div>
+            </Field>
+            <Field label="Position (1–5)">
+              <div className="space-y-2">
+                <input
+                  type="number"
+                  min={1}
+                  max={5}
+                  value={form.featured_position}
+                  onChange={(event) => setForm((current) => ({ ...current, featured_position: event.target.value }))}
+                  className="w-full rounded border border-slate-300 px-3 py-2"
+                />
+                <p className="text-xs text-slate-500">Controls order on homepage under its flat type. 1 = first card.</p>
+              </div>
+            </Field>
           </div>
         </Section>
 
