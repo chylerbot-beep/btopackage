@@ -514,7 +514,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
       {freebiesItems.length > 0 ? (
         <section className="mx-4 mt-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
-          <p className="text-[10.5px] font-bold uppercase text-[#B45309]">🎁 Freebies</p>
+          <p className="text-[12px] font-bold uppercase text-[#B45309]">Freebies</p>
           <div>
             {freebiesItems.map((item: string, index: number) => (
               <p key={`${item}-${index}`} className="py-1 text-sm text-[#1A1A1A]">
