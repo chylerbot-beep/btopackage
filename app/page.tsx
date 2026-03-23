@@ -14,15 +14,6 @@ const FLAT_TYPE_OPTIONS: Array<{ label: string; value: FlatType }> = [
   { label: '5-Room', value: '5-room' },
 ];
 
-// Source: MoneySmart HDB Renovation Cost Guide 2026
-// These are FULL renovation figures (furniture + fittings included).
-// Packages on this site cover carpentry and finishes only.
-const PRICE_INDEX: Record<FlatType, { min: number; max: number }> = {
-  '3-room': { min: 36100, max: 43700 },
-  '4-room': { min: 51000, max: 61800 },
-  '5-room': { min: 67000, max: 82400 },
-};
-
 type FirmRow = {
   id: string;
   name: string | null;
@@ -359,34 +350,6 @@ function VerifiedCard({
   );
 }
 
-// ─── Answer Capsule ───────────────────────────────────────────────────────────
-
-function AnswerCapsule({ flatType }: { flatType: FlatType }) {
-  const { min, max } = PRICE_INDEX[flatType];
-  const label = FLAT_TYPE_OPTIONS.find((o) => o.value === flatType)?.label ?? flatType;
-  return (
-    <div
-      className="mt-4 rounded-[8px] px-[14px] py-[12px]"
-      style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}
-    >
-      <p
-        className="mb-[4px] text-[11px] font-semibold uppercase tracking-[0.08em]"
-        style={{ color: 'rgba(255,255,255,0.5)' }}
-      >
-        Market Context
-      </p>
-      <p className="text-[14px] leading-snug" style={{ color: 'rgba(255,255,255,0.88)' }}>
-        Average {label} BTO renovation:{' '}
-        <span className="font-semibold text-white">
-          {formatPrice(min)}–{formatPrice(max)}
-        </span>{' '}
-        (MoneySmart 2026). Packages cover carpentry &amp; finishes — electrical and plumbing are
-        quoted separately.
-      </p>
-    </div>
-  );
-}
-
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -473,12 +436,9 @@ export default function Home() {
           </h1>
 
           <p className="mt-3 max-w-[560px] text-base" style={{ color: 'rgba(255,255,255,0.82)' }}>
-            Discover hidden gem ID firms you&apos;re missing out on — see exactly what&apos;s
-            included and <span className="text-[#FCA5A5]">what&apos;s NOT</span> before you
-            WhatsApp any company.
+            Discover hidden gem ID firms. Check what&apos;s included or not in each BTO package
+            before you Whatsapp.
           </p>
-
-          <AnswerCapsule flatType={selectedFlatType} />
 
           <div className="mt-6">
             <p
@@ -487,13 +447,13 @@ export default function Home() {
             >
               Select your flat type
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex gap-2">
               {FLAT_TYPE_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
                   onClick={() => setSelectedFlatType(opt.value)}
-                  className="min-h-[44px] rounded-full px-6 font-bold transition-colors"
+                  className="min-h-[40px] flex-1 rounded-full px-3 text-sm font-bold transition-colors"
                   style={
                     selectedFlatType === opt.value
                       ? { background: '#F59E0B', color: '#78350f' }
