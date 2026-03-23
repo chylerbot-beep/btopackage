@@ -119,8 +119,6 @@ export async function POST(request: Request) {
     known_for: body?.known_for || null,
     is_complete: Boolean(body?.published),
     is_featured: Boolean(body?.featured),
-    // Run this in Supabase SQL Editor:
-    // ALTER TABLE id_firm ADD COLUMN IF NOT EXISTS featured_position integer DEFAULT null;
     featured_position:
       body?.featured_position === '' || body?.featured_position == null ? null : Number(body.featured_position),
     featured_until: body?.featured_until || null,

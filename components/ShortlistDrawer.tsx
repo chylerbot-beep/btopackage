@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MAX_ITEMS = 5;
 
@@ -61,7 +61,7 @@ export default function ShortlistDrawer() {
 
   const count = shortlist.length;
 
-  const canShare = useMemo(() => count > 0, [count]);
+  const canShare = count > 0;
 
   const removeItem = (slug: string) => {
     setShortlist((current) => current.filter((item) => item !== slug));

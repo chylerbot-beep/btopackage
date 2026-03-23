@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, ReactNode, useMemo, useState } from 'react';
+import { FormEvent, ReactNode, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { normalizeAndValidateImageUrl } from '@/lib/image-url';
 
@@ -96,8 +96,6 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
   const [form, setForm] = useState<PackageForm>(initialForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const selectedFirmName = useMemo(() => firms.find((firm) => firm.id === form.firm_id)?.name ?? '', [firms, form.firm_id]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -1,6 +1,5 @@
 import { MARKET_PRICE_INDEX } from '@/lib/priceIndex';
-
-type FlatType = '3-room' | '4-room' | '5-room';
+import type { FlatType } from '@/lib/types';
 
 type PriceContextBarProps = {
   flatType?: FlatType;
