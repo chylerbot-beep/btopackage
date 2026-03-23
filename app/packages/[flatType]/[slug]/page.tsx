@@ -54,17 +54,6 @@ const getHeightLabel = (value: boolean | null) => {
   return '';
 };
 
-const toPackageImages = (heroImageUrl: string | null, images: unknown) => {
-  const additionalImages = Array.isArray(images)
-    ? images.filter((image): image is string => typeof image === 'string' && image.trim().length > 0)
-    : [];
-  const allImages = [heroImageUrl, ...additionalImages].filter(
-    (image): image is string => typeof image === 'string' && image.trim().length > 0
-  );
-
-  return Array.from(new Set(allImages));
-};
-
 const ACCORDION_HEADER_CLASS =
   'flex cursor-pointer items-center justify-between p-4 font-semibold text-[#1A1A1A]';
 const ACCORDION_CONTENT_CLASS =
@@ -296,7 +285,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
         }
       : null,
   ].filter(Boolean) as Array<{ label: string; value: string }>;
-  const packageImages = toPackageImages(pkg.image_url, pkg.images);
 
   return (
     <div className="mx-auto w-full max-w-2xl">
@@ -312,7 +300,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
       </div>
 
       <section className="mx-4 mt-4 overflow-hidden rounded-xl">
-        <PackageHeroImage imageUrls={packageImages} firmName={firm.name} />
+        <PackageHeroImage imageUrl={pkg.image_url} firmName={firm.name} />
       </section>
 
       <section className="mx-4 mt-4 rounded-xl border border-[#E5E0D8] bg-white p-5">
