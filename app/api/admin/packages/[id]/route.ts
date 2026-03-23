@@ -196,6 +196,7 @@ export async function PATCH(request: Request, { params }: Params) {
     promotion_text: trimToNull(body.promotion_text),
     promotion_expiry: trimToNull(body.promotion_expiry),
     freebies: trimToNull(body.freebies),
+    package_details: trimToNull(body.package_details),
     excl_kitchen_top_cabinet: Boolean(body.excl_kitchen_top_cabinet),
     excl_kitchen_bottom_cabinet: Boolean(body.excl_kitchen_bottom_cabinet),
     excl_master_wardrobe: Boolean(body.excl_master_wardrobe),

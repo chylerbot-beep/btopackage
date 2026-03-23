@@ -18,6 +18,7 @@ type PackageForm = {
   promotion_text: string;
   promotion_expiry: string;
   freebies: string;
+  package_details: string;
   kitchen_top_cabinet_ft: string;
   kitchen_bottom_cabinet_ft: string;
   master_wardrobe_ft: string;
@@ -216,6 +217,14 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
                 value={form.freebies}
                 onChange={(event) => setForm((current) => ({ ...current, freebies: event.target.value }))}
                 className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
+              />
+            </Field>
+            <Field label="Package details (what's included)" className="md:col-span-2">
+              <textarea
+                value={form.package_details}
+                onChange={(event) => setForm((current) => ({ ...current, package_details: event.target.value }))}
+                className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="Describe what this package includes."
               />
             </Field>
           </div>
