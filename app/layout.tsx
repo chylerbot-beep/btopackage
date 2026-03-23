@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
@@ -15,10 +14,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta-sans',
 });
 
-export const metadata: Metadata = {
-  title: 'Btopackage.sg',
-  description: 'Verified BTO renovation packages in Singapore',
-};
+export { metadata } from './metadata';
 
 export default function RootLayout({
   children,
