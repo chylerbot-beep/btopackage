@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { MARKET_PRICE_INDEX } from '@/lib/priceIndex';
 import { createClient } from '@/lib/supabase/client';
 
 type FlatType = '3-room' | '4-room' | '5-room';
@@ -40,8 +39,6 @@ export default function Home() {
   const router = useRouter();
   const [selectedFlatType, setSelectedFlatType] = useState<FlatType>('4-room');
   const [verifiedPackages, setVerifiedPackages] = useState<PackageRow[]>([]);
-
-  const { min, max } = MARKET_PRICE_INDEX.flatTypes[selectedFlatType].bto;
 
   useEffect(() => {
     let mounted = true;
@@ -100,18 +97,6 @@ export default function Home() {
             what&apos;s included and <span className="text-[#FCA5A5]">what&apos;s NOT</span>{' '}
             before you WhatsApp any company.
           </p>
-
-          <div className="mt-4 max-w-[560px] rounded-lg border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.08)] px-[14px] py-3">
-            <p className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-[rgba(255,255,255,0.5)]">
-              Market Context
-            </p>
-            <p className="text-[13px] text-[rgba(255,255,255,0.85)]">
-              Average {selectedFlatType} BTO renovation: ${min.toLocaleString('en-SG')}–
-              ${max.toLocaleString('en-SG')} (MoneySmart 2026). Packages cover
-              carpentry &amp; finishes — electrical and plumbing are quoted
-              separately.
-            </p>
-          </div>
 
           <div className="mt-6">
             <p className="mb-2 text-xs font-semibold uppercase text-[rgba(255,255,255,0.80)]">
