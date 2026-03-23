@@ -9,6 +9,7 @@ type WhatsAppButtonProps = {
   customMessage?: string;
   showDisclaimer?: boolean;
   className?: string;
+  icon?: React.ReactNode;
 };
 
 type GtagWindow = Window & {
@@ -24,6 +25,7 @@ export default function WhatsAppButton({
   customMessage,
   showDisclaimer = true,
   className,
+  icon,
 }: WhatsAppButtonProps) {
   const formattedPrice = `$${price.toLocaleString()}`;
   const templateMessage =
@@ -60,19 +62,21 @@ export default function WhatsAppButton({
         onClick={handleClick}
         className={`min-h-[44px] px-4 py-2 bg-[#25D366] text-white rounded-lg font-medium flex items-center gap-2 whitespace-nowrap ${className ?? ''}`}
       >
-        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none">
-          <circle cx="12" cy="12" r="10" fill="#128C7E" />
-          <path
-            d="M8 19 8.8 15.9a6.8 6.8 0 1 1 2.7 1.1L8 19Z"
-            fill="white"
-            fillRule="evenodd"
-            clipRule="evenodd"
-          />
-          <path
-            d="M10.2 9.6c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.5 1.2c.1.3 0 .5-.1.6l-.3.3c-.1.1-.2.3 0 .5.2.4.7 1 1.3 1.3.2.1.4.1.5 0l.4-.3c.1-.1.3-.2.6-.1l1.1.5c.3.1.4.3.4.5v.5c0 .2 0 .5-.4.7-.4.2-1.3.4-2.4 0-1-.4-2.3-1.3-3.2-2.3-.9-.9-1.7-2.1-2-3.1-.3-1 .1-1.9.3-2.3Z"
-            fill="#25D366"
-          />
-        </svg>
+        {icon ?? (
+          <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none">
+            <circle cx="12" cy="12" r="10" fill="#128C7E" />
+            <path
+              d="M8 19 8.8 15.9a6.8 6.8 0 1 1 2.7 1.1L8 19Z"
+              fill="white"
+              fillRule="evenodd"
+              clipRule="evenodd"
+            />
+            <path
+              d="M10.2 9.6c.2-.4.5-.4.7-.4h.5c.2 0 .4 0 .5.4l.5 1.2c.1.3 0 .5-.1.6l-.3.3c-.1.1-.2.3 0 .5.2.4.7 1 1.3 1.3.2.1.4.1.5 0l.4-.3c.1-.1.3-.2.6-.1l1.1.5c.3.1.4.3.4.5v.5c0 .2 0 .5-.4.7-.4.2-1.3.4-2.4 0-1-.4-2.3-1.3-3.2-2.3-.9-.9-1.7-2.1-2-3.1-.3-1 .1-1.9.3-2.3Z"
+              fill="#25D366"
+            />
+          </svg>
+        )}
         WhatsApp
       </a>
       {showDisclaimer ? (
