@@ -390,6 +390,19 @@ export default async function PackagePage({ params }: PackagePageProps) {
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
         <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{geoSentence}</p>
 
+        {freebiesItems.length > 0 ? (
+          <section className="mx-4 mb-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
+            <p className="text-[12px] font-bold uppercase text-[#B45309]">Freebies</p>
+            <div>
+              {freebiesItems.map((item: string, index: number) => (
+                <p key={`${item}-${index}`} className="py-1 text-sm text-[#1A1A1A]">
+                  🎁 {item}
+                </p>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         <Accordion id="accordion-carpentry" title="Carpentry">
           {carpentryRows.map((row) => (
             <div key={row.label} className={ROW_CLASS}>
@@ -497,19 +510,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
           </div>
         </Accordion>
       </section>
-
-      {freebiesItems.length > 0 ? (
-        <section className="mx-4 mt-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
-          <p className="text-[12px] font-bold uppercase text-[#B45309]">Freebies</p>
-          <div>
-            {freebiesItems.map((item: string, index: number) => (
-              <p key={`${item}-${index}`} className="py-1 text-sm text-[#1A1A1A]">
-                🎁 {item}
-              </p>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       <section className="mx-4 mt-6 rounded-xl border border-[#E5E0D8] bg-white p-5">
         <h3 className="font-[family-name:var(--font-bricolage-grotesque)] text-base font-bold text-[#1A1A1A]">
