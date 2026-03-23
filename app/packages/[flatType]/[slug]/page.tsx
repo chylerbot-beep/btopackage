@@ -223,7 +223,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
   ].filter(Boolean) as string[];
 
   const freebiesItems = (pkg.freebies ?? '')
-    .split('·')
+    .split(/[·\n]/)
     .map((item: string) => item.trim())
     .filter((item: string) => item.length > 0);
 
@@ -365,13 +365,14 @@ export default async function PackagePage({ params }: PackagePageProps) {
         {freebiesItems.length > 0 ? (
           <section className="mx-4 mb-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
             <p className="text-[12px] font-bold uppercase text-[#B45309]">Freebies</p>
-            <div>
+            <ul className="mt-1 space-y-1">
               {freebiesItems.map((item: string, index: number) => (
-                <p key={`${item}-${index}`} className="py-1 text-sm text-[#1A1A1A]">
-                  🎁 {item}
-                </p>
+                <li key={`${item}-${index}`} className="flex items-start gap-2 py-1 text-sm text-[#1A1A1A]">
+                  <span aria-hidden="true">🎁</span>
+                  <span>{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         ) : null}
 
