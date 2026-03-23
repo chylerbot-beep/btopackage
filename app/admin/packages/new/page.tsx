@@ -2,6 +2,7 @@
 
 import { FormEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { normalizeAndValidateImageUrl } from '@/lib/image-url';
 
 type FirmOption = { id: string; name: string };
 
@@ -196,6 +197,9 @@ export default function NewPackagePage() {
     if (!form.flat_type) nextErrors.flat_type = 'Flat type is required.';
     if (!form.price_nett.trim()) nextErrors.price_nett = 'Price is required.';
 
+    const imageValidation = normalizeAndValidateImageUrl(form.image_url);
+    if (imageValidation.error) nextErrors.image_url = imageValidation.error;
+
     const hasExclusion =
       form.excl_kitchen_top_cabinet ||
       form.excl_kitchen_bottom_cabinet ||
@@ -222,6 +226,7 @@ export default function NewPackagePage() {
 
     const payload = {
       ...form,
+      image_url: imageValidation.normalizedUrl ?? '',
       master_wardrobe_full_height: toHeightValue(form.master_wardrobe_full_height),
       common_wardrobe_room2_full_height: toHeightValue(form.common_wardrobe_room2_full_height),
       common_wardrobe_room3_full_height: toHeightValue(form.common_wardrobe_room3_full_height),
@@ -409,7 +414,12 @@ export default function NewPackagePage() {
         </Section>
 
         <Section title="SECTION G — IMAGES">
-          <TextInput label="Hero image URL" value={form.image_url} onChange={(value) => setForm((current) => ({ ...current, image_url: value }))} />
+          <TextInput
+            label="Hero image URL"
+            value={form.image_url}
+            error={errors.image_url}
+            onChange={(value) => setForm((current) => ({ ...current, image_url: value }))}
+          />
         </Section>
 
         <Section title="SECTION H — VERIFICATION">
