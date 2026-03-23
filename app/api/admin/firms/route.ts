@@ -116,6 +116,7 @@ export async function POST(request: Request) {
     owns_factory: Boolean(body?.owns_factory),
     in_house_team: Boolean(body?.in_house_team),
     whatsapp_number: body?.whatsapp_number || null,
+    whatsapp_message: body?.whatsapp_message || null,
     website_url: body?.website_url || null,
     address: body?.address || null,
     known_for: body?.known_for || null,

@@ -79,7 +79,7 @@ async function fetchPackage(flatType: string, slug: string) {
         google_rating, google_review_count,
         years_established, projects_completed,
         owns_factory, in_house_team,
-        whatsapp_number, website_url, logo_url
+        whatsapp_number, whatsapp_message, website_url, logo_url
       )
     `)
     .eq('slug', slug)
@@ -452,6 +452,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
             firmName={firm.name}
             price={Number(pkg.price_nett || 0)}
             flatType={pkg.flat_type}
+            customMessage={firm.whatsapp_message ?? undefined}
           />
         </div>
       ) : null}
