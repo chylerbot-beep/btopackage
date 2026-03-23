@@ -22,11 +22,8 @@ type FirmFormState = {
   published: boolean;
 };
 
-const toSlug = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
+const generateSlug = (name: string) =>
+  name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export default function NewFirmPage() {
   const router = useRouter();
@@ -51,7 +48,7 @@ export default function NewFirmPage() {
     published: false,
   });
 
-  const generatedSlug = useMemo(() => toSlug(form.name), [form.name]);
+  const generatedSlug = useMemo(() => generateSlug(form.name), [form.name]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -109,7 +106,7 @@ export default function NewFirmPage() {
             value={form.name}
             onChange={(event) => {
               const name = event.target.value;
-              setForm((current) => ({ ...current, name, slug: current.slug ? current.slug : toSlug(name) }));
+              setForm((current) => ({ ...current, name, slug: generateSlug(name) }));
             }}
             className="w-full rounded border border-slate-300 px-3 py-2"
           />
