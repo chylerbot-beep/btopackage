@@ -53,7 +53,6 @@ export default function Home() {
         .select('id, slug, flat_type, price_nett, is_featured, featured_position, id_firm(id, name, slug, google_rating)')
         .eq('status', 'active')
         .eq('package_type', 'bto')
-        .or('is_featured.eq.true,and(id_firm.hdb_license_verified.eq.true,id_firm.google_rating.gte.4.5,id_firm.casetrust_accredited.eq.true)')
         .order('featured_position', { ascending: true, nullsFirst: false })
         .order('google_rating', { ascending: false, foreignTable: 'id_firm' });
 
@@ -157,7 +156,7 @@ export default function Home() {
               Verified {flatTypeOptions.find((option) => option.value === selectedFlatType)?.label} BTO Packages
             </h2>
             <p className="mt-2 text-sm text-[#6B7280]">
-              Criteria: Featured packages or HDB-verified + CaseTrust-accredited firms with Google rating 4.5 and above.
+              Showing all active BTO packages for this flat type.
             </p>
 
             <div className="mt-4 space-y-3">
