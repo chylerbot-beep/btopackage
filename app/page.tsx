@@ -244,6 +244,7 @@ function VerifiedCard({
   const allMet = [firm.hdb_license_verified, (firm.google_rating ?? 0) >= 4.5, firm.casetrust_accredited].filter(Boolean).length === 3;
   const firstImage = firm.project_images?.[0] ?? null;
   const waHref = buildWhatsAppHref(firm, pkg);
+  const [isViewButtonPressed, setIsViewButtonPressed] = useState(false);
 
   return (
     <div
@@ -319,8 +320,21 @@ function VerifiedCard({
         <div className="mt-1 flex flex-col gap-[5px]">
           <Link
             href={`/packages/${pkg.flat_type}/${pkg.slug}`}
-            className="block rounded-[9px] px-[12px] py-[9px] text-center text-[13px] font-semibold transition-colors active:border-[#F59E0B] active:bg-[#F59E0B] active:text-[#78350F]"
-            style={allMet ? { background: '#1B4332', color: '#fff' } : { background: '#fff', border: '1.5px solid #1B4332', color: '#1B4332' }}
+            onMouseDown={() => setIsViewButtonPressed(true)}
+            onMouseUp={() => setIsViewButtonPressed(false)}
+            onMouseLeave={() => setIsViewButtonPressed(false)}
+            onTouchStart={() => setIsViewButtonPressed(true)}
+            onTouchEnd={() => setIsViewButtonPressed(false)}
+            onTouchCancel={() => setIsViewButtonPressed(false)}
+            onBlur={() => setIsViewButtonPressed(false)}
+            className="block rounded-[9px] px-[12px] py-[9px] text-center text-[13px] font-semibold transition-colors"
+            style={
+              isViewButtonPressed
+                ? { background: '#F59E0B', color: '#78350F', border: '1.5px solid #F59E0B' }
+                : allMet
+                  ? { background: '#1B4332', color: '#fff' }
+                  : { background: '#fff', border: '1.5px solid #1B4332', color: '#1B4332' }
+            }
           >
             View Full Package →
           </Link>
