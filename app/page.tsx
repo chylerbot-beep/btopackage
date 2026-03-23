@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MARKET_PRICE_INDEX } from '@/lib/priceIndex';
+import { createClient } from '@/lib/supabase/client';
 
 type FlatType = '3-room' | '4-room' | '5-room';
 
@@ -12,11 +14,82 @@ const flatTypeOptions: Array<{ label: string; value: FlatType }> = [
   { label: '5-Room', value: '5-room' },
 ];
 
+type FirmRow = {
+  id: string;
+  name: string | null;
+  slug: string | null;
+  google_rating: number | null;
+  is_featured: boolean | null;
+  featured_position: number | null;
+  featured_until: string | null;
+};
+
+type PackageRow = {
+  id: string;
+  slug: string | null;
+  flat_type: FlatType;
+  price_nett: number | null;
+  id_firm: FirmRow | FirmRow[] | null;
+};
+
+function getFirm(value: PackageRow['id_firm']) {
+  if (!value) return null;
+  return Array.isArray(value) ? value[0] ?? null : value;
+}
+
 export default function Home() {
   const router = useRouter();
   const [selectedFlatType, setSelectedFlatType] = useState<FlatType>('4-room');
+  const [verifiedPackages, setVerifiedPackages] = useState<PackageRow[]>([]);
 
   const { min, max } = MARKET_PRICE_INDEX.flatTypes[selectedFlatType].bto;
+
+  useEffect(() => {
+    let mounted = true;
+    const supabase = createClient();
+    const today = new Date().toISOString().slice(0, 10);
+
+    const loadVerifiedPackages = async () => {
+      const { data } = await supabase
+        .from('id_package')
+        .select(
+          'id, slug, flat_type, price_nett, id_firm(id, name, slug, google_rating, is_featured, featured_position, featured_until)',
+        )
+        .eq('status', 'active')
+        .eq('package_type', 'bto')
+        .or(
+          `and(is_featured.eq.true,or(featured_until.is.null,featured_until.gte.${today})),and(hdb_license_verified.eq.true,google_rating.gte.4.5,casetrust_accredited.eq.true)`,
+          { foreignTable: 'id_firm' },
+        )
+        .order('is_featured', { ascending: false, foreignTable: 'id_firm' })
+        .order('featured_position', { ascending: true, nullsFirst: false, foreignTable: 'id_firm' })
+        .order('google_rating', { ascending: false, foreignTable: 'id_firm' });
+
+      if (mounted) {
+        setVerifiedPackages((data ?? []) as PackageRow[]);
+      }
+    };
+
+    loadVerifiedPackages();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const featuredFirmsForFlatType = useMemo(() => {
+    const seenFirmIds = new Set<string>();
+
+    return verifiedPackages
+      .filter((pkg) => pkg.flat_type === selectedFlatType)
+      .filter((pkg) => {
+        const firm = getFirm(pkg.id_firm);
+        if (!firm?.id) return false;
+        if (seenFirmIds.has(firm.id)) return false;
+        seenFirmIds.add(firm.id);
+        return true;
+      });
+  }, [selectedFlatType, verifiedPackages]);
 
   const handleFlatTypeSelect = (flatType: FlatType) => {
     setSelectedFlatType(flatType);
@@ -86,6 +159,46 @@ export default function Home() {
       </section>
 
       <section className="mx-auto w-full max-w-[600px] bg-white px-4 py-12">
+        {featuredFirmsForFlatType.length > 0 ? (
+          <section className="mb-10">
+            <h2 className="font-[family-name:var(--font-bricolage-grotesque)] text-2xl font-bold text-[#1A1A1A]">
+              Verified {flatTypeOptions.find((option) => option.value === selectedFlatType)?.label} BTO Packages
+            </h2>
+            <p className="mt-2 text-sm text-[#6B7280]">
+              Criteria: Featured firms (if active) or HDB-verified + CaseTrust-accredited + Google rating 4.5 and above.
+            </p>
+
+            <div className="mt-4 space-y-3">
+              {featuredFirmsForFlatType.map((pkg) => {
+                const firm = getFirm(pkg.id_firm);
+                if (!firm) return null;
+
+                return (
+                  <Link
+                    key={pkg.id}
+                    href={`/packages/${selectedFlatType}/${pkg.slug}`}
+                    className="block rounded-xl border border-[#E5E0D8] bg-white p-4 hover:bg-[#F8FAFC]"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-[#1A1A1A]">{firm.name ?? 'Firm'}</p>
+                        <p className="text-xs text-[#6B7280]">
+                          {typeof firm.google_rating === 'number' ? `${firm.google_rating.toFixed(1)}★ Google` : 'Rating unavailable'}
+                        </p>
+                      </div>
+                      {pkg.price_nett ? (
+                        <p className="text-sm font-semibold text-[#1B4332]">
+                          ${pkg.price_nett.toLocaleString('en-SG')}
+                        </p>
+                      ) : null}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
+
         <h2 className="mb-6 font-[family-name:var(--font-bricolage-grotesque)] text-2xl font-bold text-[#1A1A1A]">
           How it works
         </h2>

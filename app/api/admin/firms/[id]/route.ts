@@ -3,11 +3,7 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase/server';
 
-const toSlug = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
+type Params = { params: { id: string } };
 
 async function requireAdmin() {
   const jwtSecret = process.env.JWT_SECRET;
@@ -37,34 +33,48 @@ async function requireAdmin() {
   }
 }
 
-export async function GET() {
+async function getSupabaseClient() {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!serviceRoleKey) {
+    return null;
+  }
+
+  return createServerClient({ supabaseKey: serviceRoleKey });
+}
+
+export async function GET(_: Request, { params }: Params) {
   const authError = await requireAdmin();
 
   if (authError) {
     return authError;
   }
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabase = await getSupabaseClient();
 
-  if (!serviceRoleKey) {
+  if (!supabase) {
     return NextResponse.json({ error: 'Missing SUPABASE_SERVICE_ROLE_KEY' }, { status: 500 });
   }
 
-  const supabase = await createServerClient({ supabaseKey: serviceRoleKey });
   const { data, error } = await supabase
     .from('id_firm')
-    .select('id, name')
+    .select('*')
+    .eq('id', params.id)
     .is('deleted_at', null)
-    .order('created_at', { ascending: false });
+    .maybeSingle();
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, firms: data ?? [] });
+  if (!data) {
+    return NextResponse.json({ error: 'Firm not found' }, { status: 404 });
+  }
+
+  return NextResponse.json({ success: true, firm: data });
 }
 
-export async function POST(request: Request) {
+export async function PATCH(request: Request, { params }: Params) {
   const authError = await requireAdmin();
 
   if (authError) {
@@ -73,8 +83,7 @@ export async function POST(request: Request) {
 
   const body = await request.json().catch(() => null);
   const name = typeof body?.name === 'string' ? body.name.trim() : '';
-  const incomingSlug = typeof body?.slug === 'string' ? body.slug.trim() : '';
-  const slug = incomingSlug || toSlug(name);
+  const slug = typeof body?.slug === 'string' ? body.slug.trim() : '';
 
   const fieldErrors: Record<string, string> = {};
 
@@ -90,13 +99,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Validation failed', fieldErrors }, { status: 400 });
   }
 
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabase = await getSupabaseClient();
 
-  if (!serviceRoleKey) {
+  if (!supabase) {
     return NextResponse.json({ error: 'Missing SUPABASE_SERVICE_ROLE_KEY' }, { status: 500 });
   }
-
-  const supabase = await createServerClient({ supabaseKey: serviceRoleKey });
 
   const payload = {
     name,
@@ -119,18 +126,20 @@ export async function POST(request: Request) {
     known_for: body?.known_for || null,
     is_complete: Boolean(body?.published),
     is_featured: Boolean(body?.featured),
-    // Run this in Supabase SQL Editor:
-    // ALTER TABLE id_firm ADD COLUMN IF NOT EXISTS featured_position integer DEFAULT null;
     featured_position:
       body?.featured_position === '' || body?.featured_position == null ? null : Number(body.featured_position),
     featured_until: body?.featured_until || null,
   };
 
-  const { data, error } = await supabase.from('id_firm').insert(payload).select('id').single();
+  const { error } = await supabase
+    .from('id_firm')
+    .update(payload)
+    .eq('id', params.id)
+    .is('deleted_at', null);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, id: data.id });
+  return NextResponse.json({ success: true });
 }
