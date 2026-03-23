@@ -1,9 +1,22 @@
 import type { Metadata } from 'next';
+import { Bricolage_Grotesque, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
+
+const bricolageGrotesque = Bricolage_Grotesque({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
+  variable: '--font-bricolage-grotesque',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-plus-jakarta-sans',
+});
 
 export const metadata: Metadata = {
   title: 'Btopackage.sg',
-  description: "Singapore's most transparent BTO renovation package comparison directory.",
+  description: 'Verified BTO renovation packages in Singapore',
 };
 
 export default function RootLayout({
@@ -12,8 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${bricolageGrotesque.variable} ${plusJakartaSans.variable}`}
+    >
+      <body className="bg-background">{children}</body>
     </html>
   );
 }
