@@ -19,9 +19,6 @@ type FirmRow = {
   name: string | null;
   slug: string | null;
   google_rating: number | null;
-  is_featured: boolean | null;
-  featured_position: number | null;
-  featured_until: string | null;
 };
 
 type PackageRow = {
@@ -29,6 +26,8 @@ type PackageRow = {
   slug: string | null;
   flat_type: FlatType;
   price_nett: number | null;
+  is_featured: boolean | null;
+  featured_position: number | null;
   id_firm: FirmRow | FirmRow[] | null;
 };
 
@@ -47,22 +46,15 @@ export default function Home() {
   useEffect(() => {
     let mounted = true;
     const supabase = createClient();
-    const today = new Date().toISOString().slice(0, 10);
 
     const loadVerifiedPackages = async () => {
       const { data } = await supabase
         .from('id_package')
-        .select(
-          'id, slug, flat_type, price_nett, id_firm(id, name, slug, google_rating, is_featured, featured_position, featured_until)',
-        )
+        .select('id, slug, flat_type, price_nett, is_featured, featured_position, id_firm(id, name, slug, google_rating)')
         .eq('status', 'active')
         .eq('package_type', 'bto')
-        .or(
-          `and(is_featured.eq.true,or(featured_until.is.null,featured_until.gte.${today})),and(hdb_license_verified.eq.true,google_rating.gte.4.5,casetrust_accredited.eq.true)`,
-          { foreignTable: 'id_firm' },
-        )
-        .order('is_featured', { ascending: false, foreignTable: 'id_firm' })
-        .order('featured_position', { ascending: true, nullsFirst: false, foreignTable: 'id_firm' })
+        .or('is_featured.eq.true,and(id_firm.hdb_license_verified.eq.true,id_firm.google_rating.gte.4.5,id_firm.casetrust_accredited.eq.true)')
+        .order('featured_position', { ascending: true, nullsFirst: false })
         .order('google_rating', { ascending: false, foreignTable: 'id_firm' });
 
       if (mounted) {
@@ -165,7 +157,7 @@ export default function Home() {
               Verified {flatTypeOptions.find((option) => option.value === selectedFlatType)?.label} BTO Packages
             </h2>
             <p className="mt-2 text-sm text-[#6B7280]">
-              Criteria: Featured firms (if active) or HDB-verified + CaseTrust-accredited + Google rating 4.5 and above.
+              Criteria: Featured packages or HDB-verified + CaseTrust-accredited firms with Google rating 4.5 and above.
             </p>
 
             <div className="mt-4 space-y-3">

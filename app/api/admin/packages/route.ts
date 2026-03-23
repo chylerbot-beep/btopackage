@@ -95,6 +95,9 @@ export async function POST(request: Request) {
 
   const supabase = await createServerClient({ supabaseKey: serviceRoleKey });
 
+  // Run in Supabase SQL Editor:
+  // ALTER TABLE package ADD COLUMN IF NOT EXISTS is_featured boolean DEFAULT false;
+  // ALTER TABLE package ADD COLUMN IF NOT EXISTS featured_position integer DEFAULT null;
   const payload = {
     firm_id: body.firm_id,
     slug: String(body.slug).trim(),
@@ -153,6 +156,8 @@ export async function POST(request: Request) {
     image_url: body.image_url || null,
     verified_by: body.verified_by || null,
     status: body.status || null,
+    is_featured: Boolean(body.featured),
+    featured_position: toNullableNumber(body.featured_position),
   };
 
   const { data, error } = await supabase.from('package').insert(payload).select('id').single();
