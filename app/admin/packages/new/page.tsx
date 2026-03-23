@@ -1,33 +1,40 @@
 'use client';
 
-import { FormEvent, ReactNode, useEffect, useState } from 'react';
+import { FormEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 type FirmOption = { id: string; name: string };
 
+type HeightSelection = 'true' | 'false' | 'null';
+
 type PackageForm = {
   firm_id: string;
-  slug: string;
   flat_type: '3-room' | '4-room' | '5-room';
+  package_type: 'bto' | 'resale' | 'partial';
+  slug: string;
   price_nett: string;
+  promotion_text: string;
+  promotion_expiry: string;
+  freebies: string;
   kitchen_top_cabinet_ft: string;
   kitchen_bottom_cabinet_ft: string;
-  countertop_material: string;
+  master_wardrobe_ft: string;
+  master_wardrobe_type: '' | 'casement' | 'sliding';
+  master_wardrobe_full_height: HeightSelection;
+  common_wardrobe_room2_ft: string;
+  common_wardrobe_room2_type: '' | 'casement' | 'sliding';
+  common_wardrobe_room2_full_height: HeightSelection;
+  common_wardrobe_room3_ft: string;
+  common_wardrobe_room3_type: '' | 'casement' | 'sliding';
+  common_wardrobe_room3_full_height: HeightSelection;
+  board_grade: '' | 'E0' | 'E1' | 'E2' | 'super_e0' | 'mix';
+  flooring_type: '' | 'homogeneous tiles' | 'vinyl LVT' | 'parquet' | 'vinyl';
+  flooring_rooms_covered: '' | 'whole house' | '3 bedroom + living room' | 'bedrooms only' | 'living only';
+  vinyl_thickness_mm: string;
+  screeding_included: boolean;
+  countertop_material: '' | 'quartz' | 'sintered' | 'kompacplus';
   countertop_length_ft: string;
   countertop_backsplash: boolean;
-  master_wardrobe_ft: string;
-  master_wardrobe_type: string;
-  master_wardrobe_full_height: boolean;
-  common_wardrobe_room2_ft: string;
-  common_wardrobe_room2_type: string;
-  common_wardrobe_room2_full_height: boolean;
-  common_wardrobe_room3_ft: string;
-  common_wardrobe_room3_type: string;
-  common_wardrobe_room3_full_height: boolean;
-  board_grade: 'E0' | 'E1' | 'E2' | 'super_e0' | 'mix';
-  flooring_type: string;
-  flooring_rooms_covered: string;
-  screeding_included: boolean;
   shower_screens_included: boolean;
   shower_screen_count: string;
   electrical_included: boolean;
@@ -36,15 +43,14 @@ type PackageForm = {
   false_ceiling_areas: string;
   doors_included: boolean;
   door_count: string;
-  door_type: string;
-  cleaning_and_haulage_included: boolean;
+  door_type: '' | 'laminated' | 'solid timber';
   paint_brand: string;
   paint_colours: string;
-  paint_coverage: string;
+  paint_coverage: '' | 'whole house' | 'bedrooms only';
+  cleaning_and_haulage_included: boolean;
   render_3d: boolean;
   render_revisions: string;
   warranty_months: string;
-  freebies: string;
   excl_kitchen_top_cabinet: boolean;
   excl_kitchen_bottom_cabinet: boolean;
   excl_master_wardrobe: boolean;
@@ -56,34 +62,39 @@ type PackageForm = {
   excl_hdb_permit_fee: boolean;
   excl_flooring_bedrooms: boolean;
   not_included_notes: string;
+  image_url: string;
   verified_by: 'staff' | 'self-reported';
-  verification_expiry_date: string;
   status: 'active' | 'greyed_out';
 };
 
 const defaultForm: PackageForm = {
   firm_id: '',
-  slug: '',
   flat_type: '4-room',
+  package_type: 'bto',
+  slug: '',
   price_nett: '',
+  promotion_text: '',
+  promotion_expiry: '',
+  freebies: '',
   kitchen_top_cabinet_ft: '',
   kitchen_bottom_cabinet_ft: '',
+  master_wardrobe_ft: '',
+  master_wardrobe_type: '',
+  master_wardrobe_full_height: 'null',
+  common_wardrobe_room2_ft: '',
+  common_wardrobe_room2_type: '',
+  common_wardrobe_room2_full_height: 'null',
+  common_wardrobe_room3_ft: '',
+  common_wardrobe_room3_type: '',
+  common_wardrobe_room3_full_height: 'null',
+  board_grade: '',
+  flooring_type: '',
+  flooring_rooms_covered: '',
+  vinyl_thickness_mm: '',
+  screeding_included: false,
   countertop_material: '',
   countertop_length_ft: '',
   countertop_backsplash: false,
-  master_wardrobe_ft: '',
-  master_wardrobe_type: '',
-  master_wardrobe_full_height: false,
-  common_wardrobe_room2_ft: '',
-  common_wardrobe_room2_type: '',
-  common_wardrobe_room2_full_height: false,
-  common_wardrobe_room3_ft: '',
-  common_wardrobe_room3_type: '',
-  common_wardrobe_room3_full_height: false,
-  board_grade: 'E1',
-  flooring_type: '',
-  flooring_rooms_covered: '',
-  screeding_included: false,
   shower_screens_included: false,
   shower_screen_count: '',
   electrical_included: false,
@@ -93,14 +104,13 @@ const defaultForm: PackageForm = {
   doors_included: false,
   door_count: '',
   door_type: '',
-  cleaning_and_haulage_included: false,
   paint_brand: '',
   paint_colours: '',
   paint_coverage: '',
+  cleaning_and_haulage_included: false,
   render_3d: false,
   render_revisions: '',
   warranty_months: '',
-  freebies: '',
   excl_kitchen_top_cabinet: false,
   excl_kitchen_bottom_cabinet: false,
   excl_master_wardrobe: false,
@@ -112,10 +122,23 @@ const defaultForm: PackageForm = {
   excl_hdb_permit_fee: false,
   excl_flooring_bedrooms: false,
   not_included_notes: '',
+  image_url: '',
   verified_by: 'staff',
-  verification_expiry_date: '',
   status: 'active',
 };
+
+function createSlug(value: string) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function toHeightValue(value: HeightSelection): boolean | null {
+  if (value === 'null') return null;
+  return value === 'true';
+}
 
 export default function NewPackagePage() {
   const router = useRouter();
@@ -123,6 +146,9 @@ export default function NewPackagePage() {
   const [form, setForm] = useState<PackageForm>(defaultForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [slugTouched, setSlugTouched] = useState(false);
+
+  const selectedFirmName = useMemo(() => firms.find((firm) => firm.id === form.firm_id)?.name ?? '', [firms, form.firm_id]);
 
   useEffect(() => {
     let mounted = true;
@@ -151,6 +177,12 @@ export default function NewPackagePage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (slugTouched) return;
+    const autoSlug = createSlug([selectedFirmName, form.flat_type].filter(Boolean).join(' '));
+    setForm((current) => ({ ...current, slug: autoSlug }));
+  }, [selectedFirmName, form.flat_type, slugTouched]);
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -172,8 +204,8 @@ export default function NewPackagePage() {
       form.excl_hdb_permit_fee ||
       form.excl_flooring_bedrooms;
 
-    if (!hasExclusion && !form.not_included_notes.trim()) {
-      nextErrors.not_included_notes = 'Select at least one exclusion or provide notes.';
+    if (!hasExclusion) {
+      nextErrors.not_included_notes = 'Tick at least one exclusion.';
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -184,19 +216,26 @@ export default function NewPackagePage() {
     setErrors({});
     setIsSubmitting(true);
 
+    const payload = {
+      ...form,
+      master_wardrobe_full_height: toHeightValue(form.master_wardrobe_full_height),
+      common_wardrobe_room2_full_height: toHeightValue(form.common_wardrobe_room2_full_height),
+      common_wardrobe_room3_full_height: toHeightValue(form.common_wardrobe_room3_full_height),
+    };
+
     const response = await fetch('/api/admin/packages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify(payload),
     });
 
-    const payload = (await response.json().catch(() => ({}))) as {
+    const responsePayload = (await response.json().catch(() => ({}))) as {
       error?: string;
       fieldErrors?: Record<string, string>;
     };
 
     if (!response.ok) {
-      setErrors(payload.fieldErrors ?? { form: payload.error ?? 'Unable to create package.' });
+      setErrors(responsePayload.fieldErrors ?? { form: responsePayload.error ?? 'Unable to create package.' });
       setIsSubmitting(false);
       return;
     }
@@ -206,116 +245,182 @@ export default function NewPackagePage() {
   };
 
   return (
-    <section className="mx-auto max-w-3xl space-y-6">
+    <section className="mx-auto max-w-4xl space-y-6">
       <h1 className="text-2xl font-semibold">Create Package</h1>
 
-      <form onSubmit={onSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
-        <Field label="Firm" error={errors.firm_id}>
-          <select
-            value={form.firm_id}
-            onChange={(event) => setForm((current) => ({ ...current, firm_id: event.target.value }))}
-            className="w-full rounded border border-slate-300 px-3 py-2"
-          >
-            <option value="">Select firm</option>
-            {firms.map((firm) => (
-              <option key={firm.id} value={firm.id}>
-                {firm.name}
-              </option>
-            ))}
-          </select>
-        </Field>
+      <form onSubmit={onSubmit} className="space-y-1">
+        <Section title="SECTION A — BASICS">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Field label="Firm" error={errors.firm_id} required>
+              <select
+                value={form.firm_id}
+                onChange={(event) => setForm((current) => ({ ...current, firm_id: event.target.value }))}
+                className="w-full rounded border border-slate-300 px-3 py-2"
+              >
+                <option value="">Select firm</option>
+                {firms.map((firm) => (
+                  <option key={firm.id} value={firm.id}>
+                    {firm.name}
+                  </option>
+                ))}
+              </select>
+            </Field>
 
-        <TextInput label="Slug" value={form.slug} error={errors.slug} onChange={(value) => setForm((current) => ({ ...current, slug: value }))} />
-        <SelectInput label="Flat type" value={form.flat_type} onChange={(value) => setForm((current) => ({ ...current, flat_type: value as PackageForm['flat_type'] }))} options={['3-room', '4-room', '5-room']} />
-        <NumberInput label="Price nett" value={form.price_nett} error={errors.price_nett} onChange={(value) => setForm((current) => ({ ...current, price_nett: value }))} />
+            <SelectInput
+              label="Flat type"
+              value={form.flat_type}
+              required
+              onChange={(value) => setForm((current) => ({ ...current, flat_type: value as PackageForm['flat_type'] }))}
+              options={['3-room', '4-room', '5-room']}
+            />
+            <SelectInput
+              label="Package type"
+              value={form.package_type}
+              onChange={(value) => setForm((current) => ({ ...current, package_type: value as PackageForm['package_type'] }))}
+              options={['bto', 'resale', 'partial']}
+            />
+            <TextInput
+              label="Slug"
+              value={form.slug}
+              required
+              error={errors.slug}
+              onChange={(value) => {
+                setSlugTouched(true);
+                setForm((current) => ({ ...current, slug: value }));
+              }}
+            />
+            <NumberInput
+              label="Price (SGD)"
+              value={form.price_nett}
+              required
+              error={errors.price_nett}
+              onChange={(value) => setForm((current) => ({ ...current, price_nett: value }))}
+            />
+            <TextInput label="Promotion text" value={form.promotion_text} onChange={(value) => setForm((current) => ({ ...current, promotion_text: value }))} />
+            <DateInput label="Promotion expiry" value={form.promotion_expiry} onChange={(value) => setForm((current) => ({ ...current, promotion_expiry: value }))} />
+            <Field label="Freebies" className="md:col-span-2">
+              <textarea
+                value={form.freebies}
+                onChange={(event) => setForm((current) => ({ ...current, freebies: event.target.value }))}
+                className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
+              />
+            </Field>
+          </div>
+        </Section>
 
-        <NumberInput label="Kitchen top cabinet (ft)" value={form.kitchen_top_cabinet_ft} onChange={(value) => setForm((current) => ({ ...current, kitchen_top_cabinet_ft: value }))} />
-        <NumberInput label="Kitchen bottom cabinet (ft)" value={form.kitchen_bottom_cabinet_ft} onChange={(value) => setForm((current) => ({ ...current, kitchen_bottom_cabinet_ft: value }))} />
-        <TextInput label="Countertop material" value={form.countertop_material} onChange={(value) => setForm((current) => ({ ...current, countertop_material: value }))} />
-        <NumberInput label="Countertop length (ft)" value={form.countertop_length_ft} onChange={(value) => setForm((current) => ({ ...current, countertop_length_ft: value }))} />
-        <Checkbox label="Countertop backsplash" checked={form.countertop_backsplash} onChange={(checked) => setForm((current) => ({ ...current, countertop_backsplash: checked }))} />
+        <Section title="SECTION B — CARPENTRY">
+          <div className="grid gap-4 md:grid-cols-2">
+            <NumberInput label="Kitchen top cabinets (ft)" value={form.kitchen_top_cabinet_ft} onChange={(value) => setForm((current) => ({ ...current, kitchen_top_cabinet_ft: value }))} />
+            <NumberInput label="Kitchen bottom cabinets (ft)" value={form.kitchen_bottom_cabinet_ft} onChange={(value) => setForm((current) => ({ ...current, kitchen_bottom_cabinet_ft: value }))} />
+            <NumberInput label="Master wardrobe footage (ft)" value={form.master_wardrobe_ft} onChange={(value) => setForm((current) => ({ ...current, master_wardrobe_ft: value }))} />
+            <SelectInput label="Master wardrobe type" value={form.master_wardrobe_type} onChange={(value) => setForm((current) => ({ ...current, master_wardrobe_type: value as PackageForm['master_wardrobe_type'] }))} options={['', 'casement', 'sliding']} placeholder="Select type" />
+            <SelectInput
+              label="Master wardrobe height"
+              value={form.master_wardrobe_full_height}
+              onChange={(value) => setForm((current) => ({ ...current, master_wardrobe_full_height: value as HeightSelection }))}
+              options={['null', 'true', 'false']}
+              optionLabels={{ null: 'Not specified', true: 'Full height', false: 'Partial height' }}
+            />
+            <NumberInput label="Common bedroom 2 wardrobe (ft)" value={form.common_wardrobe_room2_ft} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room2_ft: value }))} />
+            <SelectInput label="Common bedroom 2 wardrobe type" value={form.common_wardrobe_room2_type} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room2_type: value as PackageForm['common_wardrobe_room2_type'] }))} options={['', 'casement', 'sliding']} placeholder="Select type" />
+            <SelectInput
+              label="Common bedroom 2 wardrobe height"
+              value={form.common_wardrobe_room2_full_height}
+              onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room2_full_height: value as HeightSelection }))}
+              options={['null', 'true', 'false']}
+              optionLabels={{ null: 'Not specified', true: 'Full height', false: 'Partial height' }}
+            />
+            <NumberInput label="Common bedroom 3 wardrobe (ft)" value={form.common_wardrobe_room3_ft} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room3_ft: value }))} />
+            <SelectInput label="Common bedroom 3 wardrobe type" value={form.common_wardrobe_room3_type} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room3_type: value as PackageForm['common_wardrobe_room3_type'] }))} options={['', 'casement', 'sliding']} placeholder="Select type" />
+            <SelectInput
+              label="Common bedroom 3 wardrobe height"
+              value={form.common_wardrobe_room3_full_height}
+              onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room3_full_height: value as HeightSelection }))}
+              options={['null', 'true', 'false']}
+              optionLabels={{ null: 'Not specified', true: 'Full height', false: 'Partial height' }}
+            />
+            <SelectInput label="Board grade" value={form.board_grade} onChange={(value) => setForm((current) => ({ ...current, board_grade: value as PackageForm['board_grade'] }))} options={['', 'E0', 'E1', 'E2', 'super_e0', 'mix']} placeholder="Select board grade" />
+          </div>
+        </Section>
 
-        <NumberInput label="Master wardrobe (ft)" value={form.master_wardrobe_ft} onChange={(value) => setForm((current) => ({ ...current, master_wardrobe_ft: value }))} />
-        <TextInput label="Master wardrobe type" value={form.master_wardrobe_type} onChange={(value) => setForm((current) => ({ ...current, master_wardrobe_type: value }))} />
-        <Checkbox label="Master wardrobe full height" checked={form.master_wardrobe_full_height} onChange={(checked) => setForm((current) => ({ ...current, master_wardrobe_full_height: checked }))} />
+        <Section title="SECTION C — FINISHES">
+          <div className="grid gap-4 md:grid-cols-2">
+            <SelectInput label="Flooring type" value={form.flooring_type} onChange={(value) => setForm((current) => ({ ...current, flooring_type: value as PackageForm['flooring_type'] }))} options={['', 'homogeneous tiles', 'vinyl LVT', 'parquet', 'vinyl']} placeholder="Select flooring type" />
+            <SelectInput label="Flooring rooms covered" value={form.flooring_rooms_covered} onChange={(value) => setForm((current) => ({ ...current, flooring_rooms_covered: value as PackageForm['flooring_rooms_covered'] }))} options={['', 'whole house', '3 bedroom + living room', 'bedrooms only', 'living only']} placeholder="Select coverage" />
+            <NumberInput label="Vinyl thickness (mm)" value={form.vinyl_thickness_mm} step="0.1" onChange={(value) => setForm((current) => ({ ...current, vinyl_thickness_mm: value }))} />
+            <Checkbox label="Cement screeding included?" checked={form.screeding_included} onChange={(checked) => setForm((current) => ({ ...current, screeding_included: checked }))} />
+            <SelectInput label="Countertop material" value={form.countertop_material} onChange={(value) => setForm((current) => ({ ...current, countertop_material: value as PackageForm['countertop_material'] }))} options={['', 'quartz', 'sintered', 'kompacplus']} placeholder="Select material" />
+            <NumberInput label="Countertop length (ft)" value={form.countertop_length_ft} onChange={(value) => setForm((current) => ({ ...current, countertop_length_ft: value }))} />
+            <Checkbox label="Countertop backsplash included?" checked={form.countertop_backsplash} onChange={(checked) => setForm((current) => ({ ...current, countertop_backsplash: checked }))} />
+            <Checkbox label="Shower screens included" checked={form.shower_screens_included} onChange={(checked) => setForm((current) => ({ ...current, shower_screens_included: checked }))} />
+            <NumberInput label="Shower screen count" value={form.shower_screen_count} onChange={(value) => setForm((current) => ({ ...current, shower_screen_count: value }))} />
+          </div>
+        </Section>
 
-        <NumberInput label="Common wardrobe room2 (ft)" value={form.common_wardrobe_room2_ft} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room2_ft: value }))} />
-        <TextInput label="Common wardrobe room2 type" value={form.common_wardrobe_room2_type} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room2_type: value }))} />
-        <Checkbox label="Common wardrobe room2 full height" checked={form.common_wardrobe_room2_full_height} onChange={(checked) => setForm((current) => ({ ...current, common_wardrobe_room2_full_height: checked }))} />
+        <Section title="SECTION D — WORKS">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Checkbox label="Electrical work included?" checked={form.electrical_included} onChange={(checked) => setForm((current) => ({ ...current, electrical_included: checked }))} />
+            <Checkbox label="Plumbing works included?" checked={form.plumbing_included} onChange={(checked) => setForm((current) => ({ ...current, plumbing_included: checked }))} />
+            <Checkbox label="False ceiling included" checked={form.false_ceiling_included} onChange={(checked) => setForm((current) => ({ ...current, false_ceiling_included: checked }))} />
+            <TextInput label="False ceiling areas e.g. Living & dining" value={form.false_ceiling_areas} onChange={(value) => setForm((current) => ({ ...current, false_ceiling_areas: value }))} />
+            <Checkbox label="Bedroom & toilet doors included?" checked={form.doors_included} onChange={(checked) => setForm((current) => ({ ...current, doors_included: checked }))} />
+            <NumberInput label="Number of doors" value={form.door_count} onChange={(value) => setForm((current) => ({ ...current, door_count: value }))} />
+            <SelectInput label="Door type" value={form.door_type} onChange={(value) => setForm((current) => ({ ...current, door_type: value as PackageForm['door_type'] }))} options={['', 'laminated', 'solid timber']} placeholder="Select door type" />
+            <TextInput label="Paint brand" value={form.paint_brand} onChange={(value) => setForm((current) => ({ ...current, paint_brand: value }))} />
+            <NumberInput label="Number of colours" value={form.paint_colours} onChange={(value) => setForm((current) => ({ ...current, paint_colours: value }))} />
+            <SelectInput label="Paint coverage" value={form.paint_coverage} onChange={(value) => setForm((current) => ({ ...current, paint_coverage: value as PackageForm['paint_coverage'] }))} options={['', 'whole house', 'bedrooms only']} placeholder="Select coverage" />
+            <Checkbox label="General cleaning & haulage included?" checked={form.cleaning_and_haulage_included} onChange={(checked) => setForm((current) => ({ ...current, cleaning_and_haulage_included: checked }))} />
+          </div>
+        </Section>
 
-        <NumberInput label="Common wardrobe room3 (ft)" value={form.common_wardrobe_room3_ft} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room3_ft: value }))} />
-        <TextInput label="Common wardrobe room3 type" value={form.common_wardrobe_room3_type} onChange={(value) => setForm((current) => ({ ...current, common_wardrobe_room3_type: value }))} />
-        <Checkbox label="Common wardrobe room3 full height" checked={form.common_wardrobe_room3_full_height} onChange={(checked) => setForm((current) => ({ ...current, common_wardrobe_room3_full_height: checked }))} />
+        <Section title="SECTION E — SERVICE & SUPPORT">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Checkbox label="3D render included?" checked={form.render_3d} onChange={(checked) => setForm((current) => ({ ...current, render_3d: checked }))} />
+            <NumberInput label="Number of render revisions" value={form.render_revisions} onChange={(value) => setForm((current) => ({ ...current, render_revisions: value }))} />
+            <NumberInput label="Warranty period (months)" value={form.warranty_months} onChange={(value) => setForm((current) => ({ ...current, warranty_months: value }))} />
+          </div>
+        </Section>
 
-        <SelectInput label="Board grade" value={form.board_grade} onChange={(value) => setForm((current) => ({ ...current, board_grade: value as PackageForm['board_grade'] }))} options={['E0', 'E1', 'E2', 'super_e0', 'mix']} />
-        <TextInput label="Flooring type" value={form.flooring_type} onChange={(value) => setForm((current) => ({ ...current, flooring_type: value }))} />
-        <TextInput label="Flooring rooms covered" value={form.flooring_rooms_covered} onChange={(value) => setForm((current) => ({ ...current, flooring_rooms_covered: value }))} />
-        <Checkbox label="Screeding included" checked={form.screeding_included} onChange={(checked) => setForm((current) => ({ ...current, screeding_included: checked }))} />
+        <Section title="SECTION F — NOT INCLUDED">
+          <p className="mb-4 text-sm text-slate-600">Tick everything that is NOT included in this package. At least one is required.</p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Checkbox label="Kitchen top cabinets" checked={form.excl_kitchen_top_cabinet} onChange={(checked) => setForm((current) => ({ ...current, excl_kitchen_top_cabinet: checked }))} />
+            <Checkbox label="Kitchen bottom cabinets" checked={form.excl_kitchen_bottom_cabinet} onChange={(checked) => setForm((current) => ({ ...current, excl_kitchen_bottom_cabinet: checked }))} />
+            <Checkbox label="Master bedroom wardrobe" checked={form.excl_master_wardrobe} onChange={(checked) => setForm((current) => ({ ...current, excl_master_wardrobe: checked }))} />
+            <Checkbox label="Common room 2 wardrobe" checked={form.excl_common_wardrobe_room2} onChange={(checked) => setForm((current) => ({ ...current, excl_common_wardrobe_room2: checked }))} />
+            <Checkbox label="Common room 3 wardrobe" checked={form.excl_common_wardrobe_room3} onChange={(checked) => setForm((current) => ({ ...current, excl_common_wardrobe_room3: checked }))} />
+            <Checkbox label="Electrical work" checked={form.excl_electrical_wiring} onChange={(checked) => setForm((current) => ({ ...current, excl_electrical_wiring: checked }))} />
+            <Checkbox label="Plumbing works" checked={form.excl_plumbing} onChange={(checked) => setForm((current) => ({ ...current, excl_plumbing: checked }))} />
+            <Checkbox label="Deep cleaning" checked={form.excl_deep_cleaning} onChange={(checked) => setForm((current) => ({ ...current, excl_deep_cleaning: checked }))} />
+            <Checkbox label="HDB permit fee" checked={form.excl_hdb_permit_fee} onChange={(checked) => setForm((current) => ({ ...current, excl_hdb_permit_fee: checked }))} />
+            <Checkbox label="Flooring (bedrooms)" checked={form.excl_flooring_bedrooms} onChange={(checked) => setForm((current) => ({ ...current, excl_flooring_bedrooms: checked }))} />
+            <Field label="Additional notes on exclusions" error={errors.not_included_notes} className="md:col-span-2">
+              <textarea
+                value={form.not_included_notes}
+                onChange={(event) => setForm((current) => ({ ...current, not_included_notes: event.target.value }))}
+                className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
+              />
+            </Field>
+          </div>
+        </Section>
 
-        <Checkbox label="Shower screens included" checked={form.shower_screens_included} onChange={(checked) => setForm((current) => ({ ...current, shower_screens_included: checked }))} />
-        <NumberInput label="Shower screen count" value={form.shower_screen_count} onChange={(value) => setForm((current) => ({ ...current, shower_screen_count: value }))} />
-        <Checkbox label="Electrical included" checked={form.electrical_included} onChange={(checked) => setForm((current) => ({ ...current, electrical_included: checked }))} />
-        <Checkbox label="Plumbing included" checked={form.plumbing_included} onChange={(checked) => setForm((current) => ({ ...current, plumbing_included: checked }))} />
-        <Checkbox label="False ceiling included" checked={form.false_ceiling_included} onChange={(checked) => setForm((current) => ({ ...current, false_ceiling_included: checked }))} />
-        <TextInput label="False ceiling areas" value={form.false_ceiling_areas} onChange={(value) => setForm((current) => ({ ...current, false_ceiling_areas: value }))} />
+        <Section title="SECTION G — IMAGES">
+          <TextInput label="Hero image URL" value={form.image_url} onChange={(value) => setForm((current) => ({ ...current, image_url: value }))} />
+        </Section>
 
-        <Checkbox label="Doors included" checked={form.doors_included} onChange={(checked) => setForm((current) => ({ ...current, doors_included: checked }))} />
-        <NumberInput label="Door count" value={form.door_count} onChange={(value) => setForm((current) => ({ ...current, door_count: value }))} />
-        <TextInput label="Door type" value={form.door_type} onChange={(value) => setForm((current) => ({ ...current, door_type: value }))} />
-        <Checkbox label="Cleaning and haulage included" checked={form.cleaning_and_haulage_included} onChange={(checked) => setForm((current) => ({ ...current, cleaning_and_haulage_included: checked }))} />
-
-        <TextInput label="Paint brand" value={form.paint_brand} onChange={(value) => setForm((current) => ({ ...current, paint_brand: value }))} />
-        <NumberInput label="Paint colours" value={form.paint_colours} onChange={(value) => setForm((current) => ({ ...current, paint_colours: value }))} />
-        <TextInput label="Paint coverage" value={form.paint_coverage} onChange={(value) => setForm((current) => ({ ...current, paint_coverage: value }))} />
-        <Checkbox label="3D render" checked={form.render_3d} onChange={(checked) => setForm((current) => ({ ...current, render_3d: checked }))} />
-        <NumberInput label="Render revisions" value={form.render_revisions} onChange={(value) => setForm((current) => ({ ...current, render_revisions: value }))} />
-        <NumberInput label="Warranty months" value={form.warranty_months} onChange={(value) => setForm((current) => ({ ...current, warranty_months: value }))} />
-
-        <Field label="Freebies">
-          <textarea
-            value={form.freebies}
-            onChange={(event) => setForm((current) => ({ ...current, freebies: event.target.value }))}
-            className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
-          />
-        </Field>
-
-        <h2 className="pt-2 text-lg font-medium">Not included</h2>
-        <Checkbox label="Exclude kitchen top cabinet" checked={form.excl_kitchen_top_cabinet} onChange={(checked) => setForm((current) => ({ ...current, excl_kitchen_top_cabinet: checked }))} />
-        <Checkbox label="Exclude kitchen bottom cabinet" checked={form.excl_kitchen_bottom_cabinet} onChange={(checked) => setForm((current) => ({ ...current, excl_kitchen_bottom_cabinet: checked }))} />
-        <Checkbox label="Exclude master wardrobe" checked={form.excl_master_wardrobe} onChange={(checked) => setForm((current) => ({ ...current, excl_master_wardrobe: checked }))} />
-        <Checkbox label="Exclude common wardrobe room2" checked={form.excl_common_wardrobe_room2} onChange={(checked) => setForm((current) => ({ ...current, excl_common_wardrobe_room2: checked }))} />
-        <Checkbox label="Exclude common wardrobe room3" checked={form.excl_common_wardrobe_room3} onChange={(checked) => setForm((current) => ({ ...current, excl_common_wardrobe_room3: checked }))} />
-        <Checkbox label="Exclude electrical wiring" checked={form.excl_electrical_wiring} onChange={(checked) => setForm((current) => ({ ...current, excl_electrical_wiring: checked }))} />
-        <Checkbox label="Exclude plumbing" checked={form.excl_plumbing} onChange={(checked) => setForm((current) => ({ ...current, excl_plumbing: checked }))} />
-        <Checkbox label="Exclude deep cleaning" checked={form.excl_deep_cleaning} onChange={(checked) => setForm((current) => ({ ...current, excl_deep_cleaning: checked }))} />
-        <Checkbox label="Exclude HDB permit fee" checked={form.excl_hdb_permit_fee} onChange={(checked) => setForm((current) => ({ ...current, excl_hdb_permit_fee: checked }))} />
-        <Checkbox label="Exclude flooring bedrooms" checked={form.excl_flooring_bedrooms} onChange={(checked) => setForm((current) => ({ ...current, excl_flooring_bedrooms: checked }))} />
-
-        <Field label="Not included notes" error={errors.not_included_notes}>
-          <textarea
-            value={form.not_included_notes}
-            onChange={(event) => setForm((current) => ({ ...current, not_included_notes: event.target.value }))}
-            className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
-          />
-        </Field>
-
-        <SelectInput label="Verified by" value={form.verified_by} onChange={(value) => setForm((current) => ({ ...current, verified_by: value as PackageForm['verified_by'] }))} options={['staff', 'self-reported']} />
-        <Field label="Verification expiry date">
-          <input
-            type="date"
-            value={form.verification_expiry_date}
-            onChange={(event) => setForm((current) => ({ ...current, verification_expiry_date: event.target.value }))}
-            className="w-full rounded border border-slate-300 px-3 py-2"
-          />
-        </Field>
-        <SelectInput label="Status" value={form.status} onChange={(value) => setForm((current) => ({ ...current, status: value as PackageForm['status'] }))} options={['active', 'greyed_out']} />
+        <Section title="SECTION H — VERIFICATION">
+          <div className="grid gap-4 md:grid-cols-2">
+            <SelectInput label="Verified by" value={form.verified_by} onChange={(value) => setForm((current) => ({ ...current, verified_by: value as PackageForm['verified_by'] }))} options={['staff', 'self-reported']} />
+            <SelectInput label="Status" value={form.status} onChange={(value) => setForm((current) => ({ ...current, status: value as PackageForm['status'] }))} options={['active', 'greyed_out']} />
+          </div>
+        </Section>
 
         {errors.form ? <p className="text-sm text-red-600">{errors.form}</p> : null}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="min-h-[44px] w-full rounded-xl bg-[#1B4332] px-4 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? 'Creating...' : 'Create Package'}
         </button>
@@ -324,10 +429,22 @@ export default function NewPackagePage() {
   );
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <label className="block space-y-1 text-sm text-slate-700">
-      <span>{label}</span>
+    <div className="mb-6">
+      <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">{title}</h2>
+      <div className="rounded-xl border border-[#E5E0D8] bg-white p-6">{children}</div>
+    </div>
+  );
+}
+
+function Field({ label, error, required, className, children }: { label: string; error?: string; required?: boolean; className?: string; children: ReactNode }) {
+  return (
+    <label className={`block space-y-1 text-sm text-slate-700 ${className ?? ''}`}>
+      <span>
+        {label}
+        {required ? ' *' : ''}
+      </span>
       {children}
       {error ? <span className="text-xs text-red-600">{error}</span> : null}
     </label>
@@ -339,15 +456,25 @@ function TextInput({
   value,
   onChange,
   error,
+  required,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  required?: boolean;
 }) {
   return (
-    <Field label={label} error={error}>
+    <Field label={label} error={error} required={required}>
       <input value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded border border-slate-300 px-3 py-2" />
+    </Field>
+  );
+}
+
+function DateInput({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <Field label={label}>
+      <input type="date" value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded border border-slate-300 px-3 py-2" />
     </Field>
   );
 }
@@ -357,16 +484,21 @@ function NumberInput({
   value,
   onChange,
   error,
+  required,
+  step,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  required?: boolean;
+  step?: string;
 }) {
   return (
-    <Field label={label} error={error}>
+    <Field label={label} error={error} required={required}>
       <input
         type="number"
+        step={step}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         className="w-full rounded border border-slate-300 px-3 py-2"
@@ -380,20 +512,29 @@ function SelectInput({
   value,
   onChange,
   options,
+  placeholder,
+  optionLabels,
+  required,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   options: string[];
+  placeholder?: string;
+  optionLabels?: Record<string, string>;
+  required?: boolean;
 }) {
   return (
-    <Field label={label}>
+    <Field label={label} required={required}>
       <select value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded border border-slate-300 px-3 py-2">
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        {placeholder ? <option value="">{placeholder}</option> : null}
+        {options
+          .filter((option) => !(placeholder && option === ''))
+          .map((option) => (
+            <option key={option || 'empty'} value={option}>
+              {optionLabels?.[option] ?? option}
+            </option>
+          ))}
       </select>
     </Field>
   );
@@ -401,7 +542,7 @@ function SelectInput({
 
 function Checkbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (checked: boolean) => void }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-slate-700">
+    <label className="flex min-h-[42px] items-center gap-2 rounded border border-slate-200 px-3 text-sm text-slate-700">
       <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
       <span>{label}</span>
     </label>
