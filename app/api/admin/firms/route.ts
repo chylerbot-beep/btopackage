@@ -117,9 +117,7 @@ export async function POST(request: Request) {
     whatsapp_message: body?.whatsapp_message || null,
     website_url: body?.website_url || null,
     known_for: body?.known_for || null,
-    is_complete: Boolean(body?.is_complete),
-    completeness_score:
-      body?.completeness_score === '' || body?.completeness_score == null ? null : Number(body.completeness_score),
+    is_complete: Boolean(body?.published),
   };
 
   const { data, error } = await supabase.from('id_firm').insert(payload).select('id').single();
