@@ -55,7 +55,6 @@ const ACCORDION_HEADER_CLASS =
 const ACCORDION_CONTENT_CLASS =
   'max-h-0 overflow-hidden border-t border-[#F3EFE9] px-4 transition-[max-height,padding] duration-300 ease-in-out peer-checked:max-h-[1200px] peer-checked:py-4 peer-checked:pt-0';
 const ROW_CLASS = 'flex justify-between gap-4 border-b border-[#F9F7F4] py-2 text-sm';
-const DESCRIPTION_CLASS = 'mb-3 text-sm text-[#6B7280]';
 
 const getNonEmptyText = (value: string | null | undefined) => {
   const trimmed = value?.trim();
@@ -215,6 +214,12 @@ export default async function PackagePage({ params }: PackagePageProps) {
   const finishesDescription = getNonEmptyText(pkg.description_finishes);
   const worksDescription = getNonEmptyText(pkg.description_works);
   const serviceDescription = getNonEmptyText(pkg.description_service);
+  const hasIncludedContent =
+    Boolean(summary) ||
+    Boolean(carpentryDescription) ||
+    Boolean(finishesDescription) ||
+    Boolean(worksDescription) ||
+    Boolean(serviceDescription);
 
   const carpentryAndFinishesExclusions = [
     pkg.excl_kitchen_top_cabinet ? 'Kitchen top cabinets' : null,
@@ -310,10 +315,56 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
       <PriceContextBar flatType={flatType} />
 
-      <section>
-        <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
-        {summary ? <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{summary}</p> : null}
-      </section>
+      {hasIncludedContent ? (
+        <section>
+          <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">
+            What&apos;s included in this package
+          </h2>
+
+          <div className="mx-4 rounded-xl border border-[#E5E0D8] bg-white p-4">
+            {summary ? <p className="mb-4 text-sm leading-relaxed text-[#374151]">{summary}</p> : null}
+
+            <ul className="space-y-3">
+              {carpentryDescription ? (
+                <li className="flex items-start gap-2 text-sm text-[#374151]">
+                  <span className="mt-0.5 text-[#16A34A]">•</span>
+                  <span>
+                    <span className="font-semibold">Carpentry: </span>
+                    {carpentryDescription}
+                  </span>
+                </li>
+              ) : null}
+              {finishesDescription ? (
+                <li className="flex items-start gap-2 text-sm text-[#374151]">
+                  <span className="mt-0.5 text-[#16A34A]">•</span>
+                  <span>
+                    <span className="font-semibold">Finishes: </span>
+                    {finishesDescription}
+                  </span>
+                </li>
+              ) : null}
+              {worksDescription ? (
+                <li className="flex items-start gap-2 text-sm text-[#374151]">
+                  <span className="mt-0.5 text-[#16A34A]">•</span>
+                  <span>
+                    <span className="font-semibold">Works: </span>
+                    {worksDescription}
+                  </span>
+                </li>
+              ) : null}
+              {serviceDescription ? (
+                <li className="flex items-start gap-2 text-sm text-[#374151]">
+                  <span className="mt-0.5 text-[#16A34A]">•</span>
+                  <span>
+                    <span className="font-semibold">Service &amp; Support: </span>
+                    {serviceDescription}
+                  </span>
+                </li>
+              ) : null}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
       <section>
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">Not covered by this package</h2>
@@ -396,7 +447,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
         ) : null}
 
         <Accordion id="accordion-carpentry" title="Carpentry">
-          {carpentryDescription ? <p className={DESCRIPTION_CLASS}>{carpentryDescription}</p> : null}
           {carpentryRows.map((row) => (
             <div key={row.label} className={ROW_CLASS}>
               <span className="text-[#6B7280]">{row.label}</span>
@@ -412,7 +462,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-finishes" title="Finishes">
-          {finishesDescription ? <p className={DESCRIPTION_CLASS}>{finishesDescription}</p> : null}
           {pkg.flooring_type || pkg.flooring_rooms_covered ? (
             <div className={ROW_CLASS}>
               <span className="text-[#6B7280]">Flooring</span>
@@ -451,7 +500,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-works" title="Works">
-          {worksDescription ? <p className={DESCRIPTION_CLASS}>{worksDescription}</p> : null}
           <div className={ROW_CLASS}>
             <span className="text-[#6B7280]">Electrical work</span>
             <span className="font-medium text-[#1A1A1A]">{formatIncludedLabel(pkg.electrical_included)}</span>
@@ -491,7 +539,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-service" title="Service & Support">
-          {serviceDescription ? <p className={DESCRIPTION_CLASS}>{serviceDescription}</p> : null}
           <div className={ROW_CLASS}>
             <span className="text-[#6B7280]">3D render</span>
             <span className="font-medium text-[#1A1A1A]">
