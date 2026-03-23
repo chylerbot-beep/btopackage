@@ -25,6 +25,7 @@ type FirmRow = {
   casetrust_accredited: boolean | null;
   known_for: string | null;
   whatsapp_number: string | null;
+  whatsapp_message: string | null;
   project_images: string[] | null;
 };
 
@@ -127,9 +128,14 @@ function buildWhatsAppHref(firm: FirmRow, pkg: PackageRow): string {
   const sanitized = firm.whatsapp_number
     .replace(/[^\d]/g, '')
     .replace(/^65/, '');
-  const message = encodeURIComponent(
-    `Hi ${firm.name ?? 'there'}, I found your ${pkg.flat_type} BTO package at ${formatPrice(pkg.price_nett)} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?`
-  );
+  const templateMessage =
+    firm.whatsapp_message?.trim()
+    || 'Hi {firmName}, I found your {flatType} BTO package at {price} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?';
+  const resolvedMessage = templateMessage
+    .replaceAll('{firmName}', firm.name ?? 'there')
+    .replaceAll('{flatType}', pkg.flat_type)
+    .replaceAll('{price}', formatPrice(pkg.price_nett));
+  const message = encodeURIComponent(resolvedMessage);
   return `https://wa.me/65${sanitized}?text=${message}`;
 }
 
@@ -406,7 +412,7 @@ export default function Home() {
           id_firm (
             id, name, slug, google_rating, google_review_count,
             hdb_license_number, hdb_license_verified, casetrust_accredited,
-            known_for, whatsapp_number, project_images
+            known_for, whatsapp_number, whatsapp_message, project_images
           )
         `)
         .eq('status', 'active')
