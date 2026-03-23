@@ -17,7 +17,11 @@ type PackageForm = {
   price_nett: string;
   promotion_text: string;
   promotion_expiry: string;
-  freebies: string;
+  freebies_1: string;
+  freebies_2: string;
+  freebies_3: string;
+  freebies_4: string;
+  freebies_5: string;
   package_details: string;
   kitchen_top_cabinet_ft: string;
   kitchen_bottom_cabinet_ft: string;
@@ -129,6 +133,10 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
 
     const payload = {
       ...form,
+      freebies: [form.freebies_1, form.freebies_2, form.freebies_3, form.freebies_4, form.freebies_5]
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .join(' · '),
       image_url: imageValidation.normalizedUrl ?? '',
       master_wardrobe_full_height: toHeightValue(form.master_wardrobe_full_height),
       common_wardrobe_room2_full_height: toHeightValue(form.common_wardrobe_room2_full_height),
@@ -212,13 +220,16 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
             />
             <TextInput label="Promotion text" value={form.promotion_text} onChange={(value) => setForm((current) => ({ ...current, promotion_text: value }))} />
             <DateInput label="Promotion expiry" value={form.promotion_expiry} onChange={(value) => setForm((current) => ({ ...current, promotion_expiry: value }))} />
-            <Field label="Freebies" className="md:col-span-2">
-              <textarea
-                value={form.freebies}
-                onChange={(event) => setForm((current) => ({ ...current, freebies: event.target.value }))}
-                className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
-              />
-            </Field>
+            <div className="space-y-2 md:col-span-2">
+              <p className="text-sm text-slate-700">Freebies</p>
+              <div className="grid gap-3 md:grid-cols-2">
+                <input value={form.freebies_1} onChange={(event) => setForm((current) => ({ ...current, freebies_1: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2" placeholder="Freebie 1" />
+                <input value={form.freebies_2} onChange={(event) => setForm((current) => ({ ...current, freebies_2: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2" placeholder="Freebie 2" />
+                <input value={form.freebies_3} onChange={(event) => setForm((current) => ({ ...current, freebies_3: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2" placeholder="Freebie 3" />
+                <input value={form.freebies_4} onChange={(event) => setForm((current) => ({ ...current, freebies_4: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2" placeholder="Freebie 4" />
+                <input value={form.freebies_5} onChange={(event) => setForm((current) => ({ ...current, freebies_5: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2 md:col-span-2" placeholder="Freebie 5" />
+              </div>
+            </div>
             <Field label="Package details (what's included)" className="md:col-span-2">
               <textarea
                 value={form.package_details}

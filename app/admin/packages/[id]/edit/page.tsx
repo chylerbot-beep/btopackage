@@ -19,6 +19,11 @@ function toHeightSelection(value: unknown): HeightSelection {
 }
 
 function mapPackageToForm(pkg: PackageRow): PackageForm {
+  const freebies = toStringValue(pkg.freebies)
+    .split(/[·\n]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
   return {
     firm_id: toStringValue(pkg.firm_id),
     flat_type: (pkg.flat_type as PackageForm['flat_type']) ?? '4-room',
@@ -27,7 +32,11 @@ function mapPackageToForm(pkg: PackageRow): PackageForm {
     price_nett: toStringValue(pkg.price_nett),
     promotion_text: toStringValue(pkg.promotion_text),
     promotion_expiry: typeof pkg.promotion_expiry === 'string' ? pkg.promotion_expiry.split('T')[0] : '',
-    freebies: toStringValue(pkg.freebies),
+    freebies_1: freebies[0] ?? '',
+    freebies_2: freebies[1] ?? '',
+    freebies_3: freebies[2] ?? '',
+    freebies_4: freebies[3] ?? '',
+    freebies_5: freebies[4] ?? '',
     package_details: toStringValue(pkg.package_details),
     kitchen_top_cabinet_ft: toStringValue(pkg.kitchen_top_cabinet_ft),
     kitchen_bottom_cabinet_ft: toStringValue(pkg.kitchen_bottom_cabinet_ft),
