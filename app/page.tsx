@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+// useRouter removed - we no longer need to redirect!
 import { createClient } from '@/lib/supabase/client';
 
 type FlatType = '3-room' | '4-room' | '5-room';
 
-const flatTypeOptions: Array<{ label: string; value: FlatType }> = [
+const flatTypeOptions: Array<{ label: string; value: FlatType }> =[
   { label: '3-Room', value: '3-room' },
   { label: '4-Room', value: '4-room' },
   { label: '5-Room', value: '5-room' },
@@ -36,7 +36,6 @@ function getFirm(value: PackageRow['id_firm']) {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [selectedFlatType, setSelectedFlatType] = useState<FlatType>('4-room');
   const [verifiedPackages, setVerifiedPackages] = useState<PackageRow[]>([]);
 
@@ -45,13 +44,16 @@ export default function Home() {
     const supabase = createClient();
 
     const loadVerifiedPackages = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('id_package')
         .select('id, slug, flat_type, price_nett, is_featured, featured_position, id_firm(id, name, slug, google_rating)')
         .eq('status', 'active')
         .eq('package_type', 'bto')
+        .eq('is_featured', true) // Added: Strictly obeys your "Show on homepage" checkbox!
         .order('featured_position', { ascending: true, nullsFirst: false })
         .order('google_rating', { ascending: false, foreignTable: 'id_firm' });
+
+      if (error) console.error(error);
 
       if (mounted) {
         setVerifiedPackages((data ?? []) as PackageRow[]);
@@ -63,7 +65,7 @@ export default function Home() {
     return () => {
       mounted = false;
     };
-  }, []);
+  },[]);
 
   const featuredFirmsForFlatType = useMemo(() => {
     const seenFirmIds = new Set<string>();
@@ -80,8 +82,8 @@ export default function Home() {
   }, [selectedFlatType, verifiedPackages]);
 
   const handleFlatTypeSelect = (flatType: FlatType) => {
+    // We now ONLY update the local state. No more router.push()!
     setSelectedFlatType(flatType);
-    router.push(`/packages/${flatType}`);
   };
 
   return (
@@ -141,7 +143,7 @@ export default function Home() {
               Verified {flatTypeOptions.find((option) => option.value === selectedFlatType)?.label} BTO Packages
             </h2>
             <p className="mt-2 text-sm text-[#6B7280]">
-              Showing all active BTO packages for this flat type.
+              Showing featured BTO packages for this flat type.
             </p>
 
             <div className="mt-4 space-y-3">
