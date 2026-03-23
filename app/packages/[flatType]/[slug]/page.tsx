@@ -230,8 +230,8 @@ export default async function PackagePage({ params }: PackagePageProps) {
     pkg.excl_kitchen_top_cabinet ? 'Kitchen top cabinets' : null,
     pkg.excl_kitchen_bottom_cabinet ? 'Kitchen bottom cabinets' : null,
     pkg.excl_master_wardrobe ? 'Master bedroom wardrobe' : null,
-    pkg.excl_common_wardrobe_room2 ? 'Common room 2 wardrobe' : null,
-    pkg.excl_common_wardrobe_room3 ? 'Common room 3 wardrobe' : null,
+    pkg.excl_common_wardrobe_room2 ? 'Common bedroom 2 wardrobe' : null,
+    pkg.excl_common_wardrobe_room3 ? 'Common bedroom 3 wardrobe' : null,
     pkg.excl_flooring_bedrooms ? 'Flooring bedrooms' : null,
     pkg.countertop_backsplash === false ? 'Countertop backsplash' : null,
     pkg.screeding_included === false && pkg.flooring_type?.toLowerCase().includes('vinyl')
@@ -273,13 +273,13 @@ export default async function PackagePage({ params }: PackagePageProps) {
       : null,
     pkg.common_wardrobe_room2_ft
       ? {
-          label: `Common room 2 wardrobe${pkg.common_wardrobe_room2_type ? ` (${pkg.common_wardrobe_room2_type})` : ''}`,
+          label: `Common bedroom 2 wardrobe${pkg.common_wardrobe_room2_type ? ` (${pkg.common_wardrobe_room2_type})` : ''}`,
           value: `${pkg.common_wardrobe_room2_ft} ft ${getHeightLabel(pkg.common_wardrobe_room2_full_height)}`.trim(),
         }
       : null,
     pkg.common_wardrobe_room3_ft
       ? {
-          label: `Common room 3 wardrobe${pkg.common_wardrobe_room3_type ? ` (${pkg.common_wardrobe_room3_type})` : ''}`,
+          label: `Common bedroom 3 wardrobe${pkg.common_wardrobe_room3_type ? ` (${pkg.common_wardrobe_room3_type})` : ''}`,
           value: `${pkg.common_wardrobe_room3_ft} ft ${getHeightLabel(pkg.common_wardrobe_room3_full_height)}`.trim(),
         }
       : null,
@@ -408,7 +408,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
           {carpentryRows.map((row) => (
             <div key={row.label} className={ROW_CLASS}>
               <span className="text-[#6B7280]">{row.label}</span>
-              <span className="font-medium text-[#1A1A1A]">{row.value}</span>
+              <span className="text-right font-medium text-[#1A1A1A]">{row.value}</span>
             </div>
           ))}
           {pkg.board_grade ? (
