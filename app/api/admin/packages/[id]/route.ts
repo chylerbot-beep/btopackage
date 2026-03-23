@@ -1,6 +1,7 @@
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { normalizeAndValidateImageUrl } from '@/lib/image-url';
 import { createServerClient } from '@/lib/supabase/server';
 
 type Params = { params: { id: string } };
@@ -40,6 +41,15 @@ function toNullableNumber(value: unknown) {
 
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function trimToNull(value: unknown) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
 }
 
 async function getSupabaseClient() {
@@ -110,6 +120,12 @@ export async function PATCH(request: Request, { params }: Params) {
     fieldErrors.price_nett = 'Price is required.';
   }
 
+  const normalizedImageResult = normalizeAndValidateImageUrl(body?.image_url);
+
+  if (normalizedImageResult.error) {
+    fieldErrors.image_url = normalizedImageResult.error;
+  }
+
   const hasExclusion =
     Boolean(body?.excl_kitchen_top_cabinet) ||
     Boolean(body?.excl_kitchen_bottom_cabinet) ||
@@ -140,25 +156,25 @@ export async function PATCH(request: Request, { params }: Params) {
     firm_id: body.firm_id,
     slug: String(body.slug).trim(),
     flat_type: body.flat_type,
-    package_type: body.package_type || null,
+    package_type: trimToNull(body.package_type),
     price_nett: Number(body.price_nett),
     kitchen_top_cabinet_ft: toNullableNumber(body.kitchen_top_cabinet_ft),
     kitchen_bottom_cabinet_ft: toNullableNumber(body.kitchen_bottom_cabinet_ft),
-    countertop_material: body.countertop_material || null,
+    countertop_material: trimToNull(body.countertop_material),
     countertop_length_ft: toNullableNumber(body.countertop_length_ft),
     countertop_backsplash: Boolean(body.countertop_backsplash),
     master_wardrobe_ft: toNullableNumber(body.master_wardrobe_ft),
-    master_wardrobe_type: body.master_wardrobe_type || null,
+    master_wardrobe_type: trimToNull(body.master_wardrobe_type),
     master_wardrobe_full_height: body.master_wardrobe_full_height == null ? null : Boolean(body.master_wardrobe_full_height),
     common_wardrobe_room2_ft: toNullableNumber(body.common_wardrobe_room2_ft),
-    common_wardrobe_room2_type: body.common_wardrobe_room2_type || null,
+    common_wardrobe_room2_type: trimToNull(body.common_wardrobe_room2_type),
     common_wardrobe_room2_full_height: body.common_wardrobe_room2_full_height == null ? null : Boolean(body.common_wardrobe_room2_full_height),
     common_wardrobe_room3_ft: toNullableNumber(body.common_wardrobe_room3_ft),
-    common_wardrobe_room3_type: body.common_wardrobe_room3_type || null,
+    common_wardrobe_room3_type: trimToNull(body.common_wardrobe_room3_type),
     common_wardrobe_room3_full_height: body.common_wardrobe_room3_full_height == null ? null : Boolean(body.common_wardrobe_room3_full_height),
-    board_grade: body.board_grade || null,
-    flooring_type: body.flooring_type || null,
-    flooring_rooms_covered: body.flooring_rooms_covered || null,
+    board_grade: trimToNull(body.board_grade),
+    flooring_type: trimToNull(body.flooring_type),
+    flooring_rooms_covered: trimToNull(body.flooring_rooms_covered),
     vinyl_thickness_mm: toNullableNumber(body.vinyl_thickness_mm),
     screeding_included: Boolean(body.screeding_included),
     shower_screens_included: Boolean(body.shower_screens_included),
@@ -166,20 +182,20 @@ export async function PATCH(request: Request, { params }: Params) {
     electrical_included: Boolean(body.electrical_included),
     plumbing_included: Boolean(body.plumbing_included),
     false_ceiling_included: Boolean(body.false_ceiling_included),
-    false_ceiling_areas: body.false_ceiling_areas || null,
+    false_ceiling_areas: trimToNull(body.false_ceiling_areas),
     doors_included: Boolean(body.doors_included),
     door_count: toNullableNumber(body.door_count),
-    door_type: body.door_type || null,
+    door_type: trimToNull(body.door_type),
     cleaning_and_haulage_included: Boolean(body.cleaning_and_haulage_included),
-    paint_brand: body.paint_brand || null,
+    paint_brand: trimToNull(body.paint_brand),
     paint_colours: toNullableNumber(body.paint_colours),
-    paint_coverage: body.paint_coverage || null,
+    paint_coverage: trimToNull(body.paint_coverage),
     render_3d: Boolean(body.render_3d),
     render_revisions: toNullableNumber(body.render_revisions),
     warranty_months: toNullableNumber(body.warranty_months),
-    promotion_text: body.promotion_text || null,
-    promotion_expiry: body.promotion_expiry || null,
-    freebies: body.freebies || null,
+    promotion_text: trimToNull(body.promotion_text),
+    promotion_expiry: trimToNull(body.promotion_expiry),
+    freebies: trimToNull(body.freebies),
     excl_kitchen_top_cabinet: Boolean(body.excl_kitchen_top_cabinet),
     excl_kitchen_bottom_cabinet: Boolean(body.excl_kitchen_bottom_cabinet),
     excl_master_wardrobe: Boolean(body.excl_master_wardrobe),
@@ -190,10 +206,10 @@ export async function PATCH(request: Request, { params }: Params) {
     excl_deep_cleaning: Boolean(body.excl_deep_cleaning),
     excl_hdb_permit_fee: Boolean(body.excl_hdb_permit_fee),
     excl_flooring_bedrooms: Boolean(body.excl_flooring_bedrooms),
-    not_included_notes: body.not_included_notes || null,
-    image_url: body.image_url || null,
-    verified_by: body.verified_by || null,
-    status: body.status || null,
+    not_included_notes: trimToNull(body.not_included_notes),
+    image_url: normalizedImageResult.normalizedUrl,
+    verified_by: trimToNull(body.verified_by),
+    status: trimToNull(body.status),
     is_featured: Boolean(body.featured),
     featured_position: toNullableNumber(body.featured_position),
   };

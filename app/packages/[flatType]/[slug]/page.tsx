@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import PackageHeroImage from '@/components/PackageHeroImage';
 import PriceContextBar from '@/components/PriceContextBar';
 import TrustChecklist from '@/components/TrustChecklist';
 import WhatsAppButton from '@/components/WhatsAppButton';
@@ -299,22 +300,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
       </div>
 
       <section className="mx-4 mt-4 overflow-hidden rounded-xl">
-        {pkg.image_url ? (
-          <div className="relative h-[220px] w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={pkg.image_url} alt={firm.name} className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-            <h1 className="absolute bottom-4 left-4 font-[family-name:var(--font-bricolage-grotesque)] text-2xl font-bold text-white">
-              {firm.name}
-            </h1>
-          </div>
-        ) : (
-          <div className="relative h-[220px] w-full bg-[#1B4332]">
-            <h1 className="absolute bottom-4 left-4 font-[family-name:var(--font-bricolage-grotesque)] text-2xl font-bold text-white">
-              {firm.name}
-            </h1>
-          </div>
-        )}
+        <PackageHeroImage imageUrl={pkg.image_url} firmName={firm.name} />
       </section>
 
       <section className="mx-4 mt-4 rounded-xl border border-[#E5E0D8] bg-white p-5">
