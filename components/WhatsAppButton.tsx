@@ -7,6 +7,8 @@ type WhatsAppButtonProps = {
   price: number;
   flatType: string;
   customMessage?: string;
+  showDisclaimer?: boolean;
+  className?: string;
 };
 
 type GtagWindow = Window & {
@@ -20,6 +22,8 @@ export default function WhatsAppButton({
   price,
   flatType,
   customMessage,
+  showDisclaimer = true,
+  className,
 }: WhatsAppButtonProps) {
   const formattedPrice = `$${price.toLocaleString()}`;
   const templateMessage =
@@ -54,7 +58,7 @@ export default function WhatsAppButton({
         target="_blank"
         rel="noreferrer"
         onClick={handleClick}
-        className="min-h-[44px] px-4 py-2 bg-[#25D366] text-white rounded-lg font-medium flex items-center gap-2"
+        className={`min-h-[44px] px-4 py-2 bg-[#25D366] text-white rounded-lg font-medium flex items-center gap-2 whitespace-nowrap ${className ?? ''}`}
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none">
           <circle cx="12" cy="12" r="10" fill="#128C7E" />
@@ -71,9 +75,11 @@ export default function WhatsAppButton({
         </svg>
         WhatsApp
       </a>
-      <p className="text-xs text-gray-500 mt-1">
-        By tapping WhatsApp, you agree to be contacted by {firmName}.
-      </p>
+      {showDisclaimer ? (
+        <p className="mt-1 text-xs text-gray-500">
+          By tapping WhatsApp, you agree to be contacted by {firmName}.
+        </p>
+      ) : null}
     </div>
   );
 }

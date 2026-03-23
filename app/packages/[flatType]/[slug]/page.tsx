@@ -562,6 +562,8 @@ export default async function PackagePage({ params }: PackagePageProps) {
             price={Number(pkg.price_nett || 0)}
             flatType={pkg.flat_type}
             customMessage={firm.whatsapp_message ?? undefined}
+            showDisclaimer={false}
+            className="px-3"
           />
         </div>
       ) : null}
