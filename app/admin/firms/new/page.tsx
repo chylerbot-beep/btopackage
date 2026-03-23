@@ -21,6 +21,9 @@ type FirmFormState = {
   website_url: string;
   known_for: string;
   published: boolean;
+  featured: boolean;
+  featured_position: string;
+  featured_until: string;
 };
 
 const generateSlug = (name: string) =>
@@ -48,6 +51,9 @@ export default function NewFirmPage() {
     website_url: '',
     known_for: '',
     published: false,
+    featured: false,
+    featured_position: '',
+    featured_until: '',
   });
 
   const generatedSlug = useMemo(() => generateSlug(form.name), [form.name]);
@@ -251,6 +257,29 @@ export default function NewFirmPage() {
             {isSubmitting ? 'Creating...' : 'Create Firm'}
           </button>
         </SectionCard>
+
+        <SectionCard title="SECTION — HOMEPAGE PLACEMENT">
+          <Checkbox
+            label="Show on homepage"
+            helperText="Firm will appear in the homepage featured section regardless of trust criteria."
+            checked={form.featured}
+            onChange={(checked) => setForm((current) => ({ ...current, featured: checked }))}
+          />
+          <NumberInput
+            label="Position (1–5)"
+            value={form.featured_position}
+            min={1}
+            max={5}
+            helper="Controls the order shown on homepage. 1 = first card."
+            onChange={(value) => setForm((current) => ({ ...current, featured_position: value }))}
+          />
+          <DateInput
+            label="Show until"
+            value={form.featured_until}
+            helper="Leave blank to show indefinitely."
+            onChange={(value) => setForm((current) => ({ ...current, featured_until: value }))}
+          />
+        </SectionCard>
       </form>
     </section>
   );
@@ -317,6 +346,7 @@ function NumberInput({
   max,
   step,
   placeholder,
+  helper,
 }: {
   label: string;
   value: string;
@@ -325,9 +355,10 @@ function NumberInput({
   max?: number;
   step?: number;
   placeholder?: string;
+  helper?: string;
 }) {
   return (
-    <Field label={label}>
+    <Field label={label} helper={helper}>
       <input
         type="number"
         value={value}
@@ -335,6 +366,29 @@ function NumberInput({
         max={max}
         step={step}
         placeholder={placeholder}
+        onChange={(event) => onChange(event.target.value)}
+        className="w-full rounded border border-slate-300 px-3 py-2"
+      />
+    </Field>
+  );
+}
+
+function DateInput({
+  label,
+  value,
+  onChange,
+  helper,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  helper?: string;
+}) {
+  return (
+    <Field label={label} helper={helper}>
+      <input
+        type="date"
+        value={value}
         onChange={(event) => onChange(event.target.value)}
         className="w-full rounded border border-slate-300 px-3 py-2"
       />
