@@ -33,6 +33,7 @@ type PackageRow = {
   slug: string | null;
   flat_type: FlatType;
   price_nett: number | null;
+  image_url: string | null;
   is_featured: boolean | null;
   featured_position: number | null;
   kitchen_top_cabinet_ft: number | null;
@@ -242,7 +243,8 @@ function VerifiedCard({
 
   const isSaved = savedSlugs.has(pkg.slug);
   const allMet = [firm.hdb_license_verified, (firm.google_rating ?? 0) >= 4.5, firm.casetrust_accredited].filter(Boolean).length === 3;
-  const firstImage = firm.project_images?.[0] ?? null;
+  // Package-level hero image is canonical for featured card backgrounds.
+  const heroImage = pkg.image_url ?? firm.project_images?.[0] ?? null;
   const waHref = buildWhatsAppHref(firm, pkg);
   const [isViewButtonPressed, setIsViewButtonPressed] = useState(false);
 
@@ -261,12 +263,12 @@ function VerifiedCard({
       <div
         className="relative flex h-[168px] items-end"
         style={{
-          background: firstImage
-            ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url(${firstImage}) center/cover no-repeat`
+          background: heroImage
+            ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url(${heroImage}) center/cover no-repeat`
             : 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)',
         }}
       >
-        {!firstImage && (
+        {!heroImage && (
           <span
             className="absolute inset-0 flex items-center justify-center select-none font-extrabold text-white"
             style={{ fontSize: '44px', opacity: 0.12, fontFamily: 'var(--font-bricolage-grotesque)' }}
@@ -383,7 +385,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from('package')
         .select(`
-          id, slug, flat_type, price_nett, is_featured, featured_position,
+          id, slug, flat_type, price_nett, image_url, is_featured, featured_position,
           kitchen_top_cabinet_ft, kitchen_bottom_cabinet_ft,
           master_wardrobe_ft, common_wardrobe_room2_ft, common_wardrobe_room3_ft,
           flooring_type, countertop_material, countertop_backsplash,
