@@ -6,11 +6,9 @@ import { useRouter } from 'next/navigation';
 type FirmFormState = {
   name: string;
   slug: string;
-  pricing_model: 'fixed_package' | 'hybrid' | 'custom_only' | 'price_anchor';
   hdb_license_number: string;
   hdb_license_verified: boolean;
   casetrust_accredited: boolean;
-  bca_licensed: boolean;
   google_rating: string;
   google_review_count: string;
   years_established: string;
@@ -20,7 +18,6 @@ type FirmFormState = {
   whatsapp_number: string;
   whatsapp_message: string;
   website_url: string;
-  address: string;
   known_for: string;
   is_complete: boolean;
   completeness_score: string;
@@ -39,11 +36,9 @@ export default function NewFirmPage() {
   const [form, setForm] = useState<FirmFormState>({
     name: '',
     slug: '',
-    pricing_model: 'fixed_package',
     hdb_license_number: '',
     hdb_license_verified: false,
     casetrust_accredited: false,
-    bca_licensed: false,
     google_rating: '',
     google_review_count: '',
     years_established: '',
@@ -53,7 +48,6 @@ export default function NewFirmPage() {
     whatsapp_number: '',
     whatsapp_message: '',
     website_url: '',
-    address: '',
     known_for: '',
     is_complete: false,
     completeness_score: '',
@@ -132,25 +126,9 @@ export default function NewFirmPage() {
           />
         </Field>
 
-        <Field label="Pricing model">
-          <select
-            value={form.pricing_model}
-            onChange={(event) =>
-              setForm((current) => ({ ...current, pricing_model: event.target.value as FirmFormState['pricing_model'] }))
-            }
-            className="w-full rounded border border-slate-300 px-3 py-2"
-          >
-            <option value="fixed_package">fixed_package</option>
-            <option value="hybrid">hybrid</option>
-            <option value="custom_only">custom_only</option>
-            <option value="price_anchor">price_anchor</option>
-          </select>
-        </Field>
-
         <TextInput label="HDB license number" value={form.hdb_license_number} onChange={(value) => setForm((current) => ({ ...current, hdb_license_number: value }))} />
         <Checkbox label="HDB license verified" checked={form.hdb_license_verified} onChange={(checked) => setForm((current) => ({ ...current, hdb_license_verified: checked }))} />
         <Checkbox label="CaseTrust accredited" checked={form.casetrust_accredited} onChange={(checked) => setForm((current) => ({ ...current, casetrust_accredited: checked }))} />
-        <Checkbox label="BCA licensed" checked={form.bca_licensed} onChange={(checked) => setForm((current) => ({ ...current, bca_licensed: checked }))} />
 
         <NumberInput label="Google rating" value={form.google_rating} min={0} max={5} step={0.1} onChange={(value) => setForm((current) => ({ ...current, google_rating: value }))} />
         <NumberInput label="Google review count" value={form.google_review_count} onChange={(value) => setForm((current) => ({ ...current, google_review_count: value }))} />
@@ -174,7 +152,6 @@ export default function NewFirmPage() {
           </span>
         </Field>
         <TextInput label="Website URL" value={form.website_url} onChange={(value) => setForm((current) => ({ ...current, website_url: value }))} />
-        <TextInput label="Address" value={form.address} onChange={(value) => setForm((current) => ({ ...current, address: value }))} />
 
         <Field label="Known for">
           <textarea
