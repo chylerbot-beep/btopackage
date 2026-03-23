@@ -1,11 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
+  --primary: #1B4332;
+  --primary-light: #2D6A4F;
+  --accent: #F59E0B;
+  --background: #F9F7F4;
+  --surface: #FFFFFF;
+  --text-primary: #1A1A1A;
+  --text-secondary: #6B7280;
+  --border: #E5E0D8;
+  --featured-border: #F59E0B;
+  --verified-green: #16A34A;
+  --warning-grey: #9CA3AF;
 }
 
 body {
-  @apply bg-white text-gray-900;
+  @apply text-text-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F9F7F4;
+}
+
+a {
+  color: #1B4332;
+}
+
+a:hover {
+  color: #2D6A4F;
+}
+
+.btn,
+button,
+[role='button'],
+[role='tab'] {
+  min-height: 44px;
+  padding: 0 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
