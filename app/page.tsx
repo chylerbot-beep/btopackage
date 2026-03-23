@@ -172,6 +172,7 @@ function TrustChecklist({ firm }: { firm: FirmRow }) {
 function ScopeSection({ pkg }: { pkg: PackageRow }) {
   const { tags, overflow } = getScopeTags(pkg);
   if (tags.length === 0) return null;
+  const packageHref = pkg.slug ? `/packages/${pkg.flat_type}/${pkg.slug}` : null;
 
   return (
     <div>
@@ -187,10 +188,13 @@ function ScopeSection({ pkg }: { pkg: PackageRow }) {
             {tag}
           </span>
         ))}
-        {overflow > 0 && (
-          <span className="rounded-[4px] border border-[#E5E7EB] bg-[#F3F4F6] px-[10px] py-[4px] text-[13px] text-[#9CA3AF]">
+        {overflow > 0 && packageHref && (
+          <Link
+            href={packageHref}
+            className="rounded-[4px] border border-[#E5E7EB] bg-[#F3F4F6] px-[10px] py-[4px] text-[13px] text-[#9CA3AF] transition-colors active:border-[#F59E0B] active:bg-[#F59E0B] active:text-[#78350F]"
+          >
             +{overflow} more
-          </span>
+          </Link>
         )}
       </div>
     </div>
@@ -315,7 +319,7 @@ function VerifiedCard({
         <div className="mt-1 flex flex-col gap-[5px]">
           <Link
             href={`/packages/${pkg.flat_type}/${pkg.slug}`}
-            className="block rounded-[9px] px-[12px] py-[9px] text-center text-[13px] font-semibold transition-colors"
+            className="block rounded-[9px] px-[12px] py-[9px] text-center text-[13px] font-semibold transition-colors active:border-[#F59E0B] active:bg-[#F59E0B] active:text-[#78350F]"
             style={allMet ? { background: '#1B4332', color: '#fff' } : { background: '#fff', border: '1.5px solid #1B4332', color: '#1B4332' }}
           >
             View Full Package →
@@ -426,7 +430,7 @@ export default function Home() {
   return (
     <main>
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="w-full bg-[#1B4332] px-4 py-12">
+      <section className="w-full bg-[#1B4332] px-3 py-9 md:px-4 md:py-12">
         <div className="mx-auto w-full max-w-3xl">
           <h1
             className="text-4xl font-extrabold text-white md:text-5xl"
