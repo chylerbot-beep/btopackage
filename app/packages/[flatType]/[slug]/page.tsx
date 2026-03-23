@@ -44,7 +44,7 @@ const getHeightLabel = (value: boolean | null) => {
 const ACCORDION_HEADER_CLASS =
   'flex cursor-pointer items-center justify-between p-4 font-semibold text-[#1A1A1A]';
 const ACCORDION_CONTENT_CLASS =
-  'max-h-[1200px] overflow-hidden border-t border-[#F3EFE9] p-4 pt-0 transition-[max-height] duration-300 ease-in-out peer-checked:max-h-0';
+  'max-h-0 overflow-hidden border-t border-[#F3EFE9] px-4 transition-[max-height,padding] duration-300 ease-in-out peer-checked:max-h-[1200px] peer-checked:py-4 peer-checked:pt-0';
 const ROW_CLASS = 'flex justify-between gap-4 border-b border-[#F9F7F4] py-2 text-sm';
 
 async function fetchPackage(flatType: string, slug: string) {
@@ -135,10 +135,18 @@ function Accordion({
 }) {
   return (
     <section className="mx-4 mb-3 overflow-hidden rounded-xl border border-[#E5E0D8] bg-white">
-      <input id={id} type="checkbox" className="peer sr-only" />
+      <input id={id} type="checkbox" defaultChecked className="peer sr-only" />
       <label htmlFor={id} className={ACCORDION_HEADER_CLASS}>
         {title}
-        <span className="text-xl leading-none text-[#6B7280]">+</span>
+        <span aria-hidden="true" className="text-xl leading-none text-[#6B7280] peer-checked:hidden">
+          +
+        </span>
+        <span
+          aria-hidden="true"
+          className="hidden text-xl leading-none text-[#6B7280] peer-checked:inline"
+        >
+          −
+        </span>
       </label>
       <div className={ACCORDION_CONTENT_CLASS}>{children}</div>
     </section>
@@ -193,8 +201,15 @@ export default async function PackagePage({ params }: PackagePageProps) {
     pkg.excl_electrical_wiring ? 'Electrical work' : null,
     pkg.excl_plumbing ? 'Plumbing works' : null,
     pkg.excl_deep_cleaning ? 'Deep cleaning' : null,
+    pkg.excl_hdb_permit_fee ? 'HDB permit fee' : null,
     pkg.excl_flooring_bedrooms ? 'Flooring (bedrooms)' : null,
+    pkg.false_ceiling_included === false ? 'False ceiling' : null,
   ].filter(Boolean) as string[];
+
+  const freebiesItems = (pkg.freebies ?? '')
+    .split('·')
+    .map((item: string) => item.trim())
+    .filter((item: string) => item.length > 0);
 
   const carpentryRows = [
     pkg.kitchen_top_cabinet_ft
@@ -224,7 +239,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
   ].filter(Boolean) as Array<{ label: string; value: string }>;
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-2xl">
       <div className="px-4 pt-4 text-sm text-[#6B7280]">
         <Link href="/" className="hover:text-[#1A1A1A]">
           Home
@@ -382,7 +397,11 @@ export default async function PackagePage({ params }: PackagePageProps) {
           <div className={ROW_CLASS}>
             <span className="text-[#6B7280]">Paint</span>
             <span className="font-medium text-[#1A1A1A]">
-              {pkg.paint_brand ? `${pkg.paint_brand} · ${pkg.paint_colours ?? '-'} colours` : 'Not included'}
+              {pkg.paint_brand
+                ? pkg.paint_colours && pkg.paint_colours > 0
+                  ? `${pkg.paint_brand} · ${pkg.paint_colours} colours`
+                  : pkg.paint_brand
+                : 'Not included'}
             </span>
           </div>
           <div className={ROW_CLASS}>
@@ -409,10 +428,16 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
       </section>
 
-      {pkg.freebies && pkg.freebies.trim().length > 0 ? (
+      {freebiesItems.length > 0 ? (
         <section className="mx-4 mt-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
           <p className="text-[10.5px] font-bold uppercase text-[#B45309]">🎁 Freebies</p>
-          <p className="text-sm text-[#1A1A1A]">{pkg.freebies}</p>
+          <div>
+            {freebiesItems.map((item: string, index: number) => (
+              <p key={`${item}-${index}`} className="py-1 text-sm text-[#1A1A1A]">
+                🎁 {item}
+              </p>
+            ))}
+          </div>
         </section>
       ) : null}
 
@@ -456,6 +481,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
           />
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
