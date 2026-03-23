@@ -22,7 +22,6 @@ type PackageForm = {
   freebies_3: string;
   freebies_4: string;
   freebies_5: string;
-  package_details: string;
   summary: string;
   description_carpentry: string;
   description_finishes: string;
@@ -235,14 +234,6 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
                 <input value={form.freebies_5} onChange={(event) => setForm((current) => ({ ...current, freebies_5: event.target.value }))} className="w-full rounded border border-slate-300 px-3 py-2 md:col-span-2" placeholder="Freebie 5" />
               </div>
             </div>
-            <Field label="Package details (what's included)" className="md:col-span-2">
-              <textarea
-                value={form.package_details}
-                onChange={(event) => setForm((current) => ({ ...current, package_details: event.target.value }))}
-                className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
-                placeholder="Describe what this package includes."
-              />
-            </Field>
           </div>
         </Section>
 

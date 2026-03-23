@@ -37,7 +37,6 @@ function mapPackageToForm(pkg: PackageRow): PackageForm {
     freebies_3: freebies[2] ?? '',
     freebies_4: freebies[3] ?? '',
     freebies_5: freebies[4] ?? '',
-    package_details: toStringValue(pkg.package_details),
     summary: toStringValue(pkg.summary),
     description_carpentry: toStringValue(pkg.description_carpentry),
     description_finishes: toStringValue(pkg.description_finishes),
