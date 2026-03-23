@@ -1,0 +1,15 @@
+# Btopackage.sg
+> Singapore's most transparent BTO renovation package comparison directory.
+
+Priority pages:
+- /
+- /packages/3-room
+- /packages/4-room
+- /packages/5-room
+- /estates
+- /guides
+
+Disallow:
+- /admin
+- /verify
+- /submit

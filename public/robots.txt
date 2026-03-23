@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /verify
+Disallow: /submit
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+Sitemap: https://btopackage.sg/sitemap.xml
