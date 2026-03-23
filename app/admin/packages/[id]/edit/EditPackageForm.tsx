@@ -23,6 +23,11 @@ type PackageForm = {
   freebies_4: string;
   freebies_5: string;
   package_details: string;
+  summary: string;
+  description_carpentry: string;
+  description_finishes: string;
+  description_works: string;
+  description_service: string;
   kitchen_top_cabinet_ft: string;
   kitchen_bottom_cabinet_ft: string;
   master_wardrobe_ft: string;
@@ -236,6 +241,51 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
                 onChange={(event) => setForm((current) => ({ ...current, package_details: event.target.value }))}
                 className="min-h-24 w-full rounded border border-slate-300 px-3 py-2"
                 placeholder="Describe what this package includes."
+              />
+            </Field>
+          </div>
+        </Section>
+
+        <Section title="SECTION A2 — DESCRIPTIONS (SEO)">
+          <div className="grid gap-4">
+            <Field label="Package summary" className="md:col-span-2">
+              <textarea
+                value={form.summary}
+                onChange={(e) => setForm((c) => ({ ...c, summary: e.target.value }))}
+                className="min-h-[80px] w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="2–3 sentence overview. This is the primary text shown to search engines and AI."
+              />
+            </Field>
+            <Field label="Carpentry description" className="md:col-span-2">
+              <textarea
+                value={form.description_carpentry}
+                onChange={(e) => setForm((c) => ({ ...c, description_carpentry: e.target.value }))}
+                className="min-h-[80px] w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="Describe the carpentry scope — footage, materials, highlights."
+              />
+            </Field>
+            <Field label="Finishes description" className="md:col-span-2">
+              <textarea
+                value={form.description_finishes}
+                onChange={(e) => setForm((c) => ({ ...c, description_finishes: e.target.value }))}
+                className="min-h-[80px] w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="Describe flooring, countertop, backsplash, shower screens."
+              />
+            </Field>
+            <Field label="Works description" className="md:col-span-2">
+              <textarea
+                value={form.description_works}
+                onChange={(e) => setForm((c) => ({ ...c, description_works: e.target.value }))}
+                className="min-h-[80px] w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="Describe electrical, plumbing, false ceiling, doors, paint, cleaning."
+              />
+            </Field>
+            <Field label="Service & support description" className="md:col-span-2">
+              <textarea
+                value={form.description_service}
+                onChange={(e) => setForm((c) => ({ ...c, description_service: e.target.value }))}
+                className="min-h-[80px] w-full rounded border border-slate-300 px-3 py-2"
+                placeholder="Describe 3D render, warranty, after-sales support."
               />
             </Field>
           </div>
