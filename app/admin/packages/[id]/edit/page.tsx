@@ -28,6 +28,7 @@ function mapPackageToForm(pkg: PackageRow): PackageForm {
     promotion_text: toStringValue(pkg.promotion_text),
     promotion_expiry: typeof pkg.promotion_expiry === 'string' ? pkg.promotion_expiry.split('T')[0] : '',
     freebies: toStringValue(pkg.freebies),
+    package_details: toStringValue(pkg.package_details),
     kitchen_top_cabinet_ft: toStringValue(pkg.kitchen_top_cabinet_ft),
     kitchen_bottom_cabinet_ft: toStringValue(pkg.kitchen_bottom_cabinet_ft),
     master_wardrobe_ft: toStringValue(pkg.master_wardrobe_ft),

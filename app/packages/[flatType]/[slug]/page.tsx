@@ -30,18 +30,6 @@ const isValidFlatType = (flatType: string): flatType is FlatType => {
 
 const formatIncludedLabel = (included: boolean | null) => (included ? 'Included' : 'Not included');
 
-const joinWithAnd = (items: string[]) => {
-  if (items.length <= 1) {
-    return items.join('');
-  }
-
-  if (items.length === 2) {
-    return `${items[0]} and ${items[1]}`;
-  }
-
-  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
-};
-
 const getHeightLabel = (value: boolean | null) => {
   if (value === true) {
     return '(full height)';
@@ -80,7 +68,7 @@ async function fetchPackage(flatType: string, slug: string) {
       cleaning_and_haulage_included,
       paint_brand, paint_colours, paint_coverage,
       render_3d, render_revisions, warranty_months,
-      freebies, promotion_text, promotion_expiry,
+      freebies, package_details, promotion_text, promotion_expiry,
       excl_kitchen_top_cabinet, excl_kitchen_bottom_cabinet,
       excl_master_wardrobe, excl_common_wardrobe_room2, excl_common_wardrobe_room3,
       excl_electrical_wiring, excl_plumbing, excl_deep_cleaning,
@@ -205,27 +193,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
   }
   const displayFlatType = toDisplayFlatType(flatType);
   const priceLabel = Number(pkg.price_nett || 0).toLocaleString('en-SG', { maximumFractionDigits: 0 });
-  const totalKitchenCarpentryFt =
-    Number(pkg.kitchen_top_cabinet_ft || 0) + Number(pkg.kitchen_bottom_cabinet_ft || 0);
-  const includedItems = [
-    Number(pkg.kitchen_top_cabinet_ft || 0) > 0 ? `${totalKitchenCarpentryFt}ft kitchen carpentry` : null,
-    pkg.countertop_material ? `${pkg.countertop_material} countertop` : null,
-    Number(pkg.master_wardrobe_ft || 0) > 0 ? 'master wardrobe' : null,
-    Number(pkg.common_wardrobe_room2_ft || 0) > 0 || Number(pkg.common_wardrobe_room3_ft || 0) > 0
-      ? 'common bedroom wardrobes'
-      : null,
-    pkg.flooring_type ? `${pkg.flooring_type} flooring` : null,
-    pkg.paint_brand ? `${pkg.paint_brand} paint ${pkg.paint_coverage ?? ''}`.trim() : null,
-    pkg.doors_included ? `${pkg.door_count ?? 0} doors` : null,
-    Number(pkg.shower_screen_count || 0) > 0 ? `${pkg.shower_screen_count} shower screens` : null,
-    pkg.plumbing_included ? 'standard plumbing' : null,
-    pkg.electrical_included ? 'electrical' : null,
-    pkg.screeding_included ? 'cement screeding' : null,
-    pkg.cleaning_and_haulage_included ? 'general cleaning' : null,
-  ].filter(Boolean) as string[];
-  const geoSentence = `The ${firm.name} ${pkg.flat_type} BTO package is priced at $${Number(
-    pkg.price_nett || 0
-  ).toLocaleString('en-SG')}, covering ${includedItems.length > 0 ? joinWithAnd(includedItems) : 'the listed scope'}.`;
+  const packageDetails = pkg.package_details?.trim() || null;
 
   const carpentryAndFinishesExclusions = [
     pkg.excl_kitchen_top_cabinet ? 'Kitchen top cabinets' : null,
@@ -323,7 +291,9 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
       <section>
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
-        <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{geoSentence}</p>
+        <p className="mb-4 whitespace-pre-line px-4 text-sm leading-relaxed text-[#374151]">
+          {packageDetails ?? 'Package details are not available yet.'}
+        </p>
       </section>
 
       <section>
