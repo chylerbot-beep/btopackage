@@ -22,7 +22,7 @@ export default function PriceContextBar({ flatType }: PriceContextBarProps) {
 
   return (
     <div
-      className="w-full px-4 py-2"
+      className="w-full px-4 py-3"
       style={{
         backgroundColor: '#F0F7F4',
         fontFamily: 'Plus Jakarta Sans, sans-serif',

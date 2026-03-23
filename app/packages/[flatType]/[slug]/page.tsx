@@ -29,6 +29,18 @@ const isValidFlatType = (flatType: string): flatType is FlatType => {
 
 const formatIncludedLabel = (included: boolean | null) => (included ? 'Included' : 'Not included');
 
+const joinWithAnd = (items: string[]) => {
+  if (items.length <= 1) {
+    return items.join('');
+  }
+
+  if (items.length === 2) {
+    return `${items[0]} and ${items[1]}`;
+  }
+
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+};
+
 const getHeightLabel = (value: boolean | null) => {
   if (value === true) {
     return '(full height)';
@@ -192,18 +204,53 @@ export default async function PackagePage({ params }: PackagePageProps) {
   }
   const displayFlatType = toDisplayFlatType(flatType);
   const priceLabel = Number(pkg.price_nett || 0).toLocaleString('en-SG', { maximumFractionDigits: 0 });
-  const notIncludedItems = [
+  const totalKitchenCarpentryFt =
+    Number(pkg.kitchen_top_cabinet_ft || 0) + Number(pkg.kitchen_bottom_cabinet_ft || 0);
+  const includedItems = [
+    Number(pkg.kitchen_top_cabinet_ft || 0) > 0 ? `${totalKitchenCarpentryFt}ft kitchen carpentry` : null,
+    pkg.countertop_material ? `${pkg.countertop_material} countertop` : null,
+    Number(pkg.master_wardrobe_ft || 0) > 0 ? 'master wardrobe' : null,
+    Number(pkg.common_wardrobe_room2_ft || 0) > 0 || Number(pkg.common_wardrobe_room3_ft || 0) > 0
+      ? 'common bedroom wardrobes'
+      : null,
+    pkg.flooring_type ? `${pkg.flooring_type} flooring` : null,
+    pkg.paint_brand ? `${pkg.paint_brand} paint ${pkg.paint_coverage ?? ''}`.trim() : null,
+    pkg.doors_included ? `${pkg.door_count ?? 0} doors` : null,
+    Number(pkg.shower_screen_count || 0) > 0 ? `${pkg.shower_screen_count} shower screens` : null,
+    pkg.plumbing_included ? 'standard plumbing' : null,
+    pkg.electrical_included ? 'electrical' : null,
+    pkg.screeding_included ? 'cement screeding' : null,
+    pkg.cleaning_and_haulage_included ? 'general cleaning' : null,
+  ].filter(Boolean) as string[];
+  const geoSentence = `The ${firm.name} ${pkg.flat_type} BTO package is priced at $${Number(
+    pkg.price_nett || 0
+  ).toLocaleString('en-SG')}, covering ${includedItems.length > 0 ? joinWithAnd(includedItems) : 'the listed scope'}.`;
+
+  const carpentryAndFinishesExclusions = [
     pkg.excl_kitchen_top_cabinet ? 'Kitchen top cabinets' : null,
     pkg.excl_kitchen_bottom_cabinet ? 'Kitchen bottom cabinets' : null,
     pkg.excl_master_wardrobe ? 'Master bedroom wardrobe' : null,
     pkg.excl_common_wardrobe_room2 ? 'Common room 2 wardrobe' : null,
     pkg.excl_common_wardrobe_room3 ? 'Common room 3 wardrobe' : null,
+    pkg.excl_flooring_bedrooms ? 'Flooring bedrooms' : null,
+    pkg.countertop_backsplash === false ? 'Countertop backsplash' : null,
+    pkg.screeding_included === false && pkg.flooring_type?.toLowerCase().includes('vinyl')
+      ? 'Cement screeding'
+      : null,
+  ].filter(Boolean) as string[];
+
+  const worksExclusions = [
     pkg.excl_electrical_wiring ? 'Electrical work' : null,
     pkg.excl_plumbing ? 'Plumbing works' : null,
-    pkg.excl_deep_cleaning ? 'Deep cleaning' : null,
-    pkg.excl_hdb_permit_fee ? 'HDB permit fee' : null,
-    pkg.excl_flooring_bedrooms ? 'Flooring (bedrooms)' : null,
     pkg.false_ceiling_included === false ? 'False ceiling' : null,
+    pkg.doors_included === false ? 'Bedroom & toilet doors' : null,
+    pkg.excl_deep_cleaning ? 'Deep cleaning' : null,
+    pkg.cleaning_and_haulage_included === false ? 'General cleaning & haulage' : null,
+  ].filter(Boolean) as string[];
+
+  const serviceAndSupportExclusions = [
+    pkg.warranty_months == null ? 'Warranty not stated' : null,
+    pkg.render_3d === false ? '3D render not included' : null,
   ].filter(Boolean) as string[];
 
   const freebiesItems = (pkg.freebies ?? '')
@@ -292,18 +339,54 @@ export default async function PackagePage({ params }: PackagePageProps) {
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">Not covered by this package</h2>
         <div className="mx-4 rounded-r-xl border-l-4 border-[#EF4444] bg-white p-4">
           <div className="space-y-2">
-            {notIncludedItems.length > 0 ? (
-              notIncludedItems.map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-sm bg-[#FEF2F2] text-[10px] font-bold text-[#EF4444]">
-                    ×
-                  </span>
-                  <span className="text-sm text-[#374151]">{item}</span>
+            {carpentryAndFinishesExclusions.length > 0 ? (
+              <div>
+                <p className="mb-2 mt-3 text-[10px] font-bold uppercase tracking-widest text-[#9CA3AF]">
+                  Carpentry &amp; Finishes
+                </p>
+                <div className="space-y-2">
+                  {carpentryAndFinishesExclusions.map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-[#EF4444]">✕</span>
+                      <span className="text-sm text-[#374151]">{item}</span>
+                    </div>
+                  ))}
                 </div>
-              ))
-            ) : (
+              </div>
+            ) : null}
+            {worksExclusions.length > 0 ? (
+              <div>
+                <p className="mb-2 mt-3 text-[10px] font-bold uppercase tracking-widest text-[#9CA3AF]">Works</p>
+                <div className="space-y-2">
+                  {worksExclusions.map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-[#EF4444]">✕</span>
+                      <span className="text-sm text-[#374151]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {serviceAndSupportExclusions.length > 0 ? (
+              <div>
+                <p className="mb-2 mt-3 text-[10px] font-bold uppercase tracking-widest text-[#9CA3AF]">
+                  Service &amp; Support
+                </p>
+                <div className="space-y-2">
+                  {serviceAndSupportExclusions.map((item) => (
+                    <div key={item} className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-[#EF4444]">✕</span>
+                      <span className="text-sm text-[#374151]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {carpentryAndFinishesExclusions.length === 0 &&
+            worksExclusions.length === 0 &&
+            serviceAndSupportExclusions.length === 0 ? (
               <p className="text-sm text-[#374151]">No exclusions were explicitly listed.</p>
-            )}
+            ) : null}
             {pkg.not_included_notes ? (
               <p className="pt-1 text-sm italic text-[#9CA3AF]">{pkg.not_included_notes}</p>
             ) : null}
@@ -319,6 +402,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
       <section>
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
+        <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{geoSentence}</p>
 
         <Accordion id="accordion-carpentry" title="Carpentry">
           {carpentryRows.map((row) => (
