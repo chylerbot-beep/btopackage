@@ -240,7 +240,7 @@ function TrustPill({ firm }: { firm: FirmRow }) {
       className="inline-block rounded-[20px] px-[9px] py-[2px] text-[12px] font-medium"
       style={{ border: '1.5px solid #D1D5DB', color: '#9CA3AF' }}
     >
-      {metCount} of 3 met
+      {metCount}/3 criteria met
     </span>
   );
 }
