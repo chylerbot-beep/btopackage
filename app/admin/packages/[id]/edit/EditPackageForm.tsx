@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { FormEvent, ReactNode, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { normalizeAndValidateImageUrl, normalizeAndValidateImageUrls } from '@/lib/image-url';
+import { normalizeAndValidateImageUrl } from '@/lib/image-url';
 
 type FirmOption = { id: string; name: string };
 
@@ -65,7 +65,6 @@ type PackageForm = {
   excl_flooring_bedrooms: boolean;
   not_included_notes: string;
   image_url: string;
-  images: string[];
   verified_by: 'staff' | 'self-reported';
   status: 'active' | 'greyed_out';
   featured: boolean;
@@ -102,8 +101,6 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
 
     const imageValidation = normalizeAndValidateImageUrl(form.image_url);
     if (imageValidation.error) nextErrors.image_url = imageValidation.error;
-    const imagesValidation = normalizeAndValidateImageUrls(form.images, 6);
-    if (imagesValidation.error) nextErrors.images = imagesValidation.error;
 
     const hasExclusion =
       form.excl_kitchen_top_cabinet ||
@@ -132,7 +129,6 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
     const payload = {
       ...form,
       image_url: imageValidation.normalizedUrl ?? '',
-      images: imagesValidation.normalizedUrls,
       master_wardrobe_full_height: toHeightValue(form.master_wardrobe_full_height),
       common_wardrobe_room2_full_height: toHeightValue(form.common_wardrobe_room2_full_height),
       common_wardrobe_room3_full_height: toHeightValue(form.common_wardrobe_room3_full_height),
@@ -322,29 +318,12 @@ export default function EditPackageForm({ packageId, firms, initialForm }: EditP
         </Section>
 
         <Section title="SECTION G — IMAGES">
-          <div className="grid gap-4 md:grid-cols-2">
-            <TextInput
-              label="Hero image URL"
-              value={form.image_url}
-              error={errors.image_url}
-              onChange={(value) => setForm((current) => ({ ...current, image_url: value }))}
-            />
-            {Array.from({ length: 6 }).map((_, index) => (
-              <TextInput
-                key={`additional-image-${index + 1}`}
-                label={`Additional image URL ${index + 1}`}
-                value={form.images[index] ?? ''}
-                onChange={(value) =>
-                  setForm((current) => {
-                    const nextImages = [...current.images];
-                    nextImages[index] = value;
-                    return { ...current, images: nextImages };
-                  })
-                }
-              />
-            ))}
-          </div>
-          {errors.images ? <p className="mt-2 text-xs text-red-600">{errors.images}</p> : null}
+          <TextInput
+            label="Hero image URL"
+            value={form.image_url}
+            error={errors.image_url}
+            onChange={(value) => setForm((current) => ({ ...current, image_url: value }))}
+          />
         </Section>
 
         <Section title="SECTION H — VERIFICATION">

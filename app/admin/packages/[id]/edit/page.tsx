@@ -18,14 +18,6 @@ function toHeightSelection(value: unknown): HeightSelection {
   return Boolean(value) ? 'true' : 'false';
 }
 
-function toImageUrls(value: unknown): string[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value.filter((item): item is string => typeof item === 'string');
-}
-
 function mapPackageToForm(pkg: PackageRow): PackageForm {
   return {
     firm_id: toStringValue(pkg.firm_id),
@@ -83,7 +75,6 @@ function mapPackageToForm(pkg: PackageRow): PackageForm {
     excl_flooring_bedrooms: Boolean(pkg.excl_flooring_bedrooms),
     not_included_notes: toStringValue(pkg.not_included_notes),
     image_url: toStringValue(pkg.image_url),
-    images: toImageUrls(pkg.images),
     verified_by: (pkg.verified_by as PackageForm['verified_by']) ?? 'staff',
     status: (pkg.status as PackageForm['status']) ?? 'active',
     featured: Boolean(pkg.is_featured),

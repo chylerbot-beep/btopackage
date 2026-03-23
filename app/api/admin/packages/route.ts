@@ -1,7 +1,7 @@
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { normalizeAndValidateImageUrl, normalizeAndValidateImageUrls } from '@/lib/image-url';
+import { normalizeAndValidateImageUrl } from '@/lib/image-url';
 import { createServerClient } from '@/lib/supabase/server';
 
 async function requireAdmin() {
@@ -78,14 +78,9 @@ export async function POST(request: Request) {
   }
 
   const normalizedImageResult = normalizeAndValidateImageUrl(body?.image_url);
-  const normalizedImagesResult = normalizeAndValidateImageUrls(body?.images, 6);
 
   if (normalizedImageResult.error) {
     fieldErrors.image_url = normalizedImageResult.error;
-  }
-
-  if (normalizedImagesResult.error) {
-    fieldErrors.images = normalizedImagesResult.error;
   }
 
   const hasExclusion =
@@ -175,7 +170,6 @@ export async function POST(request: Request) {
     excl_flooring_bedrooms: Boolean(body.excl_flooring_bedrooms),
     not_included_notes: trimToNull(body.not_included_notes),
     image_url: normalizedImageResult.normalizedUrl,
-    images: normalizedImagesResult.normalizedUrls,
     verified_by: trimToNull(body.verified_by),
     status: trimToNull(body.status),
     is_featured: Boolean(body.featured),
