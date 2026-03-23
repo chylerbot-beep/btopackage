@@ -17,6 +17,14 @@ type PackagePageProps = {
   };
 };
 
+type PackageDescriptionFields = {
+  summary: string | null;
+  description_carpentry: string | null;
+  description_finishes: string | null;
+  description_works: string | null;
+  description_service: string | null;
+};
+
 export const revalidate = 3600;
 
 const toDisplayFlatType = (flatType: string) => {
@@ -47,6 +55,12 @@ const ACCORDION_HEADER_CLASS =
 const ACCORDION_CONTENT_CLASS =
   'max-h-0 overflow-hidden border-t border-[#F3EFE9] px-4 transition-[max-height,padding] duration-300 ease-in-out peer-checked:max-h-[1200px] peer-checked:py-4 peer-checked:pt-0';
 const ROW_CLASS = 'flex justify-between gap-4 border-b border-[#F9F7F4] py-2 text-sm';
+const DESCRIPTION_CLASS = 'mb-3 text-sm text-[#6B7280]';
+
+const getNonEmptyText = (value: string | null | undefined) => {
+  const trimmed = value?.trim();
+  return trimmed && trimmed.length > 0 ? trimmed : null;
+};
 
 async function fetchPackage(flatType: string, slug: string) {
   const supabase = await createServerClient();
@@ -69,6 +83,7 @@ async function fetchPackage(flatType: string, slug: string) {
       paint_brand, paint_colours, paint_coverage,
       render_3d, render_revisions, warranty_months,
       freebies, package_details, promotion_text, promotion_expiry,
+      summary, description_carpentry, description_finishes, description_works, description_service,
       excl_kitchen_top_cabinet, excl_kitchen_bottom_cabinet,
       excl_master_wardrobe, excl_common_wardrobe_room2, excl_common_wardrobe_room3,
       excl_electrical_wiring, excl_plumbing, excl_deep_cleaning,
@@ -90,7 +105,7 @@ async function fetchPackage(flatType: string, slug: string) {
     .limit(1)
     .maybeSingle();
 
-  return pkg;
+  return pkg as (typeof pkg & PackageDescriptionFields) | null;
 }
 
 function getFirm(pkg: Awaited<ReturnType<typeof fetchPackage>>) {
@@ -195,7 +210,11 @@ export default async function PackagePage({ params }: PackagePageProps) {
   }
   const displayFlatType = toDisplayFlatType(flatType);
   const priceLabel = Number(pkg.price_nett || 0).toLocaleString('en-SG', { maximumFractionDigits: 0 });
-  const packageDetails = pkg.package_details?.trim() || null;
+  const summary = getNonEmptyText(pkg.summary);
+  const carpentryDescription = getNonEmptyText(pkg.description_carpentry);
+  const finishesDescription = getNonEmptyText(pkg.description_finishes);
+  const worksDescription = getNonEmptyText(pkg.description_works);
+  const serviceDescription = getNonEmptyText(pkg.description_service);
 
   const carpentryAndFinishesExclusions = [
     pkg.excl_kitchen_top_cabinet ? 'Kitchen top cabinets' : null,
@@ -293,9 +312,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
 
       <section>
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
-        <p className="mb-4 whitespace-pre-line px-4 text-sm leading-relaxed text-[#374151]">
-          {packageDetails ?? 'Package details are not available yet.'}
-        </p>
+        {summary ? <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{summary}</p> : null}
       </section>
 
       <section>
@@ -379,6 +396,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         ) : null}
 
         <Accordion id="accordion-carpentry" title="Carpentry">
+          {carpentryDescription ? <p className={DESCRIPTION_CLASS}>{carpentryDescription}</p> : null}
           {carpentryRows.map((row) => (
             <div key={row.label} className={ROW_CLASS}>
               <span className="text-[#6B7280]">{row.label}</span>
@@ -394,6 +412,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-finishes" title="Finishes">
+          {finishesDescription ? <p className={DESCRIPTION_CLASS}>{finishesDescription}</p> : null}
           {pkg.flooring_type || pkg.flooring_rooms_covered ? (
             <div className={ROW_CLASS}>
               <span className="text-[#6B7280]">Flooring</span>
@@ -432,6 +451,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-works" title="Works">
+          {worksDescription ? <p className={DESCRIPTION_CLASS}>{worksDescription}</p> : null}
           <div className={ROW_CLASS}>
             <span className="text-[#6B7280]">Electrical work</span>
             <span className="font-medium text-[#1A1A1A]">{formatIncludedLabel(pkg.electrical_included)}</span>
@@ -471,6 +491,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
         </Accordion>
 
         <Accordion id="accordion-service" title="Service & Support">
+          {serviceDescription ? <p className={DESCRIPTION_CLASS}>{serviceDescription}</p> : null}
           <div className={ROW_CLASS}>
             <span className="text-[#6B7280]">3D render</span>
             <span className="font-medium text-[#1A1A1A]">
