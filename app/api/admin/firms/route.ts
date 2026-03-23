@@ -101,11 +101,9 @@ export async function POST(request: Request) {
   const payload = {
     name,
     slug,
-    pricing_model: body?.pricing_model || null,
     hdb_license_number: body?.hdb_license_number || null,
     hdb_license_verified: Boolean(body?.hdb_license_verified),
     casetrust_accredited: Boolean(body?.casetrust_accredited),
-    bca_licensed: Boolean(body?.bca_licensed),
     google_rating: body?.google_rating === '' || body?.google_rating == null ? null : Number(body.google_rating),
     google_review_count:
       body?.google_review_count === '' || body?.google_review_count == null ? null : Number(body.google_review_count),
@@ -118,7 +116,6 @@ export async function POST(request: Request) {
     whatsapp_number: body?.whatsapp_number || null,
     whatsapp_message: body?.whatsapp_message || null,
     website_url: body?.website_url || null,
-    address: body?.address || null,
     known_for: body?.known_for || null,
     is_complete: Boolean(body?.is_complete),
     completeness_score:
