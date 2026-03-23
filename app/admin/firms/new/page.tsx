@@ -19,8 +19,7 @@ type FirmFormState = {
   whatsapp_message: string;
   website_url: string;
   known_for: string;
-  is_complete: boolean;
-  completeness_score: string;
+  published: boolean;
 };
 
 const toSlug = (value: string) =>
@@ -49,8 +48,7 @@ export default function NewFirmPage() {
     whatsapp_message: '',
     website_url: '',
     known_for: '',
-    is_complete: false,
-    completeness_score: '',
+    published: false,
   });
 
   const generatedSlug = useMemo(() => toSlug(form.name), [form.name]);
@@ -161,8 +159,12 @@ export default function NewFirmPage() {
           />
         </Field>
 
-        <Checkbox label="Is complete" checked={form.is_complete} onChange={(checked) => setForm((current) => ({ ...current, is_complete: checked }))} />
-        <NumberInput label="Completeness score" value={form.completeness_score} min={0} max={100} onChange={(value) => setForm((current) => ({ ...current, completeness_score: value }))} />
+        <Toggle
+          label="Published"
+          helperText="Only published firms appear on the site."
+          checked={form.published}
+          onChange={(checked) => setForm((current) => ({ ...current, published: checked }))}
+        />
 
         {errors.form ? <p className="text-sm text-red-600">{errors.form}</p> : null}
 
@@ -239,6 +241,29 @@ function Checkbox({ label, checked, onChange }: { label: string; checked: boolea
     <label className="flex items-center gap-2 text-sm text-slate-700">
       <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
       <span>{label}</span>
+    </label>
+  );
+}
+
+function Toggle({
+  label,
+  helperText,
+  checked,
+  onChange,
+}: {
+  label: string;
+  helperText?: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label className="block space-y-1 text-sm text-slate-700">
+      <span>{label}</span>
+      <div className="flex items-center gap-2">
+        <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
+        <span>{checked ? 'On' : 'Off'}</span>
+      </div>
+      {helperText ? <span className="text-xs text-slate-500">{helperText}</span> : null}
     </label>
   );
 }

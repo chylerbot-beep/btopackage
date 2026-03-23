@@ -41,7 +41,7 @@ export default async function AdminFirmsPage() {
               <th className="px-4 py-3 font-medium">HDB Verified</th>
               <th className="px-4 py-3 font-medium">CaseTrust</th>
               <th className="px-4 py-3 font-medium">Google Rating</th>
-              <th className="px-4 py-3 font-medium">Complete</th>
+              <th className="px-4 py-3 font-medium">Published</th>
               <th className="px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
@@ -52,7 +52,11 @@ export default async function AdminFirmsPage() {
                 <td className="px-4 py-3">{firm.hdb_license_verified ? 'Yes' : 'No'}</td>
                 <td className="px-4 py-3">{firm.casetrust_accredited ? 'Yes' : 'No'}</td>
                 <td className="px-4 py-3">{typeof firm.google_rating === 'number' ? firm.google_rating.toFixed(1) : '-'}</td>
-                <td className="px-4 py-3">{firm.is_complete ? 'Yes' : 'No'}</td>
+                <td className="px-4 py-3">
+                  <span className={firm.is_complete ? 'text-green-600' : 'text-slate-500'}>
+                    {firm.is_complete ? 'Live' : 'Draft'}
+                  </span>
+                </td>
                 <td className="px-4 py-3">
                   <Link
                     href={`/admin/firms/${firm.id}/edit`}
