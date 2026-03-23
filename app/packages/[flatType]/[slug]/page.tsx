@@ -322,6 +322,11 @@ export default async function PackagePage({ params }: PackagePageProps) {
       <PriceContextBar flatType={flatType} />
 
       <section>
+        <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
+        <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{geoSentence}</p>
+      </section>
+
+      <section>
         <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">Not covered by this package</h2>
         <div className="mx-4 rounded-r-xl border-l-4 border-[#EF4444] bg-white p-4">
           <div className="space-y-2">
@@ -387,9 +392,6 @@ export default async function PackagePage({ params }: PackagePageProps) {
       </section>
 
       <section>
-        <h2 className="mb-3 mt-8 px-4 text-base font-semibold text-[#1A1A1A]">What&apos;s included in this package</h2>
-        <p className="mb-4 px-4 text-sm leading-relaxed text-[#374151]">{geoSentence}</p>
-
         {freebiesItems.length > 0 ? (
           <section className="mx-4 mb-4 rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-4">
             <p className="text-[12px] font-bold uppercase text-[#B45309]">Freebies</p>
