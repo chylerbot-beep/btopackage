@@ -112,6 +112,16 @@ function getScopeTags(pkg: PackageRow): { tags: string[]; overflow: number } {
   return { tags: all.slice(0, MAX), overflow: Math.max(0, all.length - MAX) };
 }
 
+
+function toCssBackgroundImage(imageUrl: string | null) {
+  if (!imageUrl) {
+    return 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)';
+  }
+
+  const safeUrl = imageUrl.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
+  return `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url("${safeUrl}")`;
+}
+
 function buildWhatsAppHref(firm: FirmRow, pkg: PackageRow): string {
   if (!firm.whatsapp_number || !pkg.price_nett) return '#';
   const sanitized = firm.whatsapp_number
@@ -263,9 +273,10 @@ function VerifiedCard({
       <div
         className="relative flex h-[168px] items-end"
         style={{
-          background: heroImage
-            ? `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url(${heroImage}) center/cover no-repeat`
-            : 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)',
+          backgroundImage: toCssBackgroundImage(heroImage),
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
         }}
       >
         {!heroImage && (

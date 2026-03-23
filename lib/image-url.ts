@@ -1,10 +1,3 @@
-const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp', '.svg', '.avif'];
-
-function hasImageExtension(pathname: string) {
-  const lowerPathname = pathname.toLowerCase();
-  return IMAGE_EXTENSIONS.some((extension) => lowerPathname.endsWith(extension));
-}
-
 function normalizeImgurUrl(url: URL) {
   const host = url.hostname.toLowerCase();
 
@@ -66,14 +59,7 @@ export function normalizeAndValidateImageUrl(value: unknown): ImageUrlValidation
     return { normalizedUrl: null, error: 'Image URL is invalid.' };
   }
 
-  if (!hasImageExtension(normalizedParsedUrl.pathname)) {
-    return {
-      normalizedUrl: null,
-      error: 'Image URL must point to an image file (e.g. .jpg, .png, .webp).',
-    };
-  }
-
-  return { normalizedUrl };
+  return { normalizedUrl: normalizedParsedUrl.toString() };
 }
 
 export function isValidImageUrl(value: string | null | undefined) {
