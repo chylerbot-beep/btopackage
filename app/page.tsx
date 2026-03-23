@@ -45,11 +45,12 @@ export default function Home() {
 
     const loadVerifiedPackages = async () => {
       const { data, error } = await supabase
-        .from('id_package')
+        .from('package')
         .select('id, slug, flat_type, price_nett, is_featured, featured_position, id_firm(id, name, slug, google_rating)')
         .eq('status', 'active')
         .eq('package_type', 'bto')
-        .eq('is_featured', true) // Added: Strictly obeys your "Show on homepage" checkbox!
+        .eq('is_featured', true)
+        .is('deleted_at', null)
         .order('featured_position', { ascending: true, nullsFirst: false })
         .order('google_rating', { ascending: false, foreignTable: 'id_firm' });
 
