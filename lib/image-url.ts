@@ -25,6 +25,11 @@ export type ImageUrlValidationResult = {
   error?: string;
 };
 
+export type ImageUrlsValidationResult = {
+  normalizedUrls: string[];
+  error?: string;
+};
+
 export function normalizeAndValidateImageUrl(value: unknown): ImageUrlValidationResult {
   if (typeof value !== 'string') {
     return { normalizedUrl: null };
@@ -60,6 +65,32 @@ export function normalizeAndValidateImageUrl(value: unknown): ImageUrlValidation
   }
 
   return { normalizedUrl: normalizedParsedUrl.toString() };
+}
+
+export function normalizeAndValidateImageUrls(values: unknown, maxCount: number): ImageUrlsValidationResult {
+  if (!Array.isArray(values)) {
+    return { normalizedUrls: [] };
+  }
+
+  if (values.length > maxCount) {
+    return { normalizedUrls: [], error: `You can add up to ${maxCount} additional image URLs.` };
+  }
+
+  const normalizedUrls: string[] = [];
+
+  for (let index = 0; index < values.length; index += 1) {
+    const result = normalizeAndValidateImageUrl(values[index]);
+
+    if (result.error) {
+      return { normalizedUrls: [], error: `Additional image ${index + 1}: ${result.error}` };
+    }
+
+    if (result.normalizedUrl) {
+      normalizedUrls.push(result.normalizedUrl);
+    }
+  }
+
+  return { normalizedUrls };
 }
 
 export function isValidImageUrl(value: string | null | undefined) {
