@@ -6,6 +6,7 @@ type WhatsAppButtonProps = {
   firmName: string;
   price: number;
   flatType: string;
+  customMessage?: string;
 };
 
 type GtagWindow = Window & {
@@ -18,9 +19,18 @@ export default function WhatsAppButton({
   firmName,
   price,
   flatType,
+  customMessage,
 }: WhatsAppButtonProps) {
+  const formattedPrice = `$${price.toLocaleString()}`;
+  const templateMessage =
+    customMessage?.trim() ||
+    'Hi {firmName}, I found your {flatType} BTO package at {price} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?';
+  const resolvedMessage = templateMessage
+    .replaceAll('{firmName}', firmName)
+    .replaceAll('{flatType}', flatType)
+    .replaceAll('{price}', formattedPrice);
   const message = encodeURIComponent(
-    `Hi ${firmName}, I found your ${flatType} BTO package at $${price.toLocaleString()} on Btopackage.sg and would like to arrange a preliminary consultation. Could you let me know your availability?`
+    resolvedMessage
   );
 
   const sanitizedPhone = phoneNumber.replace(/[^\d]/g, '').replace(/^65/, '');

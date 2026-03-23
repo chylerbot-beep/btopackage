@@ -18,6 +18,7 @@ type FirmFormState = {
   owns_factory: boolean;
   in_house_team: boolean;
   whatsapp_number: string;
+  whatsapp_message: string;
   website_url: string;
   address: string;
   known_for: string;
@@ -50,6 +51,7 @@ export default function NewFirmPage() {
     owns_factory: false,
     in_house_team: false,
     whatsapp_number: '',
+    whatsapp_message: '',
     website_url: '',
     address: '',
     known_for: '',
@@ -159,6 +161,18 @@ export default function NewFirmPage() {
         <Checkbox label="In-house team" checked={form.in_house_team} onChange={(checked) => setForm((current) => ({ ...current, in_house_team: checked }))} />
 
         <TextInput label="WhatsApp number" value={form.whatsapp_number} onChange={(value) => setForm((current) => ({ ...current, whatsapp_number: value }))} />
+        <Field label="Custom WhatsApp message (optional)">
+          <textarea
+            value={form.whatsapp_message}
+            rows={3}
+            placeholder="Hi [firm name], I found your BTO package on Btopackage.sg, can i know more?"
+            onChange={(event) => setForm((current) => ({ ...current, whatsapp_message: event.target.value }))}
+            className="w-full rounded border border-slate-300 px-3 py-2"
+          />
+          <span className="text-xs text-slate-500">
+            Leave blank to use the default pre-filled message. Use {'{firmName}'}, {'{flatType}'}, and {'{price}'} as placeholders — they will be replaced automatically.
+          </span>
+        </Field>
         <TextInput label="Website URL" value={form.website_url} onChange={(value) => setForm((current) => ({ ...current, website_url: value }))} />
         <TextInput label="Address" value={form.address} onChange={(value) => setForm((current) => ({ ...current, address: value }))} />
 
