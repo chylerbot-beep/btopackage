@@ -243,17 +243,12 @@ function TrustPill({ firm }: { firm: FirmRow }) {
 
 function VerifiedCard({
   pkg,
-  savedSlugs,
-  onToggleSave,
 }: {
   pkg: PackageRow;
-  savedSlugs: Set<string>;
-  onToggleSave: (slug: string) => void;
 }) {
   const firm = getFirm(pkg.id_firm);
   if (!firm || !pkg.slug) return null;
 
-  const isSaved = savedSlugs.has(pkg.slug);
   const allMet = [firm.hdb_license_verified, (firm.google_rating ?? 0) >= 4.5, firm.casetrust_accredited].filter(Boolean).length === 3;
   // Package-level hero image is canonical for featured card backgrounds.
   const heroImage = pkg.image_url ?? firm.project_images?.[0] ?? null;
@@ -300,14 +295,6 @@ function VerifiedCard({
             </p>
             <TrustPill firm={firm} />
           </div>
-          <button
-            type="button"
-            onClick={(e) => { e.preventDefault(); onToggleSave(pkg.slug!); }}
-            className="min-h-[32px] rounded-[20px] px-[9px] py-[3px] text-[12px] font-semibold text-white"
-            style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.3)' }}
-          >
-            {isSaved ? '✓ Saved' : '♡ Save'}
-          </button>
         </div>
       </div>
 
@@ -388,7 +375,6 @@ function VerifiedCard({
 export default function Home() {
   const [selectedFlatType, setSelectedFlatType] = useState<FlatType>('4-room');
   const [featuredPackages, setFeaturedPackages] = useState<PackageRow[]>([]);
-  const [savedSlugs, setSavedSlugs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     let mounted = true;
@@ -424,22 +410,6 @@ export default function Home() {
     load();
     return () => { mounted = false; };
   }, []);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('btopackage_shortlist');
-      if (raw) setSavedSlugs(new Set(JSON.parse(raw)));
-    } catch { /* ignore */ }
-  }, []);
-
-  const handleToggleSave = (slug: string) => {
-    setSavedSlugs((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug); else next.add(slug);
-      try { localStorage.setItem('btopackage_shortlist', JSON.stringify([...next])); } catch { /* ignore */ }
-      return next;
-    });
-  };
 
   const cardsForFlatType = useMemo(() => {
     const seenFirmIds = new Set<string>();
@@ -546,8 +516,6 @@ export default function Home() {
                 <VerifiedCard
                   key={pkg.id}
                   pkg={pkg}
-                  savedSlugs={savedSlugs}
-                  onToggleSave={handleToggleSave}
                 />
               ))}
             </div>

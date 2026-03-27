@@ -20,13 +20,6 @@ export default function Navbar() {
         >
           BTOPACKAGE.SG
         </Link>
-
-        <button
-          type="button"
-          className="text-[13px] font-semibold bg-[#F9F7F4] border border-[#E5E0D8] rounded-full px-3 py-1 text-[#1B4332]"
-        >
-          ♡ My List (0)
-        </button>
       </nav>
     </header>
   );
