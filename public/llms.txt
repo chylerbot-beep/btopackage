@@ -3,6 +3,7 @@
 
 Priority pages:
 - /
+- /price-guide
 - /packages/3-room
 - /packages/4-room
 - /packages/5-room
