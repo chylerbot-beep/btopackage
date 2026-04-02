@@ -485,7 +485,7 @@ export default function Home() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 2v20M2 12h20" />
               </svg>
-              BTO Price Guide â€” what's a fair price to pay?
+              BTO Price Guide - what's a fair price to pay?
             </Link>
           </div>
         </div>
