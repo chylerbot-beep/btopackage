@@ -63,7 +63,7 @@ function AccordionSection({ category }: { category: PriceCategory }) {
                   className="text-sm font-bold text-[#1B4332]"
                   style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
                 >
-                  {fmt(item.low)} â€“ {fmt(item.high)}
+                  {fmt(item.low)} - {fmt(item.high)}
                 </p>
                 <p className="text-xs text-[#9CA3AF]">{item.unit}</p>
               </div>
@@ -80,11 +80,11 @@ type FaqItem = { q: string; a: string };
 const faqs: FaqItem[] = [
   {
     q: 'How much does a BTO renovation cost in Singapore in 2026?',
-    a: "According to MoneySmart's HDB Renovation Cost & Loan Guide (2026), average BTO renovation costs are: 3-Room $36,100â€“$43,700 Â· 4-Room $51,000â€“$61,800 Â· 5-Room $67,000â€“$82,400. Costs vary based on scope of work, material choices, and how much carpentry is included. A lean renovation sits at the lower end â€” more carpentry, false ceilings, and premium finishes push it higher.",
+    a: "According to MoneySmart's HDB Renovation Cost & Loan Guide (2026), average BTO renovation costs are: 3-Room $36,100-$43,700 · 4-Room $51,000-$61,800 · 5-Room $67,000-$82,400. Costs vary based on scope of work, material choices, and how much carpentry is included. A lean renovation sits at the lower end - more carpentry, false ceilings, and premium finishes push it higher.",
   },
   {
     q: 'What does "per foot run" mean in renovation quotes?',
-    a: "Per foot run (pfr) refers to the length of a carpentry item measured in feet â€” not its area. A 10ft kitchen bottom cabinet at $150/pfr costs $1,500, regardless of its depth or height. It's the standard unit carpenters in Singapore use to quote cabinets, wardrobes, and countertops. Most quotes show measurements in millimetres â€” divide by 304.8 to convert to feet.",
+    a: "Per foot run (pfr) refers to the length of a carpentry item measured in feet - not its area. A 10ft kitchen bottom cabinet at $150/pfr costs $1,500, regardless of its depth or height. It's the standard unit carpenters in Singapore use to quote cabinets, wardrobes, and countertops. Most quotes show measurements in millimetres - divide by 304.8 to convert to feet.",
   },
   {
     q: 'What is a reasonable carpentry rate in Singapore?',
@@ -96,7 +96,7 @@ const faqs: FaqItem[] = [
   },
   {
     q: 'How much should I budget for bathroom tiling in a new BTO?',
-    a: "For a fresh BTO, bathroom tiling is a hack-and-relay job â€” there are no existing tiles to work around. Budget $3,100 to $4,700 per bathroom, which includes labour, materials, waterproofing, and tiles up to $3.50/sqft. Most 4-room and 5-room BTO flats have two bathrooms, so total tiling typically runs $6,200 to $9,400.",
+    a: "For a fresh BTO, bathroom tiling is a hack-and-relay job - there are no existing tiles to work around. Budget $3,100 to $4,700 per bathroom, which includes labour, materials, waterproofing, and tiles up to $3.50/sqft. Most 4-room and 5-room BTO flats have two bathrooms, so total tiling typically runs $6,200 to $9,400.",
   },
 ];
 
@@ -152,7 +152,7 @@ export default function PriceGuideClient() {
           found online and real quotations.
         </p>
         <p className="text-xs text-[#9CA3AF]">
-          All prices exclude GST unless otherwise stated. Â· Last updated March 2026.
+          All prices exclude GST unless otherwise stated. · Last updated March 2026.
         </p>
       </div>
 
@@ -167,14 +167,14 @@ export default function PriceGuideClient() {
               Compare BTO renovation packages.
             </p>
             <p className="mt-0.5 text-xs text-white/65">
-              See what&apos;s included â€” and what&apos;s not â€” before you WhatsApp.
+              See what&apos;s included - and what&apos;s not - before you WhatsApp.
             </p>
           </div>
           <Link
             href="/packages/4-room"
             className="w-full rounded-xl bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#1B4332] hover:bg-[#F9F7F4] transition-colors"
           >
-            View BTO Packages â†’
+            View BTO Packages →
           </Link>
         </div>
       </div>
@@ -191,7 +191,7 @@ export default function PriceGuideClient() {
         <div className="rounded-2xl border border-[#E5E0D8] bg-white px-5 py-4">
           <p className="text-sm leading-relaxed text-[#6B7280]">
             <span className="font-medium text-[#1A1A1A]">Not on this list:</span> Electrical
-            works, hacking and demolition, and aircon are excluded â€” costs vary too much by scope
+            works, hacking and demolition, and aircon are excluded - costs vary too much by scope
             to give a reliable range. Aircon installation and servicing is also typically handled
             by aircon specialists, not interior designers.
           </p>
