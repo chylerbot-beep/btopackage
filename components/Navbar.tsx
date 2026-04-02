@@ -20,6 +20,12 @@ export default function Navbar() {
         >
           BTOPACKAGE.SG
         </Link>
+        <Link
+          href="/price-guide"
+          className="text-[13px] font-semibold text-[#1B4332] hover:text-[#2D6A4F] transition-colors"
+        >
+          Price Guide
+        </Link>
       </nav>
     </header>
   );

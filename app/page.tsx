@@ -476,6 +476,18 @@ export default function Home() {
             {' · '}
             <span className="font-bold text-[#6EE7B7]">✓</span> estates covered
           </p>
+
+          <div className="mt-5">
+            <Link
+              href="/price-guide"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/30 px-4 py-2 text-[13px] font-semibold text-white hover:bg-white/10 transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 2v20M2 12h20" />
+              </svg>
+              BTO Price Guide â€” what's a fair price to pay?
+            </Link>
+          </div>
         </div>
       </section>
 
