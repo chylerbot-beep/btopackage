@@ -149,7 +149,7 @@ export default function PriceGuideClient() {
         </h1>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
           Current market rates for common renovation items, based on publicly available prices
-          found online and real quotations.
+          found online and real quotations from interior designers.
         </p>
         <p className="text-xs text-[#9CA3AF]">
           All prices exclude GST unless otherwise stated. · Last updated March 2026.
