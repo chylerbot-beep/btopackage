@@ -171,7 +171,7 @@ export default function PriceGuideClient() {
             </p>
           </div>
           <Link
-            href="/packages/4-room"
+            href="/"
             className="w-full rounded-xl bg-white px-4 py-2.5 text-center text-sm font-semibold text-[#1B4332] hover:bg-[#F9F7F4] transition-colors"
           >
             View BTO Packages →
