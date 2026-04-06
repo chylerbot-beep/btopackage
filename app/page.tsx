@@ -141,33 +141,84 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-3xl px-4 py-10 text-sm text-[#374151] space-y-4">
-        <h2 className="text-xl font-bold text-[#1A1A1A]" style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}>
-          What to look for in a BTO renovation package
-        </h2>
+      <section className="mx-auto w-full max-w-3xl space-y-4 px-4 py-10 text-sm text-[#374151]">
+        <h3
+          className="text-xl font-bold text-[#1A1A1A]"
+          style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+        >
+          What to Look For in a BTO Renovation Package (So It&apos;s Apple to Apple)
+        </h3>
         <p>
-          BTO renovation packages in Singapore vary widely — not just in price, but in what
-          is actually included. Two packages priced at $30,000 can differ by entire categories
-          of work: one may include carpentry for all three bedrooms while another covers only
-          the master bedroom. Flooring scope, countertop material, and whether doors or false
-          ceilings are bundled in are all commonly left out of headline prices.
+          So before we go into the numbers, let me just briefly explain how BTO renovation
+          packages actually work. Actually, the prices in the market can vary widely. Two
+          packages priced at $30,000, right? When you compare them, it&apos;s not always apple to
+          apple.
         </p>
         <p>
-          Btopackage.sg lists packages from HDB-licensed interior design firms with inclusions
-          broken down line by line — carpentry footage in feet, flooring type, countertop
-          material, and what is explicitly not covered. Every firm on this platform carries
-          a verified HDB licence number, which is a legal requirement for renovation work
-          on HDB properties in Singapore.
+          One package might include the full-height carpentry for all three bedrooms, while
+          another one only covers your master bedroom. And things like your flooring scope, your
+          sintered stone tabletop, or whether you are doing a full false ceiling versus just an
+          L-box—usually, these are left out of the headline price. If you&apos;re not careful, the
+          VOs (Variation Orders) will add up very fast later on.
         </p>
+
+        <h4 className="text-lg font-semibold text-[#1A1A1A]">How Btopackage.sg Helps You Compare</h4>
         <p>
-          Renovation costs for a 4-room BTO in Singapore currently average $51,000–$61,800
-          (MoneySmart 2026). A 3-room BTO averages $36,100–$43,700 and a 5-room averages
-          $67,000–$82,400. These figures include carpentry, flooring, tiling, painting,
-          and basic electrical — check our{' '}
-          <Link href="/price-guide" className="text-[#1B4332] font-semibold underline">
+          So what Btopackage.sg does is, we list out packages from HDB-licensed interior design
+          firms, and we break everything down for you line by line. Inside, you will see exactly
+          what you are getting:
+        </p>
+        <ul className="list-disc space-y-1 pl-6">
+          <li>
+            <span className="font-semibold">Carpentry:</span> Calculated clearly by per foot run
+            (pfr).
+          </li>
+          <li>
+            <span className="font-semibold">Materials:</span> Exact countertop materials (e.g.,
+            Quartz vs. Sintered Stone) and flooring types.
+          </li>
+          <li>
+            <span className="font-semibold">Exclusions:</span> What is explicitly put under
+            &quot;optional&quot; or not covered.
+          </li>
+        </ul>
+        <p>
+          This way, everything is transparent so you won&apos;t get a shock later. Plus, confirm every
+          firm on this platform has a verified HDB licence number—which is a strict HDB requirement
+          before we can even start any hacking or wet works for your unit.
+        </p>
+
+        <h3
+          className="text-xl font-bold text-[#1A1A1A]"
+          style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+        >
+          How Much Does a BTO Renovation Cost in Singapore (2026)?
+        </h3>
+        <p>
+          If you are planning your budget before your key collection, it helps to know the market
+          rate. Of course, it depends on whether you are OCS-in or OCS-out, but based on recent
+          data (MoneySmart 2026), here is the rough costing:
+        </p>
+        <ul className="list-disc space-y-1 pl-6">
+          <li>
+            <span className="font-semibold">3-Room BTO Renovation Cost:</span> $36,100 – $43,700
+          </li>
+          <li>
+            <span className="font-semibold">4-Room BTO Renovation Cost:</span> $51,000 – $61,800
+          </li>
+          <li>
+            <span className="font-semibold">5-Room BTO Renovation Cost:</span> $67,000 – $82,400
+          </li>
+        </ul>
+        <p>
+          These figures cover your main works like built-in carpentry, flooring, tiling, painting,
+          and basic electrical. If you want to see how these numbers are calculated, you can just
+          check our{' '}
+          <Link href="https://www.btopackage.sg/price-guide" className="font-semibold text-[#1B4332] underline">
             BTO renovation price guide
-          </Link>{' '}
-          for line-item rates.
+          </Link>
+          . We show you the unit rates so you can find a package that actually fits your budget.
+          Okay?
         </p>
       </section>
 
