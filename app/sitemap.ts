@@ -14,23 +14,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .is('deleted_at', null)
     .not('slug', 'is', null);
 
-  const { data: firms } = await supabase
-    .from('id_firm')
-    .select('slug, updated_at')
-    .not('slug', 'is', null);
-
   const packageUrls = (packages ?? []).map((p) => ({
     url: `https://www.btopackage.sg/packages/${p.flat_type}/${p.slug}`,
     lastModified: p.updated_at ? new Date(p.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
-  }));
-
-  const firmUrls = (firms ?? []).map((f) => ({
-    url: `https://www.btopackage.sg/firms/${f.slug}`,
-    lastModified: f.updated_at ? new Date(f.updated_at) : new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
   }));
 
   return [
@@ -40,6 +28,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: 'https://www.btopackage.sg/about', changeFrequency: 'monthly', priority: 0.5 },
     { url: 'https://www.btopackage.sg/submit', changeFrequency: 'monthly', priority: 0.6 },
     ...packageUrls,
-    ...firmUrls,
   ];
 }

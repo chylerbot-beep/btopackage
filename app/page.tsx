@@ -100,28 +100,30 @@ export default async function Home() {
             Discover hidden gem ID firms. Check what&apos;s included or not in each BTO package
             before you Whatsapp.
           </p>
+        </div>
+      </section>
 
-          <PackageListings packages={packages} defaultFlatType="4-room" />
+      <PackageListings packages={packages} defaultFlatType="4-room" />
 
-          <p className="mt-4 text-[12.5px]" style={{ color: 'rgba(255,255,255,0.70)' }}>
-            <span className="font-bold text-[#6EE7B7]">✓</span> HDB-verified firms
-            {' · '}
-            <span className="font-bold text-[#6EE7B7]">✓</span> packages with inclusions listed
-            {' · '}
-            <span className="font-bold text-[#6EE7B7]">✓</span> estates covered
-          </p>
+      <section className="mx-auto w-full max-w-3xl px-4 pt-6">
+        <p className="text-[12.5px] text-[#6B7280]">
+          <span className="font-bold text-[#1B4332]">✓</span> HDB-verified firms
+          {' · '}
+          <span className="font-bold text-[#1B4332]">✓</span> packages with inclusions listed
+          {' · '}
+          <span className="font-bold text-[#1B4332]">✓</span> estates covered
+        </p>
 
-          <div className="mt-5">
-            <Link
-              href="/price-guide"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/30 px-4 py-2 text-[13px] font-semibold text-white hover:bg-white/10 transition-colors"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M12 2v20M2 12h20" />
-              </svg>
-              BTO Price Guide - what's a fair price to pay?
-            </Link>
-          </div>
+        <div className="mt-5">
+          <Link
+            href="/price-guide"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#1B4332]/20 px-4 py-2 text-[13px] font-semibold text-[#1B4332] transition-colors hover:bg-[#1B4332]/5"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 2v20M2 12h20" />
+            </svg>
+            BTO Price Guide - what&apos;s a fair price to pay?
+          </Link>
         </div>
       </section>
 
