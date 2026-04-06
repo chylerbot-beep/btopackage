@@ -155,30 +155,33 @@ export default async function Home() {
           VOs (Variation Orders) will add up very fast later on.
         </p>
 
-        <h4 className="text-lg font-semibold text-[#1A1A1A]">How Btopackage.sg Helps You Compare</h4>
-        <p>
-          Btopackage.sg lists out packages from HDB-licensed interior design 
-          firms. We break everything down for you line by line so you will see exactly
-          what you are getting:
-        </p>
-        <ul className="list-disc space-y-1 pl-6">
+        <h3 className="text-lg font-semibold text-[#1A1A1A]">How Btopackage.sg Helps You Compare</h3>
+        <p>Btopackage.sg provides two main tools to help you plan your budget safely:</p>
+        <ul className="list-disc space-y-2 pl-6">
           <li>
-            <span className="font-semibold">Carpentry:</span> Calculated clearly by per foot run
-            (pfr).
+            <span className="font-semibold">Clear Inclusions &amp; Exclusions:</span> We take
+            packages from HDB-licensed interior design firms and break them down{' '}
+            <span className="font-semibold">line by line</span> based on common reno items. You
+            will see exactly how many feet of carpentry is included and the exact materials used
+            (like E0-grade boards or sintered stone). But more importantly, we show you exactly
+            what is explicitly put under &quot;Not Covered&quot;—like countertop backsplash or
+            false ceilings. This way it&apos;s clear and easy to compare.
           </li>
           <li>
-            <span className="font-semibold">Materials:</span> Exact countertop materials (e.g.,
-            Quartz vs. Sintered Stone) and flooring types.
-          </li>
-          <li>
-            <span className="font-semibold">Exclusions:</span> What is explicitly put under
-            &quot;optional&quot; or not covered.
+            <span className="font-semibold">A Standardized Price Guide:</span> If a package
+            excludes something you want, you can refer to our{' '}
+            <Link
+              href="https://www.btopackage.sg/price-guide"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#1B4332] underline"
+            >
+              BTO Price Guide
+            </Link>
+            . We show you the standard market unit rates so you know what is a fair price.
           </li>
         </ul>
-        <p>
-          Every
-          firm on this platform has a verified HDB licence number—which is a strict HDB requirement.
-        </p>
+        <p>Also, every firm on this platform has a verified HDB licence number</p>
 
         <h3
           className="text-xl font-bold text-[#1A1A1A]"
