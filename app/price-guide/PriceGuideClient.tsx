@@ -157,11 +157,10 @@ export default function PriceGuideClient() {
           your renovation quotation is actually calculated.
         </p>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          Actually, a lot of homeowners get shocked by VOs (Variation Orders) because they
+          A lot of homeowners get shocked by VOs (Variation Orders) because they
           don&apos;t know the market rate for individual items. So here, we break down the
           standard BTO renovation costs for you <strong>line by line</strong>. This way, when you
-          compare packages on Btopackage.sg, you know exactly what you are paying for. Apple to
-          apple. Okay?
+          compare packages on Btopackage.sg, you know exactly what you are paying for.
         </p>
         <p className="text-xs text-[#9CA3AF]">
           All prices exclude GST unless otherwise stated. · Last updated March 2026.
