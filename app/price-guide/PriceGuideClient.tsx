@@ -145,11 +145,23 @@ export default function PriceGuideClient() {
           className="mb-2 text-3xl font-bold leading-tight text-[#1A1A1A]"
           style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
         >
-          What&apos;s a reasonable price to pay for renovation in Singapore in 2026?
+          BTO Price Guide: What&apos;s a reasonable price to pay for renovation in Singapore in
+          2026?
         </h1>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
           Current market rates for common renovation items, based on publicly available prices
           found online and real quotations from interior designers.
+        </p>
+        <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
+          Before you confirm any ID or drop your deposit, it&apos;s always good to understand how
+          your renovation quotation is actually calculated.
+        </p>
+        <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
+          Actually, a lot of homeowners get shocked by VOs (Variation Orders) because they
+          don&apos;t know the market rate for individual items. So here, we break down the
+          standard BTO renovation costs for you <strong>line by line</strong>. This way, when you
+          compare packages on Btopackage.sg, you know exactly what you are paying for. Apple to
+          apple. Okay?
         </p>
         <p className="text-xs text-[#9CA3AF]">
           All prices exclude GST unless otherwise stated. · Last updated March 2026.
