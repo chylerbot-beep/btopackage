@@ -152,9 +152,8 @@ export default function PriceGuideClient() {
           found online and real quotations from interior designers.
         </p>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          Homeowners get shocked by VOs (Variation Orders) because they
-          don&apos;t know the market rate for individual items. We reveal the
-          market rates to you, so you can negotiate and avoid getting overcharged.
+          We reveal the
+          market rates to you, so you can negotiate with IDs and avoid getting overcharged.
         </p>
         <p className="text-xs text-[#9CA3AF]">
           All prices exclude GST unless otherwise stated. · Last updated April 2026.
