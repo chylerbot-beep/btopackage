@@ -5,12 +5,6 @@ import { useMemo, useState } from 'react';
 import type { FlatType } from '@/lib/types';
 import { buildWhatsAppHref } from '@/lib/whatsapp';
 
-const FLAT_TYPE_OPTIONS: Array<{ label: string; value: FlatType }> = [
-  { label: '3-Room', value: '3-room' },
-  { label: '4-Room', value: '4-room' },
-  { label: '5-Room', value: '5-room' },
-];
-
 export type FirmRow = {
   id: string;
   name: string | null;
@@ -360,12 +354,10 @@ function VerifiedCard({
 
 type PackageListingsProps = {
   packages: PackageRow[];
-  defaultFlatType: FlatType;
+  selectedFlatType: FlatType;
 };
 
-export default function PackageListings({ packages, defaultFlatType }: PackageListingsProps) {
-  const [selectedFlatType, setSelectedFlatType] = useState<FlatType>(defaultFlatType);
-
+export default function PackageListings({ packages, selectedFlatType }: PackageListingsProps) {
   const cardsForFlatType = useMemo(() => {
     const seenFirmIds = new Set<string>();
     return packages
@@ -379,36 +371,15 @@ export default function PackageListings({ packages, defaultFlatType }: PackageLi
       });
   }, [packages, selectedFlatType]);
 
-  const flatLabel = FLAT_TYPE_OPTIONS.find((o) => o.value === selectedFlatType)?.label ?? '';
+  const flatLabel =
+    selectedFlatType === '3-room'
+      ? '3-Room'
+      : selectedFlatType === '4-room'
+        ? '4-Room'
+        : '5-Room';
 
   return (
     <>
-      <div className="mt-6">
-        <p
-          className="mb-2 text-xs font-semibold uppercase"
-          style={{ color: 'rgba(255,255,255,0.80)' }}
-        >
-          Select your flat type
-        </p>
-        <div className="flex gap-2">
-          {FLAT_TYPE_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => setSelectedFlatType(opt.value)}
-              className="min-h-[40px] flex-1 rounded-full px-3 text-sm font-bold transition-colors"
-              style={
-                selectedFlatType === opt.value
-                  ? { background: '#F59E0B', color: '#78350f' }
-                  : { background: '#fff', color: '#1B4332' }
-              }
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {cardsForFlatType.length >= 1 && (
         <section className="bg-white px-4 py-10">
           <div className="mx-auto w-full max-w-3xl">
@@ -441,10 +412,7 @@ export default function PackageListings({ packages, defaultFlatType }: PackageLi
               }}
             >
               {cardsForFlatType.map((pkg) => (
-                <VerifiedCard
-                  key={pkg.id}
-                  pkg={pkg}
-                />
+                <VerifiedCard key={pkg.id} pkg={pkg} />
               ))}
             </div>
 
