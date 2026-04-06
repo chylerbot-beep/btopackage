@@ -145,8 +145,7 @@ export default function PriceGuideClient() {
           className="mb-2 text-3xl font-bold leading-tight text-[#1A1A1A]"
           style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
         >
-          BTO Price Guide: What&apos;s a reasonable price to pay for renovation in Singapore in
-          2026?
+          BTO Reno Market Rates: Current market rates for BTO renovation in Singapore, 2026.
         </h1>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
           Current market rates for common renovation items, based on publicly available prices
