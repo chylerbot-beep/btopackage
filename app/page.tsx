@@ -149,12 +149,8 @@ export default async function Home() {
           What to Look For in a BTO Renovation Package (So It&apos;s Apple to Apple)
         </h3>
         <p>
-          So Lets briefly explain how BTO renovation packages actually work. Actually, the prices in the market can vary widely. Two
-          packages priced at $30,000, right? When you compare them, it&apos;s not always apple to
-          apple.
-        </p>
-        <p>
-          One package might include the full-height carpentry for all three bedrooms, while
+          Two packages priced at $30,000, when you compare them it&apos;s not always apple to
+          apple. One package might include the full-height carpentry for all three bedrooms, while
           another one only covers your master bedroom. If you&apos;re not careful, the
           VOs (Variation Orders) will add up very fast later on.
         </p>
