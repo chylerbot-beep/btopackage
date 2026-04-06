@@ -153,10 +153,6 @@ export default function PriceGuideClient() {
           found online and real quotations from interior designers.
         </p>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          Before you confirm any ID or drop your deposit, it&apos;s always good to understand how
-          your renovation quotation is actually calculated.
-        </p>
-        <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
           A lot of homeowners get shocked by VOs (Variation Orders) because they
           don&apos;t know the market rate for individual items. So here, we break down the
           standard BTO renovation costs for you <strong>line by line</strong>. This way, when you
