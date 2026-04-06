@@ -205,16 +205,6 @@ export default async function Home() {
             <span className="font-semibold">5-Room BTO Renovation Cost:</span> $67,000 – $82,400
           </li>
         </ul>
-        <p>
-          These figures cover your main works like built-in carpentry, flooring, tiling, painting,
-          and basic electrical. If you want to see how these numbers are calculated, you can just
-          check our{' '}
-          <Link href="https://www.btopackage.sg/price-guide" className="font-semibold text-[#1B4332] underline">
-            BTO renovation price guide
-          </Link>
-          . We show you the unit rates so you can find a package that actually fits your budget.
-          Okay?
-        </p>
       </section>
 
       <footer className="bg-[#1B4332] px-4 py-8 text-sm text-[rgba(255,255,255,0.7)]">
