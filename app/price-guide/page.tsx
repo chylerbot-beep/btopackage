@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Current market rates for common BTO renovation items in Singapore - carpentry, flooring, bathroom tiling, painting and more. Based on publicly available prices and real quotations.',
   alternates: {
-    canonical: 'https://btopackage.sg/price-guide',
+    canonical: 'https://www.btopackage.sg/price-guide',
   },
   openGraph: {
     title: 'BTO Renovation Price Guide Singapore 2026 | Btopackage.sg',
     description:
       "What's a reasonable price to pay for renovation in Singapore in 2026? Market rates for carpentry, flooring, tiling, painting and more.",
-    url: 'https://btopackage.sg/price-guide',
+    url: 'https://www.btopackage.sg/price-guide',
     siteName: 'Btopackage.sg',
     locale: 'en_SG',
     type: 'website',
