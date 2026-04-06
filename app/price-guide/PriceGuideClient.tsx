@@ -148,17 +148,16 @@ export default function PriceGuideClient() {
           BTO Renovation market rates in Singapore for 2026
         </h1>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          Current market rates for common renovation items, based on publicly available prices
+          Current market rates for common renovation works, based on publicly available prices
           found online and real quotations from interior designers.
         </p>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          A lot of homeowners get shocked by VOs (Variation Orders) because they
-          don&apos;t know the market rate for individual items. So here, we break down the
-          standard BTO renovation costs for you <strong>line by line</strong>. This way, when you
-          compare packages on Btopackage.sg, you know exactly what you are paying for.
+          Homeowners get shocked by VOs (Variation Orders) because they
+          don&apos;t know the market rate for individual items. We reveal the
+          standard BTO rates to you, so you can negotiate and avoid getting overcharged.
         </p>
         <p className="text-xs text-[#9CA3AF]">
-          All prices exclude GST unless otherwise stated. · Last updated March 2026.
+          All prices exclude GST unless otherwise stated. · Last updated April 2026.
         </p>
       </div>
 
