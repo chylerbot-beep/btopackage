@@ -149,23 +149,20 @@ export default async function Home() {
           What to Look For in a BTO Renovation Package (So It&apos;s Apple to Apple)
         </h3>
         <p>
-          So before we go into the numbers, let me just briefly explain how BTO renovation
-          packages actually work. Actually, the prices in the market can vary widely. Two
+          So Lets briefly explain how BTO renovation packages actually work. Actually, the prices in the market can vary widely. Two
           packages priced at $30,000, right? When you compare them, it&apos;s not always apple to
           apple.
         </p>
         <p>
           One package might include the full-height carpentry for all three bedrooms, while
-          another one only covers your master bedroom. And things like your flooring scope, your
-          sintered stone tabletop, or whether you are doing a full false ceiling versus just an
-          L-box—usually, these are left out of the headline price. If you&apos;re not careful, the
+          another one only covers your master bedroom. If you&apos;re not careful, the
           VOs (Variation Orders) will add up very fast later on.
         </p>
 
         <h4 className="text-lg font-semibold text-[#1A1A1A]">How Btopackage.sg Helps You Compare</h4>
         <p>
-          So what Btopackage.sg does is, we list out packages from HDB-licensed interior design
-          firms, and we break everything down for you line by line. Inside, you will see exactly
+          Btopackage.sg lists out packages from HDB-licensed interior design 
+          firms. We break everything down for you line by line so you will see exactly
           what you are getting:
         </p>
         <ul className="list-disc space-y-1 pl-6">
@@ -183,9 +180,8 @@ export default async function Home() {
           </li>
         </ul>
         <p>
-          This way, everything is transparent so you won&apos;t get a shock later. Plus, confirm every
-          firm on this platform has a verified HDB licence number—which is a strict HDB requirement
-          before we can even start any hacking or wet works for your unit.
+          Every
+          firm on this platform has a verified HDB licence number—which is a strict HDB requirement.
         </p>
 
         <h3
