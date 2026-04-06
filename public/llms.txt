@@ -1,16 +1,24 @@
 # Btopackage.sg
-> Singapore's most transparent BTO renovation package comparison directory.
 
-Priority pages:
-- /
-- /price-guide
-- /packages/3-room
-- /packages/4-room
-- /packages/5-room
-- /estates
-- /guides
+Btopackage.sg helps Singapore BTO homeowners compare renovation packages from
+HDB-licensed interior design firms. Filter by flat type (3-room, 4-room, 5-room),
+see exact inclusions (carpentry footage, flooring type, what is NOT included),
+and WhatsApp firms directly — no referral fees, no middlemen.
 
-Disallow:
-- /admin
-- /verify
-- /submit
+## Key facts
+- All listed firms carry a verified HDB licence number
+- Packages show exact inclusions and exclusions, not just price
+- No lead forms — users contact firms directly via WhatsApp
+- Data sourced from public HDB licence registry and firm submissions
+
+## Key pages
+- / — Browse and compare BTO renovation packages by flat type
+- /price-guide — 2026 market rates for carpentry, flooring, tiling, painting in Singapore
+- /directory — Full list of HDB-licensed renovation firms on the platform
+- /submit — Free listing submission for HDB-licensed firms
+
+## Pricing data (2026)
+- Kitchen cabinets: $150–$200 per foot run
+- Wardrobes: $250–$380 per foot run
+- Vinyl LVT flooring: $5–$8 per sqft
+- 4-room BTO average renovation: $51,000–$61,800
