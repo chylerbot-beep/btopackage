@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { isValidImageUrl } from '@/lib/image-url';
 
@@ -16,8 +17,14 @@ export default function PackageHeroImage({ imageUrl, firmName }: PackageHeroImag
     <div className={`relative h-[220px] w-full ${shouldShowImage ? '' : 'bg-[#1B4332]'}`}>
       {shouldShowImage ? (
         <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imageUrl!} alt={firmName} className="h-full w-full object-cover" onError={() => setHasImageError(true)} />
+          <Image
+            src={imageUrl!}
+            alt={`${firmName} BTO renovation — Singapore interior design`}
+            fill={true}
+            priority={true}
+            className="object-cover"
+            onError={() => setHasImageError(true)}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
         </>
       ) : null}
