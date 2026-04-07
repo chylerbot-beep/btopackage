@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { FlatType } from '@/lib/types';
 import { buildWhatsAppHref } from '@/lib/whatsapp';
 
@@ -243,8 +243,8 @@ function VerifiedCard({
     <div
       className="flex flex-shrink-0 flex-col overflow-hidden rounded-xl bg-white"
       style={{
-        width: '100%',
-        maxWidth: '100%',
+        minWidth: '78vw',
+        maxWidth: '300px',
         border: '1px solid #E5E0D8',
         borderTop: `3px solid ${allMet ? '#F59E0B' : '#E5E7EB'}`,
         scrollSnapAlign: 'start',
@@ -377,15 +377,6 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
       : selectedFlatType === '4-room'
         ? '4-Room'
         : '5-Room';
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-  useEffect(() => {
-    setActiveCardIndex(0);
-  }, [selectedFlatType]);
-
-  const safeActiveCardIndex =
-    cardsForFlatType.length === 0 ? 0 : Math.min(activeCardIndex, cardsForFlatType.length - 1);
-
-  const activePackage = cardsForFlatType[safeActiveCardIndex] ?? null;
 
   return (
     <>
@@ -408,43 +399,12 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
               <span className="text-[#16A34A]">CaseTrust accredited</span>
             </p>
 
-            <div className="mt-5">
-              <div className="mb-3 flex items-center justify-between">
-                <p className="text-sm font-medium text-[#6B7280]">
-                  {safeActiveCardIndex + 1} / {cardsForFlatType.length}
-                </p>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveCardIndex((prev) =>
-                        cardsForFlatType.length === 0
-                          ? 0
-                          : (prev - 1 + cardsForFlatType.length) % cardsForFlatType.length,
-                      )
-                    }
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#374151] transition hover:border-[#1B4332] hover:text-[#1B4332]"
-                    aria-label="Previous package"
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveCardIndex((prev) =>
-                        cardsForFlatType.length === 0 ? 0 : (prev + 1) % cardsForFlatType.length,
-                      )
-                    }
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#374151] transition hover:border-[#1B4332] hover:text-[#1B4332]"
-                    aria-label="Next package"
-                  >
-                    →
-                  </button>
-                </div>
-              </div>
-
-              {activePackage && <VerifiedCard key={activePackage.id} pkg={activePackage} />}
+            <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {cardsForFlatType.map((pkg) => (
+                <VerifiedCard key={pkg.id} pkg={pkg} />
+              ))}
             </div>
+
           </div>
         </section>
       )}
