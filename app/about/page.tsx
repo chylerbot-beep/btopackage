@@ -57,62 +57,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#F9F7F4] px-4 py-12">
-        <div className="mx-auto w-full max-w-3xl">
-          <h2
-            className="text-2xl font-bold text-[#1A1A1A]"
-            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
-          >
-            How we verify the firms on this platform
-          </h2>
-
-          <div className="mt-6">
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="font-semibold text-[#1A1A1A]">HDB Renovation Licence — verified</h3>
-              <p className="mt-2">
-                Every firm on this platform holds a valid HDB Renovation Contractor licence. We
-                check the licence number against HDB&apos;s records before a listing goes live.
-                Unlicensed contractors cannot legally carry out renovation works in HDB flats —
-                this is the baseline we hold every firm to.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="font-semibold text-[#1A1A1A]">In-house team, not outsourced</h3>
-              <p className="mt-2">
-                We prioritise firms that use their own full-time workers rather than subcontracting
-                the job out. When work is subcontracted, accountability gets murky — if something
-                goes wrong, it is harder to know who to call. An in-house team means the firm is
-                directly responsible for the quality of every job.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="font-semibold text-[#1A1A1A]">
-                CaseTrust accredited — your deposit is protected
-              </h3>
-              <p className="mt-2">
-                CaseTrust-accredited firms are required to place customer deposits in a protected
-                escrow account. If anything goes wrong before the renovation is complete, your
-                deposit is not lost. We flag which firms carry this accreditation so you can factor
-                it into your decision.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="font-semibold text-[#1A1A1A]">
-                Google rating — real feedback from real homeowners
-              </h3>
-              <p className="mt-2">
-                Singaporeans are not shy about leaving a bad review. A firm with consistently high
-                Google ratings across many reviews is a reliable signal that homeowners were
-                satisfied with the outcome. We show each firm&apos;s Google rating and review count
-                directly on their listing.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="mx-auto w-full max-w-3xl px-4 py-10 text-[#374151]">
         <h2
