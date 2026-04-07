@@ -86,6 +86,21 @@ export default async function Home() {
           }),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            '@id': 'https://www.btopackage.sg/#org',
+            name: 'Btopackage.sg',
+            url: 'https://www.btopackage.sg',
+            description:
+              'Independent directory of verified BTO renovation packages from HDB-licensed interior design firms in Singapore.',
+            areaServed: 'SG',
+          }),
+        }}
+      />
       <section className="w-full bg-[#1B4332] px-3 py-9 md:px-4 md:py-12">
         <div className="mx-auto w-full max-w-3xl">
           <h1
