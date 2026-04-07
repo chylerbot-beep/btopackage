@@ -305,8 +305,57 @@ export default async function PackagePage({ params }: PackagePageProps) {
       : null,
   ].filter(Boolean) as Array<{ label: string; value: string }>;
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.btopackage.sg',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: `${displayFlatType} Packages`,
+        item: `https://www.btopackage.sg/packages/${flatType}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: firm.name,
+      },
+    ],
+  };
+
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${firm.name} ${displayFlatType} BTO Renovation Package`,
+    provider: {
+      '@type': 'LocalBusiness',
+      name: firm.name,
+      identifier: firm.hdb_license_number ?? '',
+    },
+    areaServed: 'Singapore',
+    offers: {
+      '@type': 'Offer',
+      price: `${pkg.price_nett}`,
+      priceCurrency: 'SGD',
+    },
+  };
+
   return (
     <div className="mx-auto w-full max-w-2xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <div className="px-4 pt-4 text-sm text-[#6B7280]">
         <Link href="/" className="hover:text-[#1A1A1A]">
           Home
