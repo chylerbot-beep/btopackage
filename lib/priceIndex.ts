@@ -3,7 +3,7 @@ export const MARKET_PRICE_INDEX = {
   source: 'MoneySmart HDB Renovation Cost Guide',
   sourceUrl:
     'https://www.moneysmart.sg/personal-loan/hdb-renovation-cost-loan-guide-singapore-ms',
-  note: 'Full renovation including furniture and fittings. Packages on this site cover carpentry + finishes only.',
+  note: 'Full renovation costs are shown excluding furniture and furnishings.',
   flatTypes: {
     '3-room': { bto: { min: 36100, max: 43700 } },
     '4-room': { bto: { min: 51000, max: 61800 } },
