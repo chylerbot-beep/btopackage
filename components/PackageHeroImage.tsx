@@ -17,7 +17,12 @@ export default function PackageHeroImage({ imageUrl, firmName }: PackageHeroImag
       {shouldShowImage ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imageUrl!} alt={firmName} className="h-full w-full object-cover" onError={() => setHasImageError(true)} />
+          <img
+            src={imageUrl!}
+            alt={`${firmName} BTO renovation package — Singapore interior design`}
+            className="h-full w-full object-cover"
+            onError={() => setHasImageError(true)}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
         </>
       ) : null}
