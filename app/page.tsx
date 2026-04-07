@@ -111,7 +111,7 @@ export default async function Home() {
           </h1>
 
           <p className="mt-3 max-w-[560px] text-base" style={{ color: 'rgba(255,255,255,0.82)' }}>
-            Discover hidden gem ID firms. Check what&apos;s included or not in each BTO package
+            Discover hidden gem ID firms - HDB Licensed, CaseTrust Accredited, Solid Google Ratings. Check what&apos;s included or not in each BTO package
             before you Whatsapp.
           </p>
         </div>
