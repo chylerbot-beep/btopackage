@@ -136,7 +136,7 @@ export async function generateMetadata({ params }: PackagePageProps): Promise<Me
     title: `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`,
     description: `${firm.name} ${flatType} BTO package at $${price}. HDB licensed · Verified.`,
     alternates: {
-      canonical: `https://btopackage.sg/packages/${flatType}/${slug}`,
+      canonical: `https://www.btopackage.sg/packages/${flatType}/${slug}`,
     },
   };
 }
