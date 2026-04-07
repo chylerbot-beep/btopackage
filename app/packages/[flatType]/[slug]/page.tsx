@@ -131,10 +131,35 @@ export async function generateMetadata({ params }: PackagePageProps): Promise<Me
   }
 
   const price = Number(pkg?.price_nett || 0).toLocaleString('en-SG', { maximumFractionDigits: 0 });
+  const hdbLicense = getNonEmptyText(firm.hdb_license_number) ?? 'verified';
+  const hasLineByLineDetails = [
+    pkg?.description_carpentry,
+    pkg?.description_finishes,
+    pkg?.description_works,
+    pkg?.description_service,
+  ].some((value) => Boolean(getNonEmptyText(value)));
+
+  const detailsSentence = hasLineByLineDetails
+    ? 'Carpentry, flooring, finishes listed line-by-line. '
+    : '';
+  const googleSnippet = firm.google_rating ? ` · ${firm.google_rating}★ on Google` : '';
+
+  const descriptionVariants = [
+    `${firm.name} ${flatType} BTO package at $${price}. ${detailsSentence}HDB licence ${hdbLicense}${googleSnippet}.`,
+    `${firm.name} ${flatType} BTO package at $${price}. ${detailsSentence}HDB licence ${hdbLicense}.`,
+    `${firm.name} ${flatType} BTO at $${price}. Line-by-line inclusions. HDB licence ${hdbLicense}${googleSnippet}.`,
+    `${firm.name} ${flatType} BTO at $${price}. Line-by-line inclusions. HDB licence ${hdbLicense}.`,
+    `${firm.name} ${flatType} BTO at $${price}. HDB licence ${hdbLicense}${googleSnippet}.`,
+    `${firm.name} ${flatType} BTO at $${price}. HDB licence ${hdbLicense}.`,
+  ];
+
+  const description =
+    descriptionVariants.find((candidate) => candidate.length <= 160) ??
+    `${firm.name} ${flatType} BTO at $${price}. HDB verified.`.slice(0, 160);
 
   return {
     title: `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`,
-    description: `${firm.name} ${flatType} BTO package at $${price}. HDB licensed · Verified.`,
+    description,
     alternates: {
       canonical: `https://www.btopackage.sg/packages/${flatType}/${slug}`,
     },
