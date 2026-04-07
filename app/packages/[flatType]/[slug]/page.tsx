@@ -131,12 +131,20 @@ export async function generateMetadata({ params }: PackagePageProps): Promise<Me
   }
 
   const price = Number(pkg?.price_nett || 0).toLocaleString('en-SG', { maximumFractionDigits: 0 });
+  const canonicalUrl = `https://btopackage.sg/packages/${flatType}/${slug}`;
 
   return {
     title: `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`,
     description: `${firm.name} ${flatType} BTO package at $${price}. HDB licensed · Verified.`,
     alternates: {
-      canonical: `https://btopackage.sg/packages/${flatType}/${slug}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`,
+      description: `${firm.name} ${flatType} BTO package at $${price}. HDB licensed · Verified.`,
+      url: canonicalUrl,
+      type: 'website',
+      ...(pkg?.image_url ? { images: [pkg.image_url] } : {}),
     },
   };
 }
