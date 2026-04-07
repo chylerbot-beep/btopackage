@@ -382,7 +382,7 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
     <>
       {cardsForFlatType.length >= 1 && (
         <section className="bg-white px-4 py-10">
-          <div className="mx-auto w-full max-w-3xl">
+          <div className="mx-auto w-full max-w-4xl">
             <h2
               className="text-2xl font-bold text-[#1A1A1A]"
               style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
@@ -399,28 +399,12 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
               <span className="text-[#16A34A]">CaseTrust accredited</span>
             </p>
 
-            <div
-              className="mt-5 flex gap-3 overflow-x-auto pb-3"
-              style={{
-                scrollSnapType: 'x mandatory',
-                WebkitOverflowScrolling: 'touch',
-                scrollbarWidth: 'none',
-                marginLeft: '-16px',
-                marginRight: '-16px',
-                paddingLeft: '16px',
-                paddingRight: '16px',
-              }}
-            >
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               {cardsForFlatType.map((pkg) => (
                 <VerifiedCard key={pkg.id} pkg={pkg} />
               ))}
             </div>
 
-            {cardsForFlatType.length >= 2 && (
-              <p className="mt-2 text-center text-[12px] text-[#9CA3AF]">
-                ← Swipe to see all {cardsForFlatType.length} listings →
-              </p>
-            )}
           </div>
         </section>
       )}
