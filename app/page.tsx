@@ -119,105 +119,180 @@ export default async function Home() {
 
       <HomeClient packages={packages} />
 
-      <section className="mx-auto w-full max-w-[600px] px-4 py-12">
-        <h2
-          className="mb-6 text-2xl font-bold text-[#1A1A1A]"
-          style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
-        >
-          How it works
-        </h2>
+      <section className="bg-white px-4 py-10">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2
+            className="text-2xl font-bold text-[#1A1A1A]"
+            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+          >
+            How much does a BTO renovation cost in Singapore (2026)?
+          </h2>
+          <p className="mt-4 text-sm text-[#374151]">
+            Before you compare packages, it helps to know the market range. Based on MoneySmart&apos;s
+            2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs —
+            including furniture and fittings:
+          </p>
 
-        <div className="space-y-6 rounded-xl border border-[#E5E0D8] p-6">
-          {[
-            {
-              n: '01',
-              heading: 'Find packages for your flat type',
-              body: 'Select 3-Room, 4-Room or 5-Room. Every package is filtered to match.',
-            },
-            {
-              n: '02',
-              heading: 'Compare inclusions — not just price',
-              body: "See carpentry footage, flooring type, and what's NOT included, side by side. All firms carry a verified HDB licence number.",
-            },
-            {
-              n: '03',
-              heading: 'WhatsApp your shortlisted firm directly',
-              body: 'No middlemen, no referral fees. You contact them directly — we never share your details.',
-            },
-          ].map((step) => (
-            <div key={step.n}>
-              <p className="text-[11px] font-bold tracking-widest text-[#9CA3AF]">{step.n}</p>
-              <h3 className="text-base font-semibold text-[#1A1A1A]">{step.heading}</h3>
-              <p className="text-sm text-[#6B7280]">{step.body}</p>
+          <div className="mt-4">
+            <div className="flex items-center justify-between border-b border-[#E5E0D8] py-3 text-sm">
+              <span className="font-semibold text-[#1A1A1A]">3-Room BTO</span>
+              <span className="font-semibold text-[#1A1A1A]">$36,100 – $43,700</span>
             </div>
-          ))}
+            <div className="flex items-center justify-between border-b border-[#E5E0D8] py-3 text-sm">
+              <span className="font-semibold text-[#1A1A1A]">4-Room BTO</span>
+              <span className="font-semibold text-[#1A1A1A]">$51,000 – $61,800</span>
+            </div>
+            <div className="flex items-center justify-between border-b border-[#E5E0D8] py-3 text-sm">
+              <span className="font-semibold text-[#1A1A1A]">5-Room BTO</span>
+              <span className="font-semibold text-[#1A1A1A]">$67,000 – $82,400</span>
+            </div>
+          </div>
+
+          <p className="mt-4 text-xs text-[#9CA3AF]">
+            Packages on this platform cover carpentry and finishes only — not the full renovation.
+            Use the{' '}
+            <Link href="/price-guide" className="underline">
+              Price Guide
+            </Link>{' '}
+            to check individual item rates.
+          </p>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-3xl space-y-4 px-4 py-10 text-sm text-[#374151]">
-        <h3
-          className="text-xl font-bold text-[#1A1A1A]"
-          style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
-        >
-          What to Look For in a BTO Renovation Package (So It&apos;s Apple to Apple)
-        </h3>
-        <p>
-          Two packages priced at $30,000, when you compare them it&apos;s not always apple to
-          apple. One package might include the full-height carpentry for all three bedrooms, while
-          another one only covers your master bedroom. If you&apos;re not careful, the
-          VOs (Variation Orders) will add up very fast later on.
-        </p>
+      <section className="bg-[#F9F7F4] px-4 py-10">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2
+            className="text-2xl font-bold text-[#1A1A1A]"
+            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+          >
+            Why comparing BTO packages is harder than it looks
+          </h2>
+          <div className="mt-4 space-y-4 text-sm text-[#374151]">
+            <p>
+              Two packages priced at $30,000 are rarely apple to apple. One might include
+              full-height carpentry for all three bedrooms. Another covers only the master bedroom.
+              The price looks the same until you start asking questions — and by then you may
+              already have signed.
+            </p>
+            <p>
+              Variation Orders (VOs) are how the gap gets charged back to you later. Anything not
+              explicitly covered in the original package becomes a VO — and VOs are almost always
+              more expensive than if it had been included upfront.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <h3 className="text-lg font-semibold text-[#1A1A1A]">How Btopackage.sg Helps You Compare</h3>
-        <p>Btopackage.sg provides two main tools to help you plan your budget safely:</p>
-        <ul className="list-disc space-y-2 pl-6">
-          <li>
-            <span className="font-semibold">Clear Inclusions &amp; Exclusions:</span> We take
-            packages from HDB-licensed interior design firms and break them down{' '}
-            <span className="font-semibold">line by line</span> based on common reno items. You
-            will see exactly how many feet of carpentry is included and the exact materials used
-            (like E0-grade boards or sintered stone). But more importantly, we show you exactly
-            what is explicitly put under &quot;Not Covered&quot;—like countertop backsplash or
-            false ceilings. This way it&apos;s clear and easy to compare.
-          </li>
-          <li>
-            <span className="font-semibold">A Standardized Price Guide:</span> If a package
-            excludes something you want, you can refer to our{' '}
-            <Link
-              href="https://www.btopackage.sg/price-guide"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#1B4332] underline"
-            >
-              BTO Price Guide
-            </Link>
-            . We show you the standard market unit rates so you know what is a fair price.
-          </li>
-        </ul>
-        <p>Also, every firm on this platform has a verified HDB licence number</p>
+      <section className="bg-white px-4 py-10">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2
+            className="mb-6 text-2xl font-bold text-[#1A1A1A]"
+            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+          >
+            How Btopackage.sg helps you compare
+          </h2>
 
-        <h3
-          className="text-xl font-bold text-[#1A1A1A]"
-          style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
-        >
-          How Much Does a BTO Renovation Cost in Singapore (2026)?
-        </h3>
-        <p>
-          If you are planning your budget before your key collection, it helps to know the market
-          rate. Of course, it depends on whether you are OCS-in or OCS-out, but based on recent
-          data (MoneySmart 2026), here is the rough costing:
-        </p>
-        <ul className="list-disc space-y-1 pl-6">
-          <li>
-            <span className="font-semibold">3-Room BTO Renovation Cost:</span> $36,100 – $43,700
-          </li>
-          <li>
-            <span className="font-semibold">4-Room BTO Renovation Cost:</span> $51,000 – $61,800
-          </li>
-          <li>
-            <span className="font-semibold">5-Room BTO Renovation Cost:</span> $67,000 – $82,400
-          </li>
-        </ul>
+          <div className="space-y-6 rounded-xl border border-[#E5E0D8] p-6">
+            {[
+              {
+                n: '01',
+                heading: 'Find packages for your flat type',
+                body: 'Select 3-Room, 4-Room or 5-Room. Every package is filtered to match.',
+              },
+              {
+                n: '02',
+                heading: 'Compare inclusions — not just price',
+                body: "See carpentry footage, flooring type, and what's NOT included, side by side. All firms carry a verified HDB licence number.",
+              },
+              {
+                n: '03',
+                heading: 'WhatsApp your shortlisted firm directly',
+                body: 'No middlemen, no referral fees. You contact them directly — we never share your details.',
+              },
+            ].map((step) => (
+              <div key={step.n}>
+                <p className="text-[11px] font-bold tracking-widest text-[#9CA3AF]">{step.n}</p>
+                <h3 className="text-base font-semibold text-[#1A1A1A]">{step.heading}</h3>
+                <p className="text-sm text-[#6B7280]">{step.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-4 text-sm text-[#6B7280]">
+            Every firm on this platform has a verified HDB licence number. Inclusions and
+            exclusions are listed line by line — so there are no surprises.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-[#F9F7F4] px-4 py-10">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2
+            className="text-2xl font-bold text-[#1A1A1A]"
+            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+          >
+            How we verify the firms on this platform
+          </h2>
+
+          <div className="mt-6">
+            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
+              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
+                <span className="text-[#16A34A]">✓</span>
+                HDB Renovation Licence — verified
+              </h3>
+              <p className="mt-2">
+                Every firm on this platform holds a valid HDB Renovation Contractor licence. We
+                check the licence number against HDB&apos;s records before a listing goes live.
+                Unlicensed contractors cannot legally carry out renovation works in HDB flats —
+                this is the baseline we hold every firm to.
+              </p>
+            </div>
+
+            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
+              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
+                <span className="text-[#16A34A]">✓</span>
+                In-house team, not outsourced
+              </h3>
+              <p className="mt-2">
+                We prioritise firms that use their own full-time workers rather than subcontracting
+                the job out. When work is subcontracted, accountability gets murky — if something
+                goes wrong, it is harder to know who to call. An in-house team means the firm is
+                directly responsible for the quality of every job.
+              </p>
+            </div>
+
+            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
+              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
+                <span className="text-[#16A34A]">✓</span>
+                CaseTrust accredited — your deposit is protected
+              </h3>
+              <p className="mt-2">
+                CaseTrust-accredited firms are required to place customer deposits in a protected
+                escrow account. If anything goes wrong before the renovation is complete, your
+                deposit is not lost. We flag which firms carry this accreditation so you can factor
+                it into your decision.
+              </p>
+            </div>
+
+            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
+              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
+                <span className="text-[#16A34A]">✓</span>
+                Google rating — real feedback from real homeowners
+              </h3>
+              <p className="mt-2">
+                Singaporeans are not shy about leaving a bad review. A firm with consistently high
+                Google ratings across many reviews is a reliable signal that homeowners were
+                satisfied with the outcome. We show each firm&apos;s Google rating and review count
+                directly on their listing.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-xs text-[#9CA3AF]">
+            Not every firm meets all three criteria. Each listing clearly shows which signals are
+            verified — so you can decide what matters most to you.
+          </p>
+        </div>
       </section>
 
       <footer className="bg-[#1B4332] px-4 py-10 text-sm">
