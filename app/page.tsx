@@ -128,8 +128,8 @@ export default async function Home() {
             How much does a BTO renovation cost in Singapore (2026)?
           </h2>
           <p className="mt-4 text-sm text-[#374151]">
-            Before you compare packages, it helps to know the market range. Based on MoneySmart&apos;s
-            2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs excluding furniture and furnishings:
+            2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs
+            excluding furniture and furnishings:
           </p>
 
           <div className="mt-4">
@@ -146,6 +146,7 @@ export default async function Home() {
               <span className="font-semibold text-[#1A1A1A]">$67,000 – $82,400</span>
             </div>
           </div>
+        </div>
       </section>
 
       <section className="bg-white px-4 py-10">
