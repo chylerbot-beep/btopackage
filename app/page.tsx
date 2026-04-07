@@ -128,7 +128,7 @@ export default async function Home() {
             How much does a BTO renovation cost in Singapore (2026)?
           </h2>
           <p className="mt-4 text-sm text-[#374151]">
-            Before you compare packages, it helps to know the market range. Based on MoneySmart&apos;s
+            Based on MoneySmart&apos;s
             2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs
             excluding furniture and furnishings:
           </p>
