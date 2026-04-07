@@ -399,7 +399,7 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
               <span className="text-[#16A34A]">CaseTrust accredited</span>
             </p>
 
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4">
               {cardsForFlatType.map((pkg) => (
                 <VerifiedCard key={pkg.id} pkg={pkg} />
               ))}
