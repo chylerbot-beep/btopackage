@@ -159,138 +159,137 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="bg-white px-4 py-10">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2
+            className="text-xl font-bold text-[#1A1A1A]"
+            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
+          >
+            How to find your BTO package
+          </h2>
+
+          <div className="mt-6 space-y-6 rounded-xl border border-[#E5E0D8] bg-white p-6">
+            <div className="flex gap-3">
+              <p className="w-6 shrink-0 text-xs font-bold tracking-widest text-[#9CA3AF]">01</p>
+              <div>
+                <h3 className="text-sm font-semibold text-[#1A1A1A]">Pick your flat type</h3>
+                <p className="text-sm text-[#6B7280]">
+                  3-room, 4-room, or 5-room? Filter the packages to see only the quotes meant for
+                  your exact layout.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <p className="w-6 shrink-0 text-xs font-bold tracking-widest text-[#9CA3AF]">02</p>
+              <div>
+                <h3 className="text-sm font-semibold text-[#1A1A1A]">
+                  Compare what&apos;s included — not just the price
+                </h3>
+                <p className="text-sm text-[#6B7280]">
+                  Don&apos;t just look at the promo price. See exactly what&apos;s included and
+                  what&apos;s left out. Cross-check against our Price Guide to know if the rate is
+                  fair.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <p className="w-6 shrink-0 text-xs font-bold tracking-widest text-[#9CA3AF]">03</p>
+              <div>
+                <h3 className="text-sm font-semibold text-[#1A1A1A]">WhatsApp the ID directly</h3>
+                <p className="text-sm text-[#6B7280]">
+                  Found a package that fits your budget? Click to WhatsApp the firm straight. We
+                  never collect your details — no middlemen, no referral fees.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[#F9F7F4] px-4 py-10">
         <div className="mx-auto w-full max-w-3xl">
           <h2
-            className="text-2xl font-bold text-[#1A1A1A]"
+            className="text-xl font-bold text-[#1A1A1A]"
             style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
           >
-            Why comparing BTO packages is harder than it looks
+            Why you need to compare properly
           </h2>
-          <div className="mt-4 space-y-4 text-sm text-[#374151]">
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-[#374151]">
             <p>
-              Two packages priced at $30,000 are rarely apple to apple. One might include
-              full-height carpentry for all three bedrooms. Another covers only the master bedroom.
-              The price looks the same until you start asking questions — and by then you may
-              already have signed.
+              Two IDs can both quote $30,000 for your BTO, but what you actually get can be very
+              different. A lot of times, that cheap promo price does not even include flooring or a
+              solid countertop. If you are not careful, the hidden costs will pile up fast through
+              Variation Orders.
             </p>
             <p>
-              Variation Orders (VOs) are how the gap gets charged back to you later. Anything not
-              explicitly covered in the original package becomes a VO — and VOs are almost always
-              more expensive than if it had been included upfront.
+              Cross-check every quote against our BTO Price Guide to make sure you are paying a
+              fair market rate — before you sign anything.
             </p>
           </div>
+          <Link
+            href="/price-guide"
+            className="mt-4 inline-block rounded-full border border-[#1B4332] px-5 py-2 text-sm font-medium text-[#1B4332] transition-colors hover:bg-[#1B4332] hover:text-white"
+          >
+            Check the Price Guide →
+          </Link>
         </div>
       </section>
 
       <section className="bg-white px-4 py-10">
         <div className="mx-auto w-full max-w-3xl">
           <h2
-            className="mb-6 text-2xl font-bold text-[#1A1A1A]"
-            style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
-          >
-            How Btopackage.sg helps you compare
-          </h2>
-
-          <div className="space-y-6 rounded-xl border border-[#E5E0D8] p-6">
-            {[
-              {
-                n: '01',
-                heading: 'Find packages for your flat type',
-                body: 'Select 3-Room, 4-Room or 5-Room. Every package is filtered to match.',
-              },
-              {
-                n: '02',
-                heading: 'Compare inclusions — not just price',
-                body: "See carpentry footage, flooring type, and what's NOT included, side by side. All firms carry a verified HDB licence number.",
-              },
-              {
-                n: '03',
-                heading: 'WhatsApp your shortlisted firm directly',
-                body: 'No middlemen, no referral fees. You contact them directly — we never share your details.',
-              },
-            ].map((step) => (
-              <div key={step.n}>
-                <p className="text-[11px] font-bold tracking-widest text-[#9CA3AF]">{step.n}</p>
-                <h3 className="text-base font-semibold text-[#1A1A1A]">{step.heading}</h3>
-                <p className="text-sm text-[#6B7280]">{step.body}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-4 text-sm text-[#6B7280]">
-            Every firm on this platform has a verified HDB licence number. Inclusions and
-            exclusions are listed line by line — so there are no surprises.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-[#F9F7F4] px-4 py-10">
-        <div className="mx-auto w-full max-w-3xl">
-          <h2
-            className="text-2xl font-bold text-[#1A1A1A]"
+            className="text-xl font-bold text-[#1A1A1A]"
             style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
           >
             How we verify the firms on this platform
           </h2>
 
           <div className="mt-6">
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
-                <span className="text-[#16A34A]">✓</span>
-                HDB Renovation Licence — verified
-              </h3>
-              <p className="mt-2">
-                Every firm on this platform holds a valid HDB Renovation Contractor licence. We
-                check the licence number against HDB&apos;s records before a listing goes live.
-                Unlicensed contractors cannot legally carry out renovation works in HDB flats —
-                this is the baseline we hold every firm to.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
-                <span className="text-[#16A34A]">✓</span>
-                In-house team, not outsourced
-              </h3>
-              <p className="mt-2">
-                We prioritise firms that use their own full-time workers rather than subcontracting
-                the job out. When work is subcontracted, accountability gets murky — if something
-                goes wrong, it is harder to know who to call. An in-house team means the firm is
-                directly responsible for the quality of every job.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
-                <span className="text-[#16A34A]">✓</span>
-                CaseTrust accredited — your deposit is protected
-              </h3>
-              <p className="mt-2">
-                CaseTrust-accredited firms are required to place customer deposits in a protected
-                escrow account. If anything goes wrong before the renovation is complete, your
-                deposit is not lost. We flag which firms carry this accreditation so you can factor
-                it into your decision.
-              </p>
-            </div>
-
-            <div className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5 text-[#374151]">
-              <h3 className="flex items-center gap-2 font-semibold text-[#1A1A1A]">
-                <span className="text-[#16A34A]">✓</span>
-                Google rating — real feedback from real homeowners
-              </h3>
-              <p className="mt-2">
-                Singaporeans are not shy about leaving a bad review. A firm with consistently high
-                Google ratings across many reviews is a reliable signal that homeowners were
-                satisfied with the outcome. We show each firm&apos;s Google rating and review count
-                directly on their listing.
-              </p>
-            </div>
+            {[
+              {
+                title: 'HDB Renovation Licence — verified',
+                body: "Every firm holds a valid HDB Renovation Contractor licence. We check their licence number against HDB's records before the listing goes live — and we check for any existing penalties from HDB.",
+              },
+              {
+                title: 'In-house team, no messy subcontracting',
+                body: 'When work is subcontracted, accountability gets murky if something goes wrong. We prioritise firms that use their own full-time workers instead of farming the job out.',
+              },
+              {
+                title: 'CaseTrust accredited — your deposit is protected',
+                body: 'If the firm goes MIA before your reno is done, your deposit is not lost. CaseTrust firms are required to hold customer deposits in a protected escrow account. We flag which firms carry this accreditation.',
+              },
+              {
+                title: 'Google rating — real reviews from real homeowners',
+                body: "Singaporeans are not shy about leaving a bad review if the work is bad. We show each firm's Google rating and review count directly on their listing.",
+              },
+            ].map((item) => (
+              <div key={item.title} className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5">
+                <div className="flex gap-3">
+                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#16A34A]">
+                    <svg aria-hidden="true" viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none">
+                      <path
+                        d="M3.8 8.4 6.6 11l5.6-5.5"
+                        stroke="white"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-[#1A1A1A]">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-[#6B7280]">{item.body}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <p className="text-xs text-[#9CA3AF]">
-            Not every firm meets all three criteria. Each listing clearly shows which signals are
-            verified — so you can decide what matters most to you.
+          <p className="mt-4 text-xs text-[#9CA3AF]">
+            Not every firm meets all criteria. Each listing shows exactly which signals are
+            verified so you can decide what matters most to you.
           </p>
         </div>
       </section>
