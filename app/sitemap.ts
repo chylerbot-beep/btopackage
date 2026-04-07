@@ -25,7 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: 'https://www.btopackage.sg', changeFrequency: 'daily', priority: 1.0 },
     { url: 'https://www.btopackage.sg/price-guide', changeFrequency: 'monthly', priority: 0.9 },
     { url: 'https://www.btopackage.sg/directory', changeFrequency: 'weekly', priority: 0.8 },
-    { url: 'https://www.btopackage.sg/about', changeFrequency: 'monthly', priority: 0.5 },
     { url: 'https://www.btopackage.sg/submit', changeFrequency: 'monthly', priority: 0.6 },
     ...packageUrls,
   ];
