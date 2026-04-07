@@ -46,10 +46,6 @@ export default function HomeClient({ packages }: HomeClientProps) {
             ))}
           </div>
 
-          <p className="mt-4 text-[12.5px]" style={{ color: 'rgba(255,255,255,0.70)' }}>
-            ✓ HDB-verified firms · ✓ packages with inclusions listed · ✓ estates covered
-          </p>
-
           <div className="mt-6 text-center">
             <p className="mb-3 text-sm text-[rgba(255,255,255,0.6)]">
               Not sure what a fair price looks like?
