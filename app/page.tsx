@@ -179,8 +179,7 @@ export default async function Home() {
                 </h3>
                 <p className="text-sm text-[#6B7280]">
                   Don&apos;t just look at the promo price. See exactly what&apos;s included and
-                  what&apos;s left out. Cross-check against our Price Guide to know if the rate is
-                  fair.
+                  what&apos;s left out. 
                 </p>
               </div>
             </div>
