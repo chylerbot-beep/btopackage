@@ -50,24 +50,14 @@ export default function HomeClient({ packages }: HomeClientProps) {
             ✓ HDB-verified firms · ✓ packages with inclusions listed · ✓ estates covered
           </p>
 
-          <div className="mt-5">
+          <div className="mt-6 text-center">
+            <p className="mb-3 text-sm text-[rgba(255,255,255,0.6)]">
+              Not sure what a fair price looks like?
+            </p>
             <Link
               href="/price-guide"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-white/10"
+              className="inline-block rounded-full border border-[rgba(255,255,255,0.35)] px-5 py-2 text-sm font-medium text-white transition-colors hover:border-[rgba(255,255,255,0.7)] hover:bg-[rgba(255,255,255,0.07)]"
             >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M12 2v20M2 12h20" />
-              </svg>
               BTO Price Guide →
             </Link>
           </div>
