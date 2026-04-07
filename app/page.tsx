@@ -129,8 +129,8 @@ export default async function Home() {
           </h2>
           <p className="mt-4 text-sm text-[#374151]">
             Before you compare packages, it helps to know the market range. Based on MoneySmart&apos;s
-            2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs —
-            including furniture and fittings:
+            2026 HDB Renovation Cost Guide, here is what a full BTO renovation typically costs
+            excluding furniture and furnishings:
           </p>
 
           <div className="mt-4">
@@ -148,14 +148,6 @@ export default async function Home() {
             </div>
           </div>
 
-          <p className="mt-4 text-xs text-[#9CA3AF]">
-            Packages on this platform cover carpentry and finishes only — not the full renovation.
-            Use the{' '}
-            <Link href="/price-guide" className="underline">
-              Price Guide
-            </Link>{' '}
-            to check individual item rates.
-          </p>
         </div>
       </section>
 
@@ -174,8 +166,7 @@ export default async function Home() {
               <div>
                 <h3 className="text-sm font-semibold text-[#1A1A1A]">Pick your flat type</h3>
                 <p className="text-sm text-[#6B7280]">
-                  3-room, 4-room, or 5-room? Filter the packages to see only the quotes meant for
-                  your exact layout.
+                  3-room, 4-room, or 5-room? Filter to see packages for your layout.
                 </p>
               </div>
             </div>
@@ -200,7 +191,7 @@ export default async function Home() {
                 <h3 className="text-sm font-semibold text-[#1A1A1A]">WhatsApp the ID directly</h3>
                 <p className="text-sm text-[#6B7280]">
                   Found a package that fits your budget? Click to WhatsApp the firm straight. We
-                  never collect your details — no middlemen, no referral fees.
+                  never collect or share your details.
                 </p>
               </div>
             </div>
@@ -218,14 +209,13 @@ export default async function Home() {
           </h2>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-[#374151]">
             <p>
-              Two IDs can both quote $30,000 for your BTO, but what you actually get can be very
-              different. A lot of times, that cheap promo price does not even include flooring or a
-              solid countertop. If you are not careful, the hidden costs will pile up fast through
-              Variation Orders.
+              Two IDs can both quote $30,000 for your BTO, but what you get can be very
+              different. A lot of times, very cheap promo prices do not even include flooring or a
+              solid countertop. If you are not careful, the hidden costs will pile up fast.
             </p>
             <p>
-              Cross-check every quote against our BTO Price Guide to make sure you are paying a
-              fair market rate — before you sign anything.
+              Cross-check your quote against our BTO Price Guide to make sure you are paying a
+              fair market rate before you sign anything.
             </p>
           </div>
           <Link
@@ -249,20 +239,20 @@ export default async function Home() {
           <div className="mt-6">
             {[
               {
-                title: 'HDB Renovation Licence — verified',
-                body: "Every firm holds a valid HDB Renovation Contractor licence. We check their licence number against HDB's records before the listing goes live — and we check for any existing penalties from HDB.",
+                title: 'HDB Renovation Licence verified',
+                body: "Every firm holds a valid HDB Renovation Contractor licence. We check their licence number against HDB's records before the listing goes live and we check for any existing penalties from HDB.",
               },
               {
-                title: 'In-house team, no messy subcontracting',
-                body: 'When work is subcontracted, accountability gets murky if something goes wrong. We prioritise firms that use their own full-time workers instead of farming the job out.',
+                title: 'In-house team',
+                body: 'When work is subcontracted, things get messy if something goes wrong. We prioritise firms that use their own full-time workers instead of subcontracting.',
               },
               {
-                title: 'CaseTrust accredited — your deposit is protected',
-                body: 'If the firm goes MIA before your reno is done, your deposit is not lost. CaseTrust firms are required to hold customer deposits in a protected escrow account. We flag which firms carry this accreditation.',
+                title: 'CaseTrust accredited',
+                body: 'If the firm goes bankrupt before your reno is done, your deposit is 100% protected and guaranteed. CaseTrust firms are required to hold customer deposits in a protected escrow account. We flag which firms carry this accreditation.',
               },
               {
-                title: 'Google rating — real reviews from real homeowners',
-                body: "Singaporeans are not shy about leaving a bad review if the work is bad. We show each firm's Google rating and review count directly on their listing.",
+                title: 'Solid Google rating',
+                body: "Singaporeans are not shy about leaving a bad review if the work is bad. We show each firm's Google rating directly on their listing.",
               },
             ].map((item) => (
               <div key={item.title} className="mb-3 rounded-xl border border-[#E5E0D8] bg-white p-5">
