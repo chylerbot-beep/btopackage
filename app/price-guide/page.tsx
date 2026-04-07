@@ -73,7 +73,7 @@ const articleSchema = {
   description:
     'Market rates for carpentry, flooring, bathroom tiling, painting and more for BTO flats in Singapore.',
   datePublished: '2026-03-01',
-  dateModified: '2026-03-01',
+  dateModified: '2026-04-07',
   author: { '@type': 'Organization', name: 'Btopackage.sg', url: 'https://www.btopackage.sg' },
   publisher: { '@type': 'Organization', name: 'Btopackage.sg', url: 'https://www.btopackage.sg' },
   mainEntityOfPage: 'https://www.btopackage.sg/price-guide',
