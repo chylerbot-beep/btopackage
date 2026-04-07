@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FlatType } from '@/lib/types';
 import { buildWhatsAppHref } from '@/lib/whatsapp';
 
@@ -241,10 +241,8 @@ function VerifiedCard({
 
   return (
     <div
-      className="flex flex-shrink-0 flex-col overflow-hidden rounded-xl bg-white"
+      className="flex w-full min-w-[78vw] max-w-[300px] flex-shrink-0 flex-col overflow-hidden rounded-xl bg-white lg:min-w-0 lg:max-w-none"
       style={{
-        minWidth: '78vw',
-        maxWidth: '300px',
         border: '1px solid #E5E0D8',
         borderTop: `3px solid ${allMet ? '#F59E0B' : '#E5E7EB'}`,
         scrollSnapAlign: 'start',
@@ -358,6 +356,8 @@ type PackageListingsProps = {
 };
 
 export default function PackageListings({ packages, selectedFlatType }: PackageListingsProps) {
+  const [desktopPage, setDesktopPage] = useState(0);
+
   const cardsForFlatType = useMemo(() => {
     const seenFirmIds = new Set<string>();
     return packages
@@ -370,6 +370,13 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
         return true;
       });
   }, [packages, selectedFlatType]);
+
+  useEffect(() => {
+    setDesktopPage(0);
+  }, [selectedFlatType, cardsForFlatType.length]);
+
+  const desktopPageCount = Math.ceil(cardsForFlatType.length / 3);
+  const canPaginateDesktop = desktopPageCount > 1;
 
   const flatLabel =
     selectedFlatType === '3-room'
@@ -399,10 +406,52 @@ export default function PackageListings({ packages, selectedFlatType }: PackageL
               <span className="text-[#16A34A]">CaseTrust accredited</span>
             </p>
 
-            <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="mt-5 grid grid-cols-1 gap-4 lg:hidden">
               {cardsForFlatType.map((pkg) => (
                 <VerifiedCard key={pkg.id} pkg={pkg} />
               ))}
+            </div>
+
+            <div className="relative mt-5 hidden lg:block">
+              {canPaginateDesktop && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setDesktopPage((prev) => Math.max(prev - 1, 0))}
+                    disabled={desktopPage === 0}
+                    aria-label="View previous packages"
+                    className="absolute -left-14 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#1B4332] shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDesktopPage((prev) => Math.min(prev + 1, desktopPageCount - 1))}
+                    disabled={desktopPage >= desktopPageCount - 1}
+                    aria-label="View next packages"
+                    className="absolute -right-14 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#D1D5DB] bg-white text-[#1B4332] shadow-sm transition disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    →
+                  </button>
+                </>
+              )}
+
+              <div className="overflow-hidden">
+                <div
+                  className="flex transition-transform duration-300 ease-out"
+                  style={{ transform: `translateX(-${desktopPage * 100}%)` }}
+                >
+                  {Array.from({ length: desktopPageCount }).map((_, pageIndex) => (
+                    <div key={pageIndex} className="w-full flex-shrink-0">
+                      <div className="grid grid-cols-3 gap-4">
+                        {cardsForFlatType.slice(pageIndex * 3, pageIndex * 3 + 3).map((pkg) => (
+                          <VerifiedCard key={pkg.id} pkg={pkg} />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
           </div>
