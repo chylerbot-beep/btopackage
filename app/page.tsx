@@ -81,9 +81,7 @@ export default async function Home() {
               '@type': 'ListItem',
               position: i + 1,
               name: firm.name,
-              url: firm.slug
-                ? `https://www.btopackage.sg/firms/${firm.slug}`
-                : 'https://www.btopackage.sg',
+              url: 'https://www.btopackage.sg',
             })),
           }),
         }}
