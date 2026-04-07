@@ -220,20 +220,45 @@ export default async function Home() {
         </ul>
       </section>
 
-      <footer className="bg-[#1B4332] px-4 py-8 text-sm text-[rgba(255,255,255,0.7)]">
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
+      <footer className="bg-[#1B4332] px-4 py-10 text-sm">
+        <div className="mx-auto w-full max-w-3xl">
           <p
-            className="font-bold text-white"
+            className="mb-5 text-base font-bold text-white"
             style={{ fontFamily: 'var(--font-bricolage-grotesque)' }}
           >
             BTOPACKAGE.SG
           </p>
-          <nav className="flex flex-wrap gap-3">
-            <Link href="/about">About</Link>
-            <Link href="/privacy">Privacy</Link>
-            <Link href="/directory">Directory</Link>
+          <nav className="mb-5 flex flex-wrap gap-x-6 gap-y-3">
+            <Link href="/about" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              About
+            </Link>
+            <Link href="/price-guide" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              Price Guide
+            </Link>
+            <Link href="/directory" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              Directory
+            </Link>
+            <Link href="/guides" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              Guides
+            </Link>
+            <Link href="/privacy" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              Privacy
+            </Link>
+            <Link href="/terms" className="text-[rgba(255,255,255,0.7)] hover:text-white">
+              Terms
+            </Link>
           </nav>
-          <Link href="/submit">HDB-licensed firm? Submit a free listing →</Link>
+          <div className="flex flex-col gap-3 border-t border-[rgba(255,255,255,0.15)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-[rgba(255,255,255,0.5)]">
+              © 2026 Btopackage.sg · Independent directory · No referral fees
+            </p>
+            <Link
+              href="/submit"
+              className="text-xs font-medium text-[rgba(255,255,255,0.85)] hover:text-white"
+            >
+              HDB-licensed firm? Submit a free listing →
+            </Link>
+          </div>
         </div>
       </footer>
     </main>
