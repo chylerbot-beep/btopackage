@@ -329,21 +329,38 @@ export default async function PackagePage({ params }: PackagePageProps) {
     ],
   };
 
-  const serviceSchema = {
+  const packageUrl = `https://www.btopackage.sg/packages/${flatType}/${pkg.slug}`;
+  const packageDescription =
+    summary ?? `${firm.name} ${displayFlatType} BTO renovation package with transparent inclusions and pricing.`;
+  const hasAggregateRating =
+    typeof firm.google_rating === 'number' && typeof firm.google_review_count === 'number';
+
+  const productSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: `${firm.name} ${displayFlatType} BTO Renovation Package`,
-    provider: {
-      '@type': 'LocalBusiness',
+    '@type': 'Product',
+    name: `${firm.name} ${displayFlatType} BTO Package`,
+    description: packageDescription,
+    image: pkg.image_url ?? undefined,
+    brand: {
+      '@type': 'Brand',
       name: firm.name,
-      identifier: firm.hdb_license_number ?? '',
     },
-    areaServed: 'Singapore',
     offers: {
       '@type': 'Offer',
       price: `${pkg.price_nett}`,
       priceCurrency: 'SGD',
+      availability: 'https://schema.org/InStock',
+      url: packageUrl,
     },
+    ...(hasAggregateRating
+      ? {
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: firm.google_rating,
+            reviewCount: firm.google_review_count,
+          },
+        }
+      : {}),
   };
 
   return (
@@ -354,7 +371,7 @@ export default async function PackagePage({ params }: PackagePageProps) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <div className="px-4 pt-4 text-sm text-[#6B7280]">
         <Link href="/" className="hover:text-[#1A1A1A]">
