@@ -76,12 +76,14 @@ export default async function Home() {
               url: string;
             }>>((items, firm) => {
               const firmSlug = firm.slug?.trim();
-              if (!firmSlug) return items;
+              const firmName = firm.name?.trim();
+
+              if (!firmSlug || !firmName) return items;
 
               items.push({
                 '@type': 'ListItem',
                 position: items.length + 1,
-                name: firm.name,
+                name: firmName,
                 url: `https://www.btopackage.sg/packages/4-room/${firmSlug}`,
               });
 
