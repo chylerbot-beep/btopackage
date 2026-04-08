@@ -48,9 +48,31 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const displayFlatType = toDisplayFlatType(flatType);
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.btopackage.sg',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: displayFlatType,
+        item: `https://www.btopackage.sg/packages/${flatType}`,
+      },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="px-4 py-3 text-sm text-[#6B7280]">
         <div className="mx-auto w-full max-w-4xl">
           <Link href="/" className="hover:text-[#1A1A1A]">
