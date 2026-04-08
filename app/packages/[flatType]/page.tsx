@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import PackageListings, { type PackageRow } from '@/components/PackageListings';
 import PriceContextBar from '@/components/PriceContextBar';
 import { MARKET_PRICE_INDEX } from '@/lib/priceIndex';
+import { createServerClient } from '@/lib/supabase/server';
 
 const VALID_FLAT_TYPES = ['3-room', '4-room', '5-room'] as const;
 type FlatType = (typeof VALID_FLAT_TYPES)[number];
@@ -24,6 +26,34 @@ const isValidFlatType = (flatType: string): flatType is FlatType => {
   return VALID_FLAT_TYPES.includes(flatType as FlatType);
 };
 
+async function fetchPackages(flatType: FlatType) {
+  const supabase = await createServerClient();
+  const { data } = await supabase
+    .from('package')
+    .select(`
+      id, slug, flat_type, price_nett, image_url, is_featured, featured_position,
+      kitchen_top_cabinet_ft, kitchen_bottom_cabinet_ft,
+      master_wardrobe_ft, common_wardrobe_room2_ft, common_wardrobe_room3_ft,
+      flooring_type, countertop_material, countertop_backsplash,
+      shower_screens_included, electrical_included, plumbing_included,
+      false_ceiling_included, doors_included, paint_brand,
+      cleaning_and_haulage_included, render_3d, warranty_months,
+      id_firm (
+        id, name, slug, google_rating, google_review_count,
+        hdb_license_number, hdb_license_verified, casetrust_accredited,
+        known_for, whatsapp_number, whatsapp_message, project_images
+      )
+    `)
+    .eq('flat_type', flatType)
+    .eq('status', 'active')
+    .eq('package_type', 'bto')
+    .is('deleted_at', null)
+    .order('is_featured', { ascending: false })
+    .order('featured_position', { ascending: true, nullsFirst: false });
+
+  return (data ?? []) as PackageRow[];
+}
+
 export function generateMetadata({ params }: CategoryPageProps): Metadata {
   const { flatType } = params;
 
@@ -40,7 +70,7 @@ export function generateMetadata({ params }: CategoryPageProps): Metadata {
   };
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { flatType } = params;
 
   if (!isValidFlatType(flatType) || !MARKET_PRICE_INDEX.flatTypes[flatType]?.bto) {
@@ -48,6 +78,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const displayFlatType = toDisplayFlatType(flatType);
+  const packages = await fetchPackages(flatType);
 
   return (
     <>
@@ -71,17 +102,18 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           Verified packages · Inclusions listed · HDB licence numbers checked
         </p>
 
-        <section className="rounded-xl border border-[#E5E0D8] bg-white p-8 text-center">
-          <p className="text-base font-semibold text-[#1A1A1A]">
-            No packages listed yet for {flatType} BTO.
-          </p>
-          <p className="mt-2 text-sm text-[#6B7280]">
-            We&apos;re adding new firms regularly. Check back soon — or{' '}
-            <Link href="/directory" className="text-[#1B4332] hover:underline">
-              browse all firms in the directory →
-            </Link>
-          </p>
-        </section>
+        {packages.length > 0 ? (
+          <PackageListings packages={packages} selectedFlatType={flatType} />
+        ) : (
+          <section className="rounded-xl border border-[#E5E0D8] bg-white p-8 text-center">
+            <p className="text-base font-semibold text-[#1A1A1A]">
+              No packages listed yet for {flatType} BTO.
+            </p>
+            <p className="mt-2 text-sm text-[#6B7280]">
+              We&apos;re adding new firms regularly. Check back soon.
+            </p>
+          </section>
+        )}
       </main>
     </>
   );
