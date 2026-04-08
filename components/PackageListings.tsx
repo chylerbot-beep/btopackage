@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import type { FlatType } from '@/lib/types';
@@ -100,15 +101,6 @@ function getScopeTags(pkg: PackageRow): { tags: string[]; overflow: number } {
 
   const MAX = 5;
   return { tags: all.slice(0, MAX), overflow: Math.max(0, all.length - MAX) };
-}
-
-function toCssBackgroundImage(imageUrl: string | null) {
-  if (!imageUrl) {
-    return 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)';
-  }
-
-  const safeUrl = imageUrl.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
-  return `linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url("${safeUrl}")`;
 }
 
 function getWhatsAppHref(firm: FirmRow, pkg: PackageRow): string {
@@ -250,13 +242,19 @@ function VerifiedCard({
     >
       <div
         className="relative flex h-[168px] items-end"
-        style={{
-          backgroundImage: toCssBackgroundImage(heroImage),
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-        }}
+        style={!heroImage ? { background: 'linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)' } : undefined}
       >
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt={`${firm.name ?? 'Firm'} ${pkg.flat_type} BTO renovation package`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 78vw, 300px"
+            decoding="async"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/55" />
         {!heroImage && (
           <span
             className="absolute inset-0 flex items-center justify-center select-none font-extrabold text-white"
