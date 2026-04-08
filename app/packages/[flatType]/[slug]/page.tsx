@@ -61,6 +61,22 @@ const getNonEmptyText = (value: string | null | undefined) => {
   return trimmed && trimmed.length > 0 ? trimmed : null;
 };
 
+const getPackageImageUrl = (pkg: Awaited<ReturnType<typeof fetchPackage>>) => {
+  const primaryImage = getNonEmptyText(pkg?.image_url);
+  if (primaryImage) {
+    return primaryImage;
+  }
+
+  if (Array.isArray(pkg?.images)) {
+    const fallbackImage = pkg.images.find((image): image is string => typeof image === 'string' && image.trim().length > 0);
+    if (fallbackImage) {
+      return fallbackImage.trim();
+    }
+  }
+
+  return null;
+};
+
 async function fetchPackage(flatType: string, slug: string) {
   const supabase = await createServerClient();
   const { data: pkg } = await supabase
@@ -156,12 +172,28 @@ export async function generateMetadata({ params }: PackagePageProps): Promise<Me
   const description =
     descriptionVariants.find((candidate) => candidate.length <= 160) ??
     `${firm.name} ${flatType} BTO at $${price}. HDB verified.`.slice(0, 160);
+  const canonicalUrl = `https://www.btopackage.sg/packages/${flatType}/${slug}`;
+  const socialImage = getPackageImageUrl(pkg);
+  const metadataTitle = `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`;
 
   return {
-    title: `${firm.name} ${toDisplayFlatType(flatType)} BTO Package $${price} | Btopackage.sg`,
+    title: metadataTitle,
     description,
     alternates: {
-      canonical: `https://www.btopackage.sg/packages/${flatType}/${slug}`,
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: metadataTitle,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      images: socialImage ? [{ url: socialImage, alt: `${firm.name} ${toDisplayFlatType(flatType)} package image` }] : undefined,
+    },
+    twitter: {
+      card: socialImage ? 'summary_large_image' : 'summary',
+      title: metadataTitle,
+      description,
+      images: socialImage ? [socialImage] : undefined,
     },
   };
 }
@@ -363,16 +395,39 @@ export default async function PackagePage({ params }: PackagePageProps) {
       : {}),
   };
 
+  const homeAndConstructionBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'HomeAndConstructionBusiness',
+    name: firm.name,
+    areaServed: 'SG',
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      name: 'HDB Renovation Licence',
+      recognizedBy: {
+        '@type': 'Organization',
+        name: 'Housing & Development Board Singapore',
+      },
+    },
+  };
+
   return (
     <div className="mx-auto w-full max-w-2xl">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
-      />
+      {firm ? (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(homeAndConstructionBusinessSchema) }}
+          />
+        </>
+      ) : null}
       <div className="px-4 pt-4 text-sm text-[#6B7280]">
         <Link href="/" className="hover:text-[#1A1A1A]">
           Home
