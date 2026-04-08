@@ -4,7 +4,7 @@ import PriceGuideClient from './PriceGuideClient';
 export const metadata: Metadata = {
   title: 'BTO Renovation Price Guide Singapore 2026 | Btopackage.sg',
   description:
-    'Current market rates for common BTO renovation items in Singapore - carpentry, flooring, bathroom tiling, painting and more. Based on publicly available prices and real quotations.',
+    'Check 2026 market rates for BTO renovation. Compare carpentry, flooring, and tiling costs before you negotiate with ID firms. Don’t overpay.',
   alternates: {
     canonical: 'https://www.btopackage.sg/price-guide',
   },
