@@ -3,6 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+const navLinks = [
+  { href: '/price-guide', label: 'Price Guide' },
+  { href: '/packages/3-room', label: '3 Room' },
+  { href: '/packages/4-room', label: '4 Room' },
+  { href: '/packages/5-room', label: '5 Room' },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
 
@@ -20,12 +27,17 @@ export default function Navbar() {
         >
           BTOPACKAGE.SG
         </Link>
-        <Link
-          href="/price-guide"
-          className="text-[13px] font-semibold text-[#1B4332] hover:text-[#2D6A4F] transition-colors"
-        >
-          Price Guide
-        </Link>
+        <div className="flex items-center gap-3 sm:gap-5">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-[13px] font-semibold text-[#1B4332] transition-colors hover:text-[#2D6A4F]"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </nav>
     </header>
   );
