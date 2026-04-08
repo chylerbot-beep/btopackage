@@ -36,6 +36,7 @@ export function generateMetadata({ params }: CategoryPageProps): Metadata {
   return {
     title: `${displayFlatType} BTO Renovation Packages Singapore | Btopackage.sg`,
     description: `Compare verified ${flatType} BTO renovation packages. Full inclusions, carpentry footage per item, and what's NOT included. HDB licence numbers checked.`,
+    alternates: { canonical: `https://www.btopackage.sg/packages/${flatType}` },
   };
 }
 
