@@ -77,12 +77,24 @@ export default async function Home() {
             '@context': 'https://schema.org',
             '@type': 'ItemList',
             name: 'Verified BTO Renovation Firms Singapore',
-            itemListElement: verifiedFirms.map((firm, i) => ({
-              '@type': 'ListItem',
-              position: i + 1,
-              name: firm.name,
-              url: 'https://www.btopackage.sg',
-            })),
+            itemListElement: verifiedFirms.reduce<Array<{
+              '@type': 'ListItem';
+              position: number;
+              name: string;
+              url: string;
+            }>>((items, firm) => {
+              const firmSlug = firm.slug?.trim();
+              if (!firmSlug) return items;
+
+              items.push({
+                '@type': 'ListItem',
+                position: items.length + 1,
+                name: firm.name,
+                url: `https://www.btopackage.sg/packages/4-room/${firmSlug}`,
+              });
+
+              return items;
+            }, []),
           }),
         }}
       />
