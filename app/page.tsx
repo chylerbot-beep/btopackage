@@ -59,14 +59,6 @@ export default async function Home() {
             url: 'https://www.btopackage.sg',
             description:
               'Compare verified BTO renovation packages from HDB-licensed interior design firms in Singapore. See carpentry footage, flooring type, and inclusions before you WhatsApp.',
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: {
-                '@type': 'EntryPoint',
-                urlTemplate: 'https://www.btopackage.sg/?flatType={search_term_string}',
-              },
-              'query-input': 'required name=search_term_string',
-            },
           }),
         }}
       />
