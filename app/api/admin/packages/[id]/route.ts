@@ -52,6 +52,15 @@ function trimToNull(value: unknown) {
   return trimmed ? trimmed : null;
 }
 
+function isPackageSlugFlatTypeUniqueViolation(error: { code?: string; message?: string; details?: string | null }) {
+  if (error.code === '23505') {
+    return true;
+  }
+
+  const haystack = `${error.message ?? ''} ${error.details ?? ''}`.toLowerCase();
+  return haystack.includes('slug') && haystack.includes('flat_type') && haystack.includes('unique');
+}
+
 async function getSupabaseClient() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -223,6 +232,16 @@ export async function PATCH(request: Request, { params }: Params) {
   const { error } = await supabase.from('package').update(payload).eq('id', params.id).is('deleted_at', null);
 
   if (error) {
+    if (isPackageSlugFlatTypeUniqueViolation(error)) {
+      return NextResponse.json(
+        {
+          error: 'A package with this slug and flat type already exists.',
+          fieldErrors: { slug: 'This slug is already used for the selected flat type.' },
+        },
+        { status: 409 },
+      );
+    }
+
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 

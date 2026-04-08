@@ -100,8 +100,6 @@ async function fetchPackage(flatType: string, slug: string) {
     .eq('slug', slug)
     .eq('flat_type', flatType)
     .is('deleted_at', null)
-    // Slugs are not globally unique today; avoid 406/multiple-rows errors causing false 404 pages.
-    .limit(1)
     .maybeSingle();
 
   return pkg as (typeof pkg & PackageDescriptionFields) | null;
