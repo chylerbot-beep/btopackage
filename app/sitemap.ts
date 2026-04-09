@@ -22,9 +22,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   return [
-    { url: 'https://www.btopackage.sg', changeFrequency: 'daily', priority: 1.0 },
-    { url: 'https://www.btopackage.sg/about', changeFrequency: 'monthly', priority: 0.6 },
-    { url: 'https://www.btopackage.sg/price-guide', changeFrequency: 'monthly', priority: 0.9 },
+    { url: 'https://www.btopackage.sg',              changeFrequency: 'daily',   priority: 1.0 },
+    { url: 'https://www.btopackage.sg/about',         changeFrequency: 'monthly', priority: 0.6 },
+    { url: 'https://www.btopackage.sg/price-guide',   changeFrequency: 'monthly', priority: 0.9 },
+    { url: 'https://www.btopackage.sg/directory',     changeFrequency: 'weekly',  priority: 0.8 },
+    { url: 'https://www.btopackage.sg/privacy',       changeFrequency: 'yearly',  priority: 0.3 },
+    { url: 'https://www.btopackage.sg/terms',         changeFrequency: 'yearly',  priority: 0.3 },
     ...packageUrls,
   ];
 }
