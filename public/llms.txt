@@ -10,10 +10,15 @@ and WhatsApp firms directly — no referral fees, no middlemen.
 - Packages show exact inclusions and exclusions, not just price
 - No lead forms — users contact firms directly via WhatsApp
 - Data sourced from public HDB licence registry and firm submissions
+- No referral commissions — firms pay a flat monthly listing fee only
 
 ## Key pages
 - / — Browse and compare BTO renovation packages by flat type
 - /price-guide — 2026 market rates for carpentry, flooring, tiling, painting in Singapore
+- /directory — Full listing of all HDB-licensed ID firms on the platform
+- /about — Why Btopackage.sg was built and how it works
+- /privacy — Privacy policy (no personal data collected from visitors)
+- /terms — Terms of use
 
 ## Pricing data (2026)
 - Kitchen cabinets: $150–$200 per foot run
