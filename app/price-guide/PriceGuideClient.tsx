@@ -148,8 +148,7 @@ export default function PriceGuideClient() {
           BTO Reno market rates in Singapore for 2026
         </h1>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
-          Current market rates for common renovation works, based on publicly available prices
-          found online and real quotations from interior designers.
+          Current market rates for common renovation works. Prices are based on a combination of publicly available price lists and actual renovation quotes collected from Singapore homeowners in 2025–2026. Market rate ranges reflect both sources
         </p>
         <p className="mb-2 text-sm leading-relaxed text-[#6B7280]">
           We reveal the
